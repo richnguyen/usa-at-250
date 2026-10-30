@@ -199,9 +199,14 @@ a { color: inherit; }
 .chip::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--new); flex: none; }
 .chip.acqchip::before { background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
 .chip .meta { color: var(--ink-2); font-size: 13px; }
-.chip.has-flag { padding: 5px 13px 5px 6px; gap: 10px; }
-.chip.has-flag::before { display: none; }
-.sflag { display: block; width: 46px; height: 28px; object-fit: contain; filter: drop-shadow(0 0 .7px rgb(0 0 0 / .5)); }
+.story h2 .st-name { white-space: nowrap; }
+.story h2 .sflag {
+  height: .78em; width: auto; max-width: 1.5em; margin-right: .22em; vertical-align: -.06em;
+  filter: drop-shadow(0 0 .7px rgb(0 0 0 / .55));
+}
+.story h2 .h2-states { display: block; margin-top: 8px; font-size: .64em; line-height: 1.5; color: var(--ink); }
+.story h2 .h2-states .st-name { margin-right: .55em; display: inline-block; }
+.story h2 .h2-states .sflag { height: 1em; max-width: 1.9em; vertical-align: -.16em; margin-right: .3em; }
 
 figure.ill { margin: 20px 0 0; }
 figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; place-items: center; }
@@ -749,6 +754,31 @@ function credit(img, kind) {
   const when = img.date ? ` (${esc(img.date)})` : '';
   return `${kind}: <i>${esc(img.title)}</i>${who}${when}. <a href="${esc(img.page)}" target="_blank" rel="noopener">Wikimedia Commons</a>, ${esc(img.license)}.`;
 }
+// The milestone title, with each new state's current flag placed just before its name.
+// States the title doesn't name are listed, with their flags, on a second heading line.
+function flagged(p) {
+  const fl = DATA.stateFlags[p], name = states[p][0];
+  const img = fl ? `<img class="sflag" src="${esc(fl.file)}" alt="Flag of ${esc(name)}" width="${fl.w}" height="${fl.h}" title="Today’s flag of ${esc(name)}">` : '';
+  return `<span class="st-name">${img}${esc(name)}</span>`;
+}
+function titleWithFlags(s) {
+  if (s.id === '1776' || !s.states.length) return esc(s.title);
+  const hits = [], rest = [];
+  for (const p of s.states) {
+    const at = s.title.lastIndexOf(states[p][0]);
+    (at >= 0 ? hits : rest).push([p, at]);
+  }
+  hits.sort((a, b) => a[1] - b[1]);
+  let out = '', from = 0;
+  for (const [p, at] of hits) {
+    out += esc(s.title.slice(from, at)) + flagged(p);
+    from = at + states[p][0].length;
+  }
+  out += esc(s.title.slice(from));
+  if (rest.length) out += `<span class="h2-states">${rest.map(([p]) => flagged(p)).join('')}</span>`;
+  return out;
+}
+
 function renderStory(i) {
   const s = stops[i], era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to) || eras[eras.length - 1];
   const im = images[s.id] || {};
@@ -757,9 +787,7 @@ function renderStory(i) {
   else chips = s.states.map(p => {
     const d = states[p][1];
     const label = original13.includes(p) ? `${ORD(ordinal[p])} to ratify` : `${ORD(ordinal[p])} state`;
-    const fl = DATA.stateFlags[p];
-    const img = fl ? `<img class="sflag" src="${esc(fl.file)}" alt="Flag of ${esc(states[p][0])}" width="${fl.w}" height="${fl.h}" title="Today’s flag of ${esc(states[p][0])}">` : '';
-    return `<li class="chip${fl ? ' has-flag' : ''}">${img}${esc(states[p][0])} <span class="meta">${label} · ${fmtDate(d)}</span></li>`;
+    return `<li class="chip">${esc(states[p][0])} <span class="meta">${label} · ${fmtDate(d)}</span></li>`;
   }).join('');
   if (s.acq && acq[s.acq]) chips += `<li class="chip acqchip">${esc(acq[s.acq].name)} <span class="meta">about ${acq[s.acq].approx} sq mi added</span></li>`;
   const ill = im.ill
@@ -772,7 +800,7 @@ function renderStory(i) {
   const prev = stops[i - 1], next = stops[i + 1];
   story.innerHTML = `
     <p class="kicker"><span class="era">${esc(era.name)}</span><span>Milestone ${i + 1} of ${N}</span></p>
-    <h2>${esc(s.title)}</h2>
+    <h2>${titleWithFlags(s)}</h2>
     <p class="when">${esc(s.when)}</p>
     ${chips ? `<ul class="chips">${chips}</ul>` : ''}
     ${ill}
