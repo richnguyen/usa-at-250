@@ -199,6 +199,9 @@ a { color: inherit; }
 .chip::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--new); flex: none; }
 .chip.acqchip::before { background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
 .chip .meta { color: var(--ink-2); font-size: 13px; }
+.chip.has-flag { padding: 5px 13px 5px 6px; gap: 10px; }
+.chip.has-flag::before { display: none; }
+.sflag { display: block; width: 46px; height: 28px; object-fit: contain; filter: drop-shadow(0 0 .7px rgb(0 0 0 / .5)); }
 
 figure.ill { margin: 20px 0 0; }
 figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; place-items: center; }
@@ -754,7 +757,9 @@ function renderStory(i) {
   else chips = s.states.map(p => {
     const d = states[p][1];
     const label = original13.includes(p) ? `${ORD(ordinal[p])} to ratify` : `${ORD(ordinal[p])} state`;
-    return `<li class="chip">${esc(states[p][0])} <span class="meta">${label} · ${fmtDate(d)}</span></li>`;
+    const fl = DATA.stateFlags[p];
+    const img = fl ? `<img class="sflag" src="${esc(fl.file)}" alt="Flag of ${esc(states[p][0])}" width="${fl.w}" height="${fl.h}" title="Today’s flag of ${esc(states[p][0])}">` : '';
+    return `<li class="chip${fl ? ' has-flag' : ''}">${img}${esc(states[p][0])} <span class="meta">${label} · ${fmtDate(d)}</span></li>`;
   }).join('');
   if (s.acq && acq[s.acq]) chips += `<li class="chip acqchip">${esc(acq[s.acq].name)} <span class="meta">about ${acq[s.acq].approx} sq mi added</span></li>`;
   const ill = im.ill
