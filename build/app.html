@@ -1,0 +1,800 @@
+<title>From 13 to 50</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="An interactive map of how the United States grew from 13 states to 50, 1776–2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: an atlas spread. Map plate on the left that zooms as the nation grows; the story on the right; a timeline rail along the bottom. */
+:root {
+  --paper: #f3f5f8;
+  --sheet: #fbfcfd;
+  --ink: #162133;
+  --ink-2: #4a576d;
+  --rule: #d4dbe4;
+  --water: #dce6ef;
+  --grat: #c8d4e0;
+  --land: #e9e6df;
+  --land-edge: #c7c1b3;
+  --union: #23427a;
+  --union-ink: #ffffff;
+  --union-edge: #f3f5f8;
+  --new: #c4352b;
+  --terr: #a7bfdc;
+  --terr-new: #e7a49b;
+  --sec: #8a8f99;
+  --gold: #9a7417;
+  --progress: #23427a;
+  --cost: #9b3b31;
+  --focus: #d89b00;
+  --shadow: 0 1px 2px rgb(22 33 51 / .06), 0 8px 24px rgb(22 33 51 / .08);
+
+  --f-display: "Libre Caslon Display", "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --f-serif: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --f-body: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1522; --sheet: #121b2a; --ink: #e7ecf3; --ink-2: #a4afc1; --rule: #283449;
+    --water: #0c1827; --grat: #1a2a3e; --land: #1f2735; --land-edge: #364257;
+    --union: #5d86c8; --union-ink: #0b1220; --union-edge: #0e1522; --new: #ff6b5d;
+    --terr: #39587f; --terr-new: #7a3b37; --sec: #59606d; --gold: #d9b45d; --progress: #93b3e8; --cost: #f1958a;
+    --focus: #f5c242; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e1522; --sheet: #121b2a; --ink: #e7ecf3; --ink-2: #a4afc1; --rule: #283449;
+  --water: #0c1827; --grat: #1a2a3e; --land: #1f2735; --land-edge: #364257;
+  --union: #5d86c8; --union-ink: #0b1220; --union-edge: #0e1522; --new: #ff6b5d;
+  --terr: #39587f; --terr-new: #7a3b37; --sec: #59606d; --gold: #d9b45d; --progress: #93b3e8; --cost: #f1958a;
+  --focus: #f5c242; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35);
+  color-scheme: dark;
+}
+
+html, body { height: 100%; }
+body {
+  background: var(--paper); color: var(--ink);
+  font: 16px/1.55 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+a { color: inherit; }
+
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+/* ---------- header ---------- */
+.top {
+  display: flex; align-items: center; gap: 12px 28px; flex-wrap: wrap;
+  padding-block: 12px;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  border-bottom: 1px solid var(--rule);
+}
+.brand { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; min-width: 0; }
+.brand h1 {
+  margin: 0; font: 400 30px/1 var(--f-display); letter-spacing: .005em;
+}
+.brand h1 .amp { color: var(--new); }
+.brand p { margin: 0; color: var(--ink-2); font-size: 14px; letter-spacing: .02em; }
+.stats { display: flex; gap: 6px 26px; margin: 0 0 0 auto; flex-wrap: wrap; }
+.stats div { display: grid; gap: 0; min-width: 0; }
+.stats dt { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-2); }
+.stats dd { margin: 0; font: 400 21px/1.2 var(--f-serif); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.stats dd small { font: 400 12px var(--f-body); color: var(--ink-2); margin-left: 4px; }
+.tools { display: flex; gap: 8px; }
+.btn-quiet {
+  border: 1px solid var(--rule); background: var(--sheet); border-radius: 999px;
+  padding: 6px 14px; font-size: 14px; cursor: pointer;
+}
+.btn-quiet:hover { border-color: var(--ink-2); }
+
+/* ---------- stage ---------- */
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(360px, 1fr);
+  min-height: 0;
+}
+.mapwrap { position: relative; min-height: 0; background: var(--water); overflow: hidden; }
+#map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+
+/* map layers */
+#map .water { fill: var(--water); }
+#map .grat { fill: none; stroke: var(--grat); stroke-width: .6px; vector-effect: non-scaling-stroke; }
+#map .land { fill: var(--land); stroke: var(--land-edge); stroke-width: .6px; vector-effect: non-scaling-stroke; }
+#map .usland { fill: var(--land); }
+#map .acq { fill: var(--terr); opacity: 0; transition: opacity .6s ease, fill .6s ease; }
+#map .acq.on { opacity: 1; }
+#map .acq.fresh { opacity: 1; fill: var(--terr-new); }
+#map .acq-edge { fill: none; stroke: var(--new); stroke-width: 1.6px; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; opacity: 0; transition: opacity .6s; }
+#map .acq-edge.fresh { opacity: 1; }
+#map .st { fill: transparent; stroke: var(--land-edge); stroke-width: .7px; stroke-dasharray: 2 3; vector-effect: non-scaling-stroke; transition: fill .6s ease; cursor: pointer; }
+#map .st.in { fill: var(--union); stroke: var(--union-edge); stroke-dasharray: none; stroke-width: .9px; }
+#map .st.sec { fill: var(--sec); stroke: var(--union-edge); stroke-dasharray: none; stroke-width: .9px; }
+#map .st.new { fill: var(--new); stroke: var(--union-edge); stroke-dasharray: none; stroke-width: 1.1px; }
+#map .st:hover { filter: brightness(1.12); }
+#map .st.new { animation: pulse 1.4s ease-out 1; }
+@keyframes pulse { 0% { fill-opacity: .2; } 60% { fill-opacity: 1; } }
+#map .inset { fill: none; stroke: var(--ink-2); stroke-width: .8px; vector-effect: non-scaling-stroke; stroke-dasharray: 3 3; }
+#map text { font-family: var(--f-body); pointer-events: none; paint-order: stroke; }
+#map .lbl { font-size: calc(var(--k, 1) * 11px); font-weight: 700; fill: var(--union-ink); text-anchor: middle; dominant-baseline: central; letter-spacing: .04em; opacity: 0; transition: opacity .4s; }
+#map .lbl.show { opacity: .92; }
+#map .lbl.call { fill: var(--ink); }
+#map .lbl.newname { fill: var(--ink); stroke: var(--sheet); stroke-width: calc(var(--k, 1) * 3.5px); font-size: calc(var(--k, 1) * 13px); }
+#map .leader { stroke: var(--ink-2); stroke-width: .7px; vector-effect: non-scaling-stroke; opacity: 0; transition: opacity .4s; }
+#map .leader.show { opacity: .7; }
+#map .geo-lbl { font-size: calc(var(--k, 1) * 11px); letter-spacing: .3em; fill: var(--ink-2); opacity: .75; text-anchor: middle; }
+#map .geo-lbl.sea { font-style: italic; letter-spacing: .18em; }
+#map .acq-lbl { font-family: var(--f-serif); font-style: italic; font-size: calc(var(--k, 1) * 14px); fill: var(--ink); stroke: var(--sheet); stroke-width: calc(var(--k, 1) * 4px); opacity: 0; transition: opacity .5s; }
+#map #inset { transition: opacity .5s; }
+#map .acq-lbl.show { opacity: 1; }
+#map .inset-lbl { font-size: calc(var(--k, 1) * 10px); fill: var(--ink-2); letter-spacing: .08em; }
+#pin circle.dot { fill: var(--ink); stroke: var(--sheet); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+#pin circle.ring { fill: none; stroke: var(--ink); stroke-width: 1.2px; vector-effect: non-scaling-stroke; opacity: .5; }
+#pin text { font-size: 12.5px; font-weight: 700; fill: var(--ink); stroke: var(--sheet); stroke-width: 3.5px; stroke-linejoin: round; }
+
+.yearmark {
+  position: absolute; left: max(18px, env(safe-area-inset-left, 0px)); top: 12px; z-index: 2; pointer-events: none;
+  display: grid; line-height: 1;
+}
+.yearmark .yr { font: 400 clamp(56px, 7.2vw, 104px)/.9 var(--f-display); letter-spacing: -.01em; color: var(--ink); text-shadow: 0 0 18px var(--water), 0 0 2px var(--water); font-variant-numeric: lining-nums; }
+.yearmark .yr-sub { margin-top: 6px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); text-shadow: 0 0 8px var(--water); }
+
+.legend {
+  position: absolute; right: 12px; top: 12px; z-index: 2;
+  background: color-mix(in srgb, var(--sheet) 88%, transparent); backdrop-filter: blur(4px);
+  border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px;
+  display: grid; gap: 6px; font-size: 12.5px; max-width: 230px;
+}
+.legend .row { display: flex; gap: 8px; align-items: center; }
+.legend .sw { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent); }
+.legend .sw.in { background: var(--union); }
+.legend .sw.new { background: var(--new); }
+.legend .sw.terr { background: var(--terr); }
+.legend .sw.sec { background: var(--sec); }
+.legend .sw.out { background: var(--land); }
+.map-actions { position: absolute; right: 12px; bottom: 12px; z-index: 2; display: flex; gap: 8px; }
+.map-note { position: absolute; left: 12px; bottom: 10px; z-index: 2; font-size: 11.5px; color: var(--ink-2); max-width: 46%; text-shadow: 0 0 6px var(--water); pointer-events: none; }
+
+#tip {
+  position: absolute; z-index: 5; pointer-events: none;
+  background: var(--sheet); color: var(--ink); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 8px 10px; font-size: 13.5px; line-height: 1.35; box-shadow: var(--shadow); max-width: 240px;
+}
+#tip b { font-family: var(--f-serif); font-size: 15px; }
+
+/* ---------- story ---------- */
+.story {
+  min-height: 0; overflow-y: auto; background: var(--sheet);
+  border-left: 1px solid var(--rule);
+  padding-block: 22px 40px;
+  padding-left: max(28px, env(safe-area-inset-left, 0px));
+  padding-right: max(28px, env(safe-area-inset-right, 0px));
+  scroll-behavior: smooth;
+}
+.story > * { max-width: 640px; }
+.kicker { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin: 0; }
+.kicker .era { color: var(--new); font-weight: 700; }
+.story h2 { font: 400 clamp(28px, 2.6vw, 36px)/1.12 var(--f-display); margin: 8px 0 4px; text-wrap: balance; }
+.when { margin: 0; font: italic 400 16px var(--f-serif); color: var(--ink-2); }
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 16px 0 0; }
+.chip { border: 1px solid var(--rule); border-radius: 999px; padding: 4px 12px 4px 10px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; background: var(--paper); }
+.chip::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--new); flex: none; }
+.chip.acqchip::before { background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
+.chip .meta { color: var(--ink-2); font-size: 13px; }
+
+figure.ill { margin: 20px 0 0; }
+figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; place-items: center; }
+figure.ill img { display: block; width: 100%; height: auto; max-height: 340px; object-fit: contain; }
+figure.ill .ph { padding: 36px 20px; text-align: center; color: var(--ink-2); font-size: 14px; }
+figcaption, .credit { font-size: 12.5px; color: var(--ink-2); margin-top: 8px; line-height: 1.45; }
+figcaption i, .credit i { font-family: var(--f-serif); }
+figcaption a, .credit a { text-underline-offset: 2px; }
+
+.story h3.sec { font: 700 12px var(--f-body); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); margin: 28px 0 8px; }
+.story p { margin: 0; }
+.story .what { font-size: 17.5px; line-height: 1.6; }
+ul.why { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+ul.why li { padding-left: 22px; position: relative; }
+ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; width: 8px; height: 8px; border: 1.5px solid var(--ink-2); transform: rotate(45deg); }
+
+.person { margin-top: 28px; padding: 18px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); }
+.person .head { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 16px; align-items: center; }
+.person .portrait { width: 92px; height: 112px; border-radius: 6px; overflow: hidden; background: var(--rule); display: grid; place-items: center; font: 400 30px var(--f-display); color: var(--ink-2); }
+.person .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block; }
+.person .label { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 4px; }
+.person .name { font: 400 26px/1.1 var(--f-display); margin: 0; }
+.person .life { margin: 4px 0 0; font-size: 14px; color: var(--ink-2); }
+.field { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; border: 1.5px solid currentColor; }
+.field.Politics { color: var(--union); }
+.field.Economy { color: var(--gold); }
+.field.Science { color: var(--new); }
+.field.Everyone { color: var(--ink-2); }
+.person .did { margin-top: 14px; }
+.person .credit { margin-top: 10px; }
+
+.ppp { display: grid; gap: 18px; margin-top: 8px; }
+.ppp .p h3 { margin: 22px 0 6px; font: 400 21px/1.2 var(--f-display); display: flex; align-items: baseline; gap: 10px; }
+.ppp .p h3::after { content: ""; flex: 1; height: 1px; background: var(--rule); transform: translateY(-5px); }
+.ppp .progress h3 { color: var(--progress); }
+.ppp .promise h3 { color: var(--gold); }
+.ppp .cost h3 { color: var(--cost); }
+.also { margin-top: 26px !important; padding-top: 14px; border-top: 1px dashed var(--rule); font-size: 15px; color: var(--ink-2); }
+.also b { color: var(--ink); }
+
+.story-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px; }
+.story-nav button {
+  text-align: left; border: 1px solid var(--rule); background: var(--paper); border-radius: 10px; padding: 10px 14px; cursor: pointer; min-width: 0;
+}
+.story-nav button:hover:not(:disabled) { border-color: var(--ink-2); }
+.story-nav button:disabled { opacity: .4; cursor: default; }
+.story-nav .dir { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); display: block; }
+.story-nav .t { font: 400 15px/1.3 var(--f-serif); display: block; overflow: hidden; text-overflow: ellipsis; }
+.story-nav .next { text-align: right; }
+
+/* glossary terms */
+.term {
+  border: 0; background: none; padding: 0; margin: 0; cursor: help; color: inherit; font: inherit;
+  text-decoration: underline dotted color-mix(in srgb, var(--ink) 55%, transparent); text-decoration-thickness: 1.5px; text-underline-offset: 3px;
+}
+.term:hover, .term[aria-expanded="true"] { text-decoration-color: var(--new); color: var(--new); }
+#pop {
+  position: fixed; z-index: 30; max-width: 280px; background: var(--ink); color: var(--paper);
+  border-radius: 8px; padding: 10px 12px; font-size: 14.5px; line-height: 1.45; box-shadow: var(--shadow);
+}
+#pop b { display: block; font: 400 17px var(--f-serif); margin-bottom: 2px; }
+
+/* ---------- timeline ---------- */
+.timeline {
+  border-top: 1px solid var(--rule); background: var(--sheet);
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px;
+  padding-block: 10px 12px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.tl-btns { display: flex; gap: 6px; }
+.round {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--rule); background: var(--paper);
+  display: grid; place-items: center; cursor: pointer; padding: 0;
+}
+.round:hover { border-color: var(--ink-2); }
+.round svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.round.play svg { fill: currentColor; stroke: none; }
+.track { position: relative; height: 70px; --thumb: 22px; min-width: 0; }
+.eras { position: absolute; left: 0; right: 0; top: 0; height: 18px; }
+.era-band { position: absolute; top: 0; height: 18px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 1px solid var(--rule); padding-left: 6px; line-height: 18px; }
+.era-band.cur { color: var(--new); font-weight: 700; }
+.ticks { position: absolute; left: 0; right: 0; top: 30px; height: 14px; pointer-events: none; }
+.rail { position: absolute; left: calc(var(--thumb) / 2); right: calc(var(--thumb) / 2); top: 36px; height: 2px; background: var(--rule); border-radius: 2px; }
+.rail .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--union); border-radius: 2px; transition: width .3s; }
+.tick { position: absolute; top: 2px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--sheet); border: 2px solid var(--rule); }
+.tick.state { border-color: var(--union); }
+.tick.past { background: var(--union); border-color: var(--union); }
+.tick.past:not(.state) { background: var(--ink-2); border-color: var(--ink-2); }
+.tick:not(.state) { width: 8px; height: 8px; margin-left: -4px; top: 3px; border-radius: 1px; transform: rotate(45deg); }
+.ylabels { position: absolute; left: 0; right: 0; top: 50px; height: 18px; pointer-events: none; }
+.ylabel { position: absolute; transform: translateX(-50%); font: 400 13px var(--f-serif); color: var(--ink-2); font-variant-numeric: lining-nums tabular-nums; }
+#slider {
+  position: absolute; left: 0; right: 0; top: 24px; width: 100%; height: 26px; margin: 0;
+  -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer;
+}
+#slider::-webkit-slider-runnable-track { height: 26px; background: transparent; }
+#slider::-moz-range-track { height: 26px; background: transparent; }
+#slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: var(--thumb); height: var(--thumb); margin-top: 2px; border-radius: 50%;
+  background: var(--new); border: 3px solid var(--sheet); box-shadow: 0 0 0 1.5px var(--new), var(--shadow);
+}
+#slider::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: var(--new); border: 3px solid var(--sheet); box-shadow: 0 0 0 1.5px var(--new);
+}
+#slider:focus-visible { outline: none; }
+#slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--focus); }
+#slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(--focus); }
+.bubble {
+  position: absolute; top: 50px; transform: translateX(-50%); z-index: 1;
+  font: 700 14px var(--f-serif); color: var(--paper); background: var(--new); border-radius: 5px; padding: 0 7px; line-height: 19px; pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- overlays ---------- */
+.sheet-overlay { position: fixed; inset: 0; z-index: 40; background: rgb(10 16 26 / .45); display: grid; place-items: center; padding: 16px; }
+.sheet-panel {
+  background: var(--sheet); color: var(--ink); border-radius: 14px; box-shadow: var(--shadow);
+  width: min(760px, 100%); max-height: min(84vh, 900px); overflow: auto;
+  padding-block: 22px 26px; padding-inline: 26px;
+}
+.sheet-panel h2 { font: 400 30px var(--f-display); margin: 0 0 4px; }
+.sheet-panel .close { float: right; }
+.sheet-panel dl { display: grid; grid-template-columns: minmax(120px, 180px) minmax(0, 1fr); gap: 10px 18px; margin: 18px 0 0; }
+.sheet-panel dt { font: 700 15px var(--f-body); }
+.sheet-panel dd { margin: 0; color: var(--ink-2); }
+.sheet-panel h3 { font: 700 12px var(--f-body); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); margin: 24px 0 8px; }
+.sheet-panel p, .sheet-panel li { color: var(--ink-2); font-size: 14.5px; }
+.sheet-panel ol { padding-left: 20px; display: grid; gap: 6px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 960px) {
+  html, body { height: auto; }
+  .app { height: auto; display: block; }
+  .stage { display: block; }
+  .mapwrap { aspect-ratio: 1000 / 720; max-width: 100%; }
+  .story { border-left: 0; overflow: visible; }
+  .timeline { position: sticky; bottom: 0; z-index: 20; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -6px 20px rgb(0 0 0 / .06); }
+  .legend { font-size: 11px; padding: 7px 9px; gap: 4px; top: auto; bottom: 46px; right: 8px; }
+  .legend .sw { width: 11px; height: 11px; }
+  .map-note { display: none; }
+  .yearmark .yr { font-size: clamp(44px, 12vw, 72px); }
+  .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .stats dd { font-size: 18px; }
+  .stats dd small { display: block; margin: 0; }
+  .tools { position: absolute; top: 12px; right: max(16px, env(safe-area-inset-right, 0px)); }
+  .top { position: relative; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .brand h1 { font-size: 26px; }
+  .brand p { width: 100%; }
+}
+@media (max-width: 560px) {
+  .era-band { font-size: 0; }
+  .era-band::first-letter { font-size: 11px; }
+  .tl-btns .play-wrap { display: none; }
+  .tick { width: 6px; height: 6px; margin-left: -3px; top: 4px; border-width: 1.5px; }
+  .tick:not(.state) { width: 5px; height: 5px; margin-left: -2.5px; top: 4.5px; }
+  .track { --thumb: 18px; }
+  #slider::-webkit-slider-thumb { width: 18px; height: 18px; margin-top: 4px; }
+  .legend { display: none; }
+  .story { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .person .head { grid-template-columns: 72px minmax(0, 1fr); }
+  .person .portrait { width: 72px; height: 88px; }
+  .story-nav { grid-template-columns: 1fr; }
+  .story-nav .next { text-align: left; }
+  .sheet-panel dl { grid-template-columns: 1fr; gap: 2px 0; }
+  .sheet-panel dd { margin-bottom: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <h1>From 13 to 50</h1>
+      <p>How the United States grew, 1776–2026</p>
+    </div>
+    <dl class="stats" aria-live="polite">
+      <div><dt>States</dt><dd id="st-states">13</dd></div>
+      <div><dt>Land area</dt><dd id="st-area">–</dd></div>
+      <div><dt>People</dt><dd id="st-pop">–</dd></div>
+    </dl>
+    <div class="tools">
+      <button class="btn-quiet" id="btn-words" type="button">Word list</button>
+      <button class="btn-quiet" id="btn-about" type="button">About</button>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="mapwrap" aria-label="Map of North America showing the United States">
+      <div class="yearmark" aria-hidden="true"><span class="yr" id="yr">1776</span><span class="yr-sub" id="yr-sub"></span></div>
+      %%SVG%%
+      <div class="legend" id="legend" aria-label="Map key"></div>
+      <p class="map-note">Map uses today’s state borders. Territory borders are approximate.</p>
+      <div class="map-actions"><button class="btn-quiet" id="btn-zoom" type="button" aria-pressed="false">Show whole continent</button></div>
+      <div id="tip" role="tooltip" hidden></div>
+    </section>
+    <article class="story" id="story" aria-live="polite"></article>
+  </main>
+
+  <footer class="timeline" aria-label="Timeline">
+    <div class="tl-btns">
+      <button class="round" id="btn-prev" type="button" aria-label="Previous milestone"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span class="play-wrap"><button class="round play" id="btn-play" type="button" aria-label="Play the story"><svg viewBox="0 0 24 24" id="play-ico"><path d="M8 5v14l11-7z"/></svg></button></span>
+    </div>
+    <div class="track" id="track">
+      <div class="eras" id="eras"></div>
+      <div class="rail"><div class="fill" id="rail-fill"></div></div>
+      <div class="ticks" id="ticks"></div>
+      <div class="ylabels" id="ylabels"></div>
+      <input type="range" id="slider" min="0" max="1" step="1" value="0" aria-label="Choose a milestone">
+      <div class="bubble" id="bubble">1776</div>
+    </div>
+    <div class="tl-btns">
+      <button class="round" id="btn-next" type="button" aria-label="Next milestone"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </footer>
+</div>
+
+<div id="pop" role="tooltip" hidden></div>
+<div class="sheet-overlay" id="ov-words" hidden><div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="words-h"><button class="btn-quiet close" type="button" data-close>Close</button><h2 id="words-h">Word list</h2><p>Simple meanings for the underlined words in the story.</p><dl id="words-list"></dl></div></div>
+<div class="sheet-overlay" id="ov-about" hidden><div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="about-h"><button class="btn-quiet close" type="button" data-close>Close</button><h2 id="about-h">About this map</h2><div id="about-body"></div></div></div>
+
+<script>
+const DATA = %%DATA%%;
+</script>
+<script>
+(() => {
+const { stops, states, acq, pop, eras, glossary, geo, images, original13, confederacy } = DATA;
+const $ = (s, el = document) => el.querySelector(s);
+const svg = $('#map');
+const N = stops.length;
+const ORD = n => n + (['th','st','nd','rd'][(n % 100 - 20) % 10] || ['th','st','nd','rd'][n % 100] || 'th');
+const MONTHS = ['Jan.','Feb.','March','April','May','June','July','Aug.','Sept.','Oct.','Nov.','Dec.'];
+const fmtDate = iso => { const [y, m, d] = iso.split('-').map(Number); return `${MONTHS[m - 1]} ${d}, ${y}`; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// state order numbers (official order of statehood)
+const order = Object.entries(states).sort((a, b) => a[1][1].localeCompare(b[1][1]) || a[0].localeCompare(b[0]));
+const ordinal = {}; order.forEach(([p], i) => ordinal[p] = i + 1);
+ordinal.ND = 39; ordinal.SD = 40;
+
+const inUnion = (p, date) => (original13.includes(p) && date >= '1776-07-04') || states[p][1] <= date;
+
+// ---------- glossary markup ----------
+function gloss(text) {
+  return text.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, shown, key) => {
+    const k = (key || shown).toLowerCase();
+    if (!glossary[k]) return shown;
+    return `<button type="button" class="term" data-k="${esc(k)}" aria-expanded="false">${shown}</button>`;
+  });
+}
+
+// ---------- stats ----------
+function stats(s) {
+  const n = Math.max(13, Object.keys(states).filter(p => states[p][1] <= s.date).length);
+  $('#st-states').textContent = n;
+  let sq = 0, any = false;
+  for (const a of Object.values(acq)) if (a.date <= s.date) { sq += a.sqmi; any = true; }
+  if (s.id === '2026') sq = 3796742;
+  $('#st-area').innerHTML = any
+    ? `${(sq / 1e6).toFixed(sq < 1e6 ? 2 : 1)}M sq mi<small>${(sq * 2.58999 / 1e6).toFixed(1)}M km²</small>`
+    : `<small style="margin:0">not yet set by treaty</small>`;
+  const y = s.date.slice(0, 4);
+  let row = pop[0];
+  for (const r of pop) if (r[0] <= y) row = r;
+  $('#st-pop').innerHTML = `${row[1].toFixed(1)}M<small>${row[2] ? row[0] + ' est.' : row[0] + ' census'}</small>`;
+}
+
+// ---------- map ----------
+const stEls = {}, lblEls = {}, leadEls = {};
+svg.querySelectorAll('.st').forEach(el => stEls[el.dataset.p] = el);
+svg.querySelectorAll('.lbl').forEach(el => lblEls[el.dataset.p] = el);
+svg.querySelectorAll('.leader').forEach(el => leadEls[el.dataset.p] = el);
+const acqEls = {}, acqEdge = {}, acqLbl = {};
+svg.querySelectorAll('.acq').forEach(el => acqEls[el.dataset.a] = el);
+svg.querySelectorAll('.acq-edge').forEach(el => acqEdge[el.dataset.a] = el);
+svg.querySelectorAll('.acq-lbl').forEach(el => acqLbl[el.dataset.a] = el);
+const pin = $('#pin'), pinText = $('#pin text');
+
+function mapState(s) {
+  const fresh = new Set(s.states);
+  const sec = s.seceded ? new Set(confederacy) : new Set();
+  for (const p in stEls) {
+    const el = stEls[p], on = inUnion(p, s.date);
+    el.classList.toggle('in', on && !fresh.has(p) && !sec.has(p));
+    el.classList.toggle('sec', on && sec.has(p) && !fresh.has(p));
+    el.classList.toggle('new', fresh.has(p));
+    if (fresh.has(p)) { el.style.animation = 'none'; el.getBBox(); el.style.animation = ''; }
+    const l = lblEls[p];
+    if (l) {
+      const named = fresh.has(p) && s.states.length <= 4 && !l.classList.contains('call');
+      l.dataset.on = on ? '1' : '';
+      l.classList.toggle('newname', named);
+      l.textContent = named ? states[p][0] : p;
+    }
+  }
+  for (const a in acqEls) {
+    const base = a.replace('hi', '');
+    const info = acq[base];
+    const on = info && info.date <= s.date;
+    const isNew = s.acq === base;
+    acqEls[a].classList.toggle('on', on && !isNew);
+    acqEls[a].classList.toggle('fresh', isNew);
+    if (acqEdge[a]) acqEdge[a].classList.toggle('fresh', isNew);
+    if (acqLbl[a]) acqLbl[a].classList.toggle('show', isNew);
+  }
+  $('#inset').style.opacity = s.date >= '1898-01-01' ? 1 : 0;
+  if (s.place && s.placeXY) {
+    pin.removeAttribute('hidden'); pin.dataset.x = s.placeXY[0]; pin.dataset.y = s.placeXY[1];
+    pinText.textContent = s.place.name;
+  } else pin.setAttribute('hidden', '');
+  legend(s);
+}
+
+function legend(s) {
+  const rows = [];
+  rows.push(['new', s.states.length ? (s.id === '1776' ? 'The 13 states declaring independence' : (s.statesNote || 'Joined at this milestone')) : null]);
+  rows.push(['in', 'States in the Union']);
+  if (s.seceded) rows.push(['sec', 'Left the Union (Confederacy), 1861–65']);
+  if (s.date >= '1783-09-03') rows.push(['terr', 'U.S. land, not yet a state']);
+  if (s.acq) rows.push(['new acqsw', 'Newly added land']);
+  rows.push(['out', 'Other countries, or not yet U.S.']);
+  $('#legend').innerHTML = rows.filter(r => r[1]).map(([c, t]) =>
+    `<div class="row"><span class="sw ${c === 'new acqsw' ? 'terr" style="background:var(--terr-new);outline:1.5px dashed var(--new);outline-offset:1px' : c}"></span><span>${t}</span></div>`).join('');
+}
+
+// zoom: frame everything that is U.S. at this milestone, plus the event's place
+let full = false;
+let vb = [0, 0, geo.W, geo.H];
+function targetBox(s) {
+  if (full) return [0, 0, geo.W, geo.H];
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  const add = b => { x0 = Math.min(x0, b[0][0]); y0 = Math.min(y0, b[0][1]); x1 = Math.max(x1, b[1][0]); y1 = Math.max(y1, b[1][1]); };
+  for (const p in geo.states) if (inUnion(p, s.date) || s.states.includes(p)) {
+    add(geo.states[p].b);
+    const l = geo.states[p].lab; if (l) add([[l[0] - 14, l[1] - 8], [l[0] + 14, l[1] + 8]]);
+  }
+  for (const a in geo.acq) { const base = a.replace('hi', ''); if (acq[base] && acq[base].date <= s.date) add(geo.acq[a].b); }
+  if (s.placeXY) add([[s.placeXY[0] - 40, s.placeXY[1] - 30], [s.placeXY[0] + 40, s.placeXY[1] + 30]]);
+  let w = x1 - x0, h = y1 - y0;
+  const padX = Math.max(w * .14, 40), padY = Math.max(h * .14, 40);
+  x0 -= padX; x1 += padX; y0 -= padY * 1.7; y1 += padY;
+  w = x1 - x0; h = y1 - y0;
+  const minW = 300; if (w < minW) { x0 -= (minW - w) / 2; w = minW; }
+  return [x0, y0, w, h];
+}
+function fitAspect(b) {
+  const r = svg.clientWidth / Math.max(1, svg.clientHeight);
+  let [x, y, w, h] = b;
+  if (w / h > r) { const nh = w / r; y -= (nh - h) / 2; h = nh; } else { const nw = h * r; x -= (nw - w) / 2; w = nw; }
+  // keep the frame on the map where possible
+  if (w <= geo.W) x = Math.min(Math.max(x, 0), geo.W - w); else x = (geo.W - w) / 2;
+  if (h <= geo.H) y = Math.min(Math.max(y, 0), geo.H - h); else y = (geo.H - h) / 2;
+  return [x, y, w, h];
+}
+// show a state's abbreviation only where it fits at the current zoom
+function fitLabels(v) {
+  const sc = svg.clientWidth / v[2];
+  for (const p in lblEls) {
+    const l = lblEls[p], b = geo.states[p].b, on = !!l.dataset.on;
+    let show = on;
+    if (on && l.classList.contains('call')) show = sc >= 1.15;
+    else if (on && !l.classList.contains('newname')) show = (b[1][0] - b[0][0]) * sc > 26 && (b[1][1] - b[0][1]) * sc > 16;
+    l.classList.toggle('show', show);
+    if (leadEls[p]) leadEls[p].classList.toggle('show', show);
+  }
+}
+function applyVB(v) {
+  vb = v;
+  svg.setAttribute('viewBox', v.map(n => n.toFixed(1)).join(' '));
+  const k = v[2] / Math.max(1, svg.clientWidth);
+  svg.style.setProperty('--k', k.toFixed(4));
+  if (!pin.hasAttribute('hidden')) {
+    pin.setAttribute('transform', `translate(${pin.dataset.x} ${pin.dataset.y}) scale(${k.toFixed(4)})`);
+    const right = +pin.dataset.x > v[0] + v[2] * .62;
+    pinText.setAttribute('text-anchor', right ? 'end' : 'start');
+    pinText.setAttribute('x', right ? -11 : 11);
+  }
+}
+let anim = 0;
+function zoomTo(s, instant) {
+  const to = fitAspect(targetBox(s));
+  const from = vb.slice();
+  fitLabels(to);
+  cancelAnimationFrame(anim);
+  if (instant || reduced) return applyVB(to);
+  const t0 = performance.now(), dur = 1100;
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const step = now => {
+    const t = Math.min(1, (now - t0) / dur), e = ease(t);
+    applyVB(from.map((f, i) => f + (to[i] - f) * e));
+    if (t < 1) anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
+}
+
+// tooltip
+const tip = $('#tip');
+function stateTip(p) {
+  const s = stops[cur], [name, d] = states[p];
+  let line;
+  if (original13.includes(p)) line = s.date < d
+    ? `One of the 13 original states. Ratified the Constitution ${fmtDate(d)} (${ORD(ordinal[p])}).`
+    : `Original state · ratified the Constitution ${fmtDate(d)} (${ORD(ordinal[p])})`;
+  else if (inUnion(p, s.date)) line = `${ORD(ordinal[p])} state · joined ${fmtDate(d)}`;
+  else line = `Not a state yet · joins ${fmtDate(d)} as the ${ORD(ordinal[p])} state`;
+  return `<b>${esc(name)}</b><br>${line}`;
+}
+svg.addEventListener('pointermove', e => {
+  const el = e.target.closest('.st');
+  if (!el || e.pointerType === 'touch') { tip.hidden = true; return; }
+  tip.innerHTML = stateTip(el.dataset.p);
+  tip.hidden = false;
+  const r = svg.parentElement.getBoundingClientRect();
+  let x = e.clientX - r.left + 14, y = e.clientY - r.top + 14;
+  if (x + 250 > r.width) x -= 270;
+  if (y + 80 > r.height) y -= 90;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+});
+svg.addEventListener('pointerleave', () => tip.hidden = true);
+svg.addEventListener('click', e => {
+  const el = e.target.closest('.st'); if (!el) return;
+  const p = el.dataset.p;
+  const i = stops.findIndex(s => s.states.includes(p) && s.id !== '1776');
+  if (i >= 0) go(i);
+});
+
+// ---------- story ----------
+const story = $('#story');
+function credit(img, kind) {
+  if (!img) return '';
+  const who = img.artist ? ` by ${esc(img.artist)}` : '';
+  const when = img.date ? ` (${esc(img.date)})` : '';
+  return `${kind}: <i>${esc(img.title)}</i>${who}${when}. <a href="${esc(img.page)}" target="_blank" rel="noopener">Wikimedia Commons</a>, ${esc(img.license)}.`;
+}
+function renderStory(i) {
+  const s = stops[i], era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to) || eras[eras.length - 1];
+  const im = images[s.id] || {};
+  let chips = '';
+  if (s.id === '1776') chips = `<li class="chip">13 original states <span class="meta">declared independence together</span></li>`;
+  else chips = s.states.map(p => {
+    const d = states[p][1];
+    const label = original13.includes(p) ? `${ORD(ordinal[p])} to ratify` : `${ORD(ordinal[p])} state`;
+    return `<li class="chip">${esc(states[p][0])} <span class="meta">${label} · ${fmtDate(d)}</span></li>`;
+  }).join('');
+  if (s.acq && acq[s.acq]) chips += `<li class="chip acqchip">${esc(acq[s.acq].name)} <span class="meta">about ${acq[s.acq].approx} sq mi added</span></li>`;
+  const ill = im.ill
+    ? `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}" loading="eager"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`
+    : '';
+  const p = s.person;
+  const initials = p.name.split(/\s+/).filter(w => /^[A-Z]/.test(w)).map(w => w[0]).slice(0, 2).join('');
+  const contain = im.person && im.person.w / im.person.h > 1.6;
+  const portrait = im.person ? `<img src="${esc(im.person.file)}" alt="${esc(im.person.title)}"${contain ? ' style="object-fit:contain;background:var(--sheet)"' : ''}>` : initials;
+  const prev = stops[i - 1], next = stops[i + 1];
+  story.innerHTML = `
+    <p class="kicker"><span class="era">${esc(era.name)}</span><span>Milestone ${i + 1} of ${N}</span></p>
+    <h2>${esc(s.title)}</h2>
+    <p class="when">${esc(s.when)}</p>
+    ${chips ? `<ul class="chips">${chips}</ul>` : ''}
+    ${ill}
+    <h3 class="sec">What happened</h3>
+    <p class="what">${gloss(s.what)}</p>
+    <h3 class="sec">${esc(s.whyTitle || 'Why it happened')}</h3>
+    <ul class="why">${s.why.map(w => `<li>${gloss(w)}</li>`).join('')}</ul>
+    <section class="person" aria-label="The people">
+      <div class="head">
+        <div class="portrait">${portrait}</div>
+        <div>
+          <p class="label">The people</p>
+          <p class="name">${esc(p.name)}</p>
+          <p class="life">${esc(p.life)} · ${gloss(p.role)}</p>
+          <span class="field ${esc(p.field)}">${esc(p.field)}</span>
+        </div>
+      </div>
+      <p class="did">${gloss(p.did)}</p>
+      ${im.person ? `<p class="credit">${credit(im.person, 'Image')}</p>` : ''}
+    </section>
+    <div class="ppp">
+      <div class="p progress"><h3>The progress</h3><p>${gloss(s.progress)}</p></div>
+      <div class="p promise"><h3>The promise</h3><p>${gloss(s.promise)}</p></div>
+      <div class="p cost"><h3>${esc(s.costTitle || 'The cost')}</h3><p>${gloss(s.cost)}</p></div>
+    </div>
+    ${s.also ? `<p class="also"><b>Also in this era:</b> ${gloss(s.also)}</p>` : ''}
+    <nav class="story-nav" aria-label="Milestones">
+      <button type="button" class="prev" ${prev ? '' : 'disabled'} data-go="${i - 1}"><span class="dir">← ${prev ? esc(prev.label) : 'Start'}</span><span class="t">${prev ? esc(prev.title) : 'This is the first milestone'}</span></button>
+      <button type="button" class="next" ${next ? '' : 'disabled'} data-go="${i + 1}"><span class="dir">${next ? esc(next.label) : 'End'} →</span><span class="t">${next ? esc(next.title) : 'This is the last milestone'}</span></button>
+    </nav>`;
+  story.scrollTop = 0;
+}
+story.addEventListener('click', e => {
+  const b = e.target.closest('[data-go]'); if (b && !b.disabled) { go(+b.dataset.go); if (innerWidth <= 960) $('.mapwrap').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); }
+});
+
+// glossary popover
+const popEl = $('#pop');
+let popFor = null;
+function showPop(btn) {
+  const k = btn.dataset.k;
+  popEl.innerHTML = `<b>${esc(k)}</b>${esc(glossary[k])}`;
+  popEl.hidden = false;
+  const r = btn.getBoundingClientRect();
+  const pw = Math.min(280, innerWidth - 24);
+  let x = Math.min(Math.max(12, r.left), innerWidth - pw - 12);
+  let y = r.bottom + 8;
+  popEl.style.left = x + 'px'; popEl.style.top = y + 'px';
+  const ph = popEl.offsetHeight;
+  if (y + ph > innerHeight - 12) popEl.style.top = (r.top - ph - 8) + 'px';
+  if (popFor) popFor.setAttribute('aria-expanded', 'false');
+  popFor = btn; btn.setAttribute('aria-expanded', 'true');
+}
+function hidePop() { popEl.hidden = true; if (popFor) popFor.setAttribute('aria-expanded', 'false'); popFor = null; }
+document.addEventListener('click', e => {
+  const t = e.target.closest('.term');
+  if (t) { popFor === t ? hidePop() : showPop(t); e.stopPropagation(); return; }
+  if (!e.target.closest('#pop')) hidePop();
+});
+document.addEventListener('mouseover', e => { const t = e.target.closest('.term'); if (t && matchMedia('(hover: hover)').matches) showPop(t); });
+document.addEventListener('mouseout', e => { const t = e.target.closest('.term'); if (t && matchMedia('(hover: hover)').matches && !t.contains(e.relatedTarget)) hidePop(); });
+story.addEventListener('scroll', hidePop, { passive: true });
+
+// ---------- timeline ----------
+const slider = $('#slider');
+slider.max = N - 1;
+const pos = i => `calc(var(--thumb) / 2 + (100% - var(--thumb)) * ${i / (N - 1)})`;
+$('#ticks').innerHTML = stops.map((s, i) => `<span class="tick ${s.states.length || s.acq ? 'state' : ''}" style="left:${pos(i)}" title="${esc(s.label)}: ${esc(s.title)}"></span>`).join('');
+const eraIdx = eras.map(e => {
+  const idx = stops.map((s, i) => [s, i]).filter(([s]) => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to).map(([, i]) => i);
+  return { e, a: idx[0], b: idx[idx.length - 1] };
+}).filter(x => x.a !== undefined);
+$('#eras').innerHTML = eraIdx.map(({ e, a, b }, k) => {
+  const next = eraIdx[k + 1];
+  const right = next ? `calc(100% - ${pos(next.a - .5)})` : '0';
+  return `<span class="era-band" data-era="${e.id}" style="left:${a === 0 ? '0' : pos(a - .5)};right:${right}" title="${esc(e.name)}">${esc(e.name)}</span>`;
+}).join('');
+const labelIdx = new Set([0, N - 1, ...eraIdx.map(x => x.a)]);
+function ylabels(i) {
+  $('#ylabels').innerHTML = [...labelIdx].filter(j => Math.abs(j - i) > 1).map(j => `<span class="ylabel" style="left:${pos(j)}">${esc(stops[j].label)}</span>`).join('');
+}
+slider.addEventListener('input', () => go(+slider.value, true));
+
+// ---------- navigation ----------
+let cur = -1;
+function go(i, fromSlider) {
+  i = Math.max(0, Math.min(N - 1, i));
+  if (i === cur) return;
+  cur = i;
+  const s = stops[i];
+  hidePop();
+  $('#yr').textContent = s.label;
+  $('#yr-sub').textContent = s.when === s.label ? '' : s.when;
+  if (!fromSlider) slider.value = i;
+  slider.setAttribute('aria-valuetext', `${s.label}: ${s.title}`);
+  $('#bubble').textContent = s.label;
+  $('#bubble').style.left = pos(i);
+  $('#rail-fill').style.width = `${(i / (N - 1)) * 100}%`;
+  document.querySelectorAll('.tick').forEach((t, j) => t.classList.toggle('past', j <= i));
+  const era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to);
+  document.querySelectorAll('.era-band').forEach(b => b.classList.toggle('cur', era && b.dataset.era === era.id));
+  ylabels(i);
+  $('#btn-prev').disabled = i === 0; $('#btn-next').disabled = i === N - 1;
+  stats(s); mapState(s); renderStory(i); zoomTo(s);
+  try { history.replaceState(null, '', '#' + s.id); } catch (e) {}
+}
+$('#btn-prev').addEventListener('click', () => { stopPlay(); go(cur - 1); });
+$('#btn-next').addEventListener('click', () => { stopPlay(); go(cur + 1); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { hidePop(); closeSheets(); return; }
+  if (e.target.closest('input, textarea, select, .sheet-overlay:not([hidden])')) return;
+  if (e.key === 'ArrowRight') { stopPlay(); go(cur + 1); e.preventDefault(); }
+  if (e.key === 'ArrowLeft') { stopPlay(); go(cur - 1); e.preventDefault(); }
+});
+
+let timer = 0;
+function stopPlay() { clearInterval(timer); timer = 0; $('#btn-play').setAttribute('aria-label', 'Play the story'); $('#play-ico').innerHTML = '<path d="M8 5v14l11-7z"/>'; }
+$('#btn-play').addEventListener('click', () => {
+  if (timer) return stopPlay();
+  if (cur === N - 1) go(0);
+  $('#btn-play').setAttribute('aria-label', 'Pause');
+  $('#play-ico').innerHTML = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+  timer = setInterval(() => { if (cur >= N - 1) return stopPlay(); go(cur + 1); }, 6500);
+});
+
+$('#btn-zoom').addEventListener('click', e => {
+  full = !full;
+  e.currentTarget.setAttribute('aria-pressed', String(full));
+  e.currentTarget.textContent = full ? 'Follow the story' : 'Show whole continent';
+  zoomTo(stops[cur]);
+});
+new ResizeObserver(() => { if (cur >= 0) zoomTo(stops[cur], true); }).observe(svg);
+
+// ---------- overlays ----------
+function openSheet(id) { const o = $(id); o.hidden = false; o.querySelector('[data-close]').focus(); }
+function closeSheets() { document.querySelectorAll('.sheet-overlay').forEach(o => o.hidden = true); }
+document.querySelectorAll('.sheet-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o || e.target.closest('[data-close]')) closeSheets(); }));
+$('#btn-words').addEventListener('click', () => openSheet('#ov-words'));
+$('#btn-about').addEventListener('click', () => openSheet('#ov-about'));
+$('#words-list').innerHTML = Object.keys(glossary).sort().map(k => `<dt>${esc(k)}</dt><dd>${esc(glossary[k])}</dd>`).join('');
+$('#about-body').innerHTML = DATA.about;
+
+// ---------- start ----------
+const fromHash = () => stops.findIndex(s => '#' + s.id === location.hash);
+addEventListener('hashchange', () => { const i = fromHash(); if (i >= 0 && i !== cur) go(i); });
+const start = fromHash();
+go(start >= 0 ? start : 0);
+zoomTo(stops[cur], true);
+})();
+</script>

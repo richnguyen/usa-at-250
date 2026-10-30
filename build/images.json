@@ -1,0 +1,944 @@
+{
+ "1776": {
+  "ill": {
+   "file": "img/i1776.jpg",
+   "title": "Declaration of Independence",
+   "artist": "John Trumbull",
+   "date": "1818",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Declaration_of_Independence_(1819),_by_John_Trumbull.jpg",
+   "w": 1100,
+   "h": 723
+  },
+  "person": {
+   "file": "img/p1776.jpg",
+   "title": "Thomas Jefferson",
+   "artist": "Rembrandt Peale",
+   "date": "1800",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Official_Presidential_portrait_of_Thomas_Jefferson_(by_Rembrandt_Peale,_1800).jpg",
+   "w": 360,
+   "h": 429
+  }
+ },
+ "1783": {
+  "ill": {
+   "file": "img/i1783.jpg",
+   "title": "American Commissioners of the Preliminary Peace Negotiations with Great Britain (unfinished)",
+   "artist": "Benjamin West",
+   "date": "1783–84",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Treaty_of_Paris_by_Benjamin_West_1783.jpg",
+   "w": 1100,
+   "h": 854
+  },
+  "person": {
+   "file": "img/p1783.jpg",
+   "title": "Benjamin Franklin",
+   "artist": "Joseph Siffred Duplessis",
+   "date": "c. 1785",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Joseph_Siffrein_Duplessis_-_Benjamin_Franklin_-_Google_Art_Project.jpg",
+   "w": 360,
+   "h": 444
+  }
+ },
+ "1787": {
+  "ill": {
+   "file": "img/i1787.jpg",
+   "title": "Washington as Statesman at the Constitutional Convention",
+   "artist": "Junius Brutus Stearns",
+   "date": "1856",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Washington_Constitutional_Convention_1787.jpg",
+   "w": 800,
+   "h": 523
+  },
+  "person": {
+   "file": "img/p1787.jpg",
+   "title": "James Madison",
+   "artist": "John Vanderlyn",
+   "date": "1816",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:James_Madison.jpg",
+   "w": 360,
+   "h": 438
+  }
+ },
+ "1788": {
+  "ill": {
+   "file": "img/i1788.jpg",
+   "title": "The Federalist, first edition, volume 1",
+   "artist": "“Publius” (Hamilton, Madison and Jay)",
+   "date": "1788",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Federalist_(1st_ed,_1788,_vol_I,_title_page).jpg",
+   "w": 556,
+   "h": 900
+  },
+  "person": {
+   "file": "img/p1788.jpg",
+   "title": "Alexander Hamilton",
+   "artist": "John Trumbull",
+   "date": "1806",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Alexander_Hamilton_portrait_by_John_Trumbull_1806.jpg",
+   "w": 360,
+   "h": 426
+  }
+ },
+ "1789": {
+  "ill": {
+   "file": "img/i1789.jpg",
+   "title": "The Inauguration of George Washington",
+   "artist": "Ramon de Elorriaga",
+   "date": "c. 1899",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Inauguration_of_George_Washington_by_Ramon_Elorriaga.jpg",
+   "w": 1100,
+   "h": 730
+  },
+  "person": {
+   "file": "img/p1789.jpg",
+   "title": "George Washington",
+   "artist": "Gilbert Stuart",
+   "date": "1798",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg",
+   "w": 360,
+   "h": 437
+  }
+ },
+ "1791": {
+  "ill": {
+   "file": "img/i1791.jpg",
+   "title": "Old Constitution House, Windsor, where Vermont’s 1777 constitution was adopted",
+   "artist": "Historic American Buildings Survey",
+   "date": "Documentation compiled after 1",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Old_Constitution_House,_15_North_Main_Street,_Windsor,_Windsor_County,_VT_HABS_VT,14-WIND,3-4.tif",
+   "w": 1100,
+   "h": 791
+  },
+  "person": {
+   "file": "img/p1791.jpg",
+   "title": "Thomas Chittenden",
+   "artist": "Simtropolitan",
+   "date": "1873",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:ThomasChittenden.png",
+   "w": 360,
+   "h": 437
+  }
+ },
+ "1792": {
+  "ill": {
+   "file": "img/i1792.jpg",
+   "title": "Daniel Boone Escorting Settlers through the Cumberland Gap",
+   "artist": "George Caleb Bingham",
+   "date": "1851–52",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:George_Caleb_Bingham_-_Daniel_Boone_escorting_settlers_through_the_Cumberland_Gap.jpg",
+   "w": 1100,
+   "h": 805
+  },
+  "person": {
+   "file": "img/p1792.jpg",
+   "title": "Daniel Boone",
+   "artist": "Chester Harding",
+   "date": "1820",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Chester_Harding_-_Daniel_Boone_-_NPG.2015.102_-_National_Portrait_Gallery.jpg",
+   "w": 360,
+   "h": 433
+  }
+ },
+ "1796": {
+  "ill": {
+   "file": "img/i1796.jpg",
+   "title": "Blount Mansion, Knoxville, home of the Southwest Territory’s governor",
+   "artist": "Historic American Buildings Survey",
+   "date": "Taken on 23 April 1934",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Historic_American_Buildings_Survey,_R.J._Crisco,_Photographer_April_23,_1934_NORTHWEST_VIEW,_MAIN_ENTRANCE._-_William_Blount_Mansion,_State_Street_and_Hill_Avenue,_Knoxville,_HABS_TENN,47-KNOVI,1-1.tif",
+   "w": 1100,
+   "h": 795
+  },
+  "person": {
+   "file": "img/p1796.jpg",
+   "title": "John Sevier",
+   "artist": "Charles Willson Peale",
+   "date": "1792",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:John_Sevier.jpg",
+   "w": 360,
+   "h": 554
+  }
+ },
+ "1803": {
+  "ill": {
+   "file": "img/i1803.jpg",
+   "title": "Transfer of Louisiana to the United States, New Orleans, December 20, 1803",
+   "artist": "Thure de Thulstrup",
+   "date": "c. 1903",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Louisiana_Purchase_New_Orleans_Thure_de_Thulstrup.jpg",
+   "w": 602,
+   "h": 900
+  }
+ },
+ "1805": {
+  "ill": {
+   "file": "img/i1805.jpg",
+   "title": "Lewis and Clark on the Lower Columbia",
+   "artist": "Charles M. Russell",
+   "date": "1905",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Lewis_and_Clark_on_the_Lower_Columbia;_1905,_Charles_M._Russell.jpg",
+   "w": 1080,
+   "h": 841
+  },
+  "person": {
+   "file": "img/p1805.jpg",
+   "title": "Statue of Sacagawea, Portland, Oregon (no picture of her was made in her lifetime)",
+   "artist": "Alice Cooper (sculptor)",
+   "date": "1905",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Sacagawea_statue_from_Gaston%27s_Centennial_History_of_Oregon.png",
+   "w": 134,
+   "h": 226
+  }
+ },
+ "1812": {
+  "ill": {
+   "file": "img/i1812.jpg",
+   "title": "The “New Orleans,” the first steamboat on the western rivers",
+   "artist": "David Scattergood (died 1892)",
+   "date": "1856",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:First_Boat_Built_on_the_Western_Waters,_1812.jpg",
+   "w": 1100,
+   "h": 824
+  },
+  "person": {
+   "file": "img/p1812.jpg",
+   "title": "Robert Fulton",
+   "artist": "Benjamin West",
+   "date": "1806",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Robert_Fulton,_1806,_London,_England,_painted_by_Benjamin_West,_American,_1738-1820_Fenimore_Art_Museum,_Cooperstown,_N.Y._N0218.1961.jpg",
+   "w": 360,
+   "h": 462
+  }
+ },
+ "1816": {
+  "ill": {
+   "file": "img/i1816.jpg",
+   "title": "The trunk of the Constitution Elm, preserved in Corydon, Indiana",
+   "artist": "FTSKfan",
+   "date": "3 July 2006 (according to Exif",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Constitution_Elm.JPG",
+   "w": 610,
+   "h": 900
+  },
+  "person": {
+   "file": "img/p1816.jpg",
+   "title": "William Henry Harrison",
+   "artist": "James Reid Lambdin",
+   "date": "1835",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:William_Henry_Harrison_by_James_Reid_Lambdin,_1835.jpg",
+   "w": 360,
+   "h": 434
+  }
+ },
+ "1817": {
+  "ill": {
+   "file": "img/i1817.jpg",
+   "title": "The First Cotton-Gin",
+   "artist": "William L. Sheppard, Harper’s Weekly",
+   "date": "1869",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:The_First_cotton-gin_-_drawn_by_William_L._Sheppard._LCCN91784966.jpg",
+   "w": 1100,
+   "h": 854
+  },
+  "person": {
+   "file": "img/p1817.jpg",
+   "title": "Eli Whitney",
+   "artist": "Samuel F. B. Morse",
+   "date": "1822",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Eli_Whitney_by_Samuel_Finley_Breese_Morse_1822.jpeg",
+   "w": 360,
+   "h": 465
+  }
+ },
+ "1818": {
+  "ill": {
+   "file": "img/i1818.jpg",
+   "title": "Fort Dearborn, Chicago, in 1831",
+   "artist": "Napoleon Sarony",
+   "date": "1856",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Fort_Dearborn_1831_Kinzie.jpg",
+   "w": 1100,
+   "h": 639
+  },
+  "person": {
+   "file": "img/p1818.jpg",
+   "title": "Nathaniel Pope",
+   "artist": "",
+   "date": "mid-19th century",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Nathaniel_Pope.jpg",
+   "w": 215,
+   "h": 255
+  }
+ },
+ "1819": {
+  "ill": {
+   "file": "img/i1819.jpg",
+   "title": "Map of the United States (a later edition marked the 1819 treaty line)",
+   "artist": "John Melish",
+   "date": "1816",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:United_States._Published_1st_June_1816_by_J._Melish._Philadelphia._Improved_to_1818._(IA_dr_united-states-published-1st-june-1816-by-j-melish-philadelphia-improved-00054034).jpg",
+   "w": 1100,
+   "h": 765
+  },
+  "person": {
+   "file": "img/p1819.jpg",
+   "title": "John Quincy Adams",
+   "artist": "Gilbert Stuart",
+   "date": "1818",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:John_Quincy_Adams_by_Gilbert_Stuart,_1818.jpg",
+   "w": 360,
+   "h": 436
+  }
+ },
+ "1820": {
+  "ill": {
+   "file": "img/i1820.jpg",
+   "title": "Map of the Missouri Compromise, 1820",
+   "artist": "McConnell Map Co.",
+   "date": "1919",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Map_of_the_Missouri_Compromise,_1820.jpg",
+   "w": 1100,
+   "h": 796
+  },
+  "person": {
+   "file": "img/p1820.jpg",
+   "title": "Henry Clay",
+   "artist": "Matthew Harris Jouett",
+   "date": "1818",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Henry_Clay.JPG",
+   "w": 360,
+   "h": 435
+  }
+ },
+ "1836": {
+  "ill": {
+   "file": "img/i1836.jpg",
+   "title": "Routes of the Indian removals of the 1830s",
+   "artist": "Nikater",
+   "date": "2007-09-04",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Trails_of_Tears_en.png",
+   "w": 1100,
+   "h": 840
+  },
+  "person": {
+   "file": "img/p1836.jpg",
+   "title": "Andrew Jackson",
+   "artist": "Ralph Eleaser Whiteside Earl",
+   "date": "2011-01-18",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Andrew_jackson_head.jpg",
+   "w": 360,
+   "h": 437
+  }
+ },
+ "1837": {
+  "ill": {
+   "file": "img/i1837.jpg",
+   "title": "The Erie Canal at Lockport, New York",
+   "artist": "William Henry Bartlett",
+   "date": "1839",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Lockport_bartlett_color.jpg",
+   "w": 656,
+   "h": 432
+  },
+  "person": {
+   "file": "img/p1837.jpg",
+   "title": "DeWitt Clinton",
+   "artist": "Rembrandt Peale",
+   "date": "1823",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:DeWitt_Clinton_by_Rembrandt_Peale.jpg",
+   "w": 360,
+   "h": 452
+  }
+ },
+ "1845": {
+  "ill": {
+   "file": "img/i1845.jpg",
+   "title": "Surrender of Santa Anna",
+   "artist": "William Henry Huddle",
+   "date": "1886",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Painting,_%22Surrender_of_Santa_Anna,%22_by_William_Henry_Huddle,_in_the_South_Foyer_of_the_Texas_Capitol,_Austin,_Texas_LCCN2014632129.tif",
+   "w": 1100,
+   "h": 740
+  },
+  "person": {
+   "file": "img/p1845.jpg",
+   "title": "Sam Houston",
+   "artist": "Thomas Martin Easterly",
+   "date": "1851",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Sam_Houston.jpg",
+   "w": 360,
+   "h": 426
+  }
+ },
+ "1846": {
+  "ill": {
+   "file": "img/i1846.jpg",
+   "title": "Emigrants Crossing the Plains",
+   "artist": "Albert Bierstadt",
+   "date": "1867",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Albert_Bierstadt_-_Emigrants_Crossing_the_Plains_(1867).jpg",
+   "w": 1100,
+   "h": 685
+  },
+  "person": {
+   "file": "img/p1846.jpg",
+   "title": "John Deere",
+   "artist": "unknown photographer",
+   "date": "c. 1851–56",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:John_Deere_(1804%E2%80%931886),_unknown_photographer,_c._1851%E2%80%931856,_daguerreotype,_quarter-plate_-_2017_0109_2016_012.gif",
+   "w": 360,
+   "h": 292
+  }
+ },
+ "1848": {
+  "ill": {
+   "file": "img/i1848.jpg",
+   "title": "Storming of the Fortress of Chapultepec, September 13, 1847",
+   "artist": "Popular Graphic Arts",
+   "date": "1847",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Storming_of_the_Fortress_of_Chapultepec-_at_the_city_of_Mexico_Sept._12th_1847_LCCN2001706295.jpg",
+   "w": 1100,
+   "h": 856
+  },
+  "person": {
+   "file": "img/p1848.jpg",
+   "title": "James K. Polk",
+   "artist": "Mathew Brady",
+   "date": "1849",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:JKP.jpg",
+   "w": 360,
+   "h": 520
+  }
+ },
+ "1850": {
+  "ill": {
+   "file": "img/i1850.jpg",
+   "title": "Gold miners in California with a “long tom” sluice",
+   "artist": "George H. Johnson",
+   "date": "c. 1852",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:California_gold_miners_with_long_tom.jpg",
+   "w": 1000,
+   "h": 772
+  },
+  "person": {
+   "file": "img/p1850.jpg",
+   "title": "Mariano Guadalupe Vallejo",
+   "artist": "I. W. Taber (1830-1912)",
+   "date": "circa 1880",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Mariano_Guadalupe_Vallejo.jpg",
+   "w": 360,
+   "h": 524
+  }
+ },
+ "1853": {
+  "ill": {
+   "file": "img/i1853.jpg",
+   "title": "Map of the Gadsden Purchase, Sonora and parts of New Mexico, Chihuahua and California",
+   "artist": "or not provided",
+   "date": "1858",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Map_of_the_Gadsden_Purchase_Sonora_and_Portions_of_New_Mexico_Chihuahua_and_California_-_NARA_-_5928268.jpg",
+   "w": 1030,
+   "h": 900
+  },
+  "person": {
+   "file": "img/p1853.jpg",
+   "title": "James Gadsden",
+   "artist": "After Charles Fraser",
+   "date": "circa 1820",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:James_Gadsden.jpg",
+   "w": 360,
+   "h": 488
+  }
+ },
+ "1858": {
+  "ill": {
+   "file": "img/i1858.jpg",
+   "title": "McCormick’s reaper",
+   "artist": "Cyrus McCormick",
+   "date": "1845",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:McCormick_Reaper,_1845.jpg",
+   "w": 1100,
+   "h": 555
+  },
+  "person": {
+   "file": "img/p1858.jpg",
+   "title": "Cyrus McCormick",
+   "artist": "",
+   "date": "1897",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Cyrus_Hall_McCormick.jpg",
+   "w": 190,
+   "h": 232
+  }
+ },
+ "1859": {
+  "ill": {
+   "file": "img/i1859.jpg",
+   "title": "The Oregon Trail",
+   "artist": "Albert Bierstadt",
+   "date": "1869",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Albert_Bierstadt_-_Oregon_Trail.jpg",
+   "w": 1100,
+   "h": 732
+  }
+ },
+ "1861": {
+  "ill": {
+   "file": "img/i1861.jpg",
+   "title": "Bombardment of Fort Sumter, Charleston Harbor",
+   "artist": "Currier & Ives",
+   "date": "1861",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Bombardment_of_Fort_Sumter,_Charleston_Harbor.jpg",
+   "w": 1100,
+   "h": 708
+  },
+  "person": {
+   "file": "img/p1861.jpg",
+   "title": "Clarina Nichols",
+   "artist": "Published by Susan B. Anthony, Rochester, NY",
+   "date": "1887",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Clarina_Irene_Howard_Nichols.jpg",
+   "w": 360,
+   "h": 491
+  }
+ },
+ "1863": {
+  "ill": {
+   "file": "img/i1863.jpg",
+   "title": "First Reading of the Emancipation Proclamation of President Lincoln",
+   "artist": "Francis Bicknell Carpenter",
+   "date": "1864",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:First_Reading_of_the_Emancipation_Proclamation_of_President_Lincoln_by_Francis_Bicknell_Carpenter.png",
+   "w": 960,
+   "h": 674
+  },
+  "person": {
+   "file": "img/p1863.jpg",
+   "title": "Abraham Lincoln",
+   "artist": "Alexander Gardner",
+   "date": "November 1863",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Abraham_Lincoln_O-77_matte_collodion_print.jpg",
+   "w": 360,
+   "h": 464
+  }
+ },
+ "1865": {
+  "ill": {
+   "file": "img/i1865.jpg",
+   "title": "Emancipation",
+   "artist": "Thomas Nast",
+   "date": "1865",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Emancipation_-_Th._Nast_;_King_%26_Baird,_printers,_607_Sansom_Street,_Philadelphia._LCCN2004665360.jpg",
+   "w": 1100,
+   "h": 832
+  },
+  "person": {
+   "file": "img/p1865.jpg",
+   "title": "Frederick Douglass",
+   "artist": "George K. Warren",
+   "date": "c. 1879",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Frederick_Douglass_(circa_1879).jpg",
+   "w": 360,
+   "h": 517
+  }
+ },
+ "1867": {
+  "ill": {
+   "file": "img/i1867.jpg",
+   "title": "Signing of the Alaska Treaty of Cession",
+   "artist": "Emanuel Leutze",
+   "date": "1867",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Alaska_purchase.jpg",
+   "w": 1000,
+   "h": 669
+  },
+  "person": {
+   "file": "img/p1867.jpg",
+   "title": "William H. Seward",
+   "artist": "Pencil drawing by George Dance",
+   "date": "1793",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:William_Seward.jpg",
+   "w": 360,
+   "h": 469
+  }
+ },
+ "1869": {
+  "ill": {
+   "file": "img/i1869.jpg",
+   "title": "East and West Shaking Hands at the Laying of the Last Rail",
+   "artist": "Andrew J. Russell",
+   "date": "1869",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:East_and_West_Shaking_hands_at_the_laying_of_last_rail_Union_Pacific_Railroad.jpg",
+   "w": 1100,
+   "h": 865
+  },
+  "person": {
+   "file": "img/p1869.jpg",
+   "title": "Leland Stanford",
+   "artist": "Carleton Watkins",
+   "date": "1874",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Leland_Stanford_Watkins_Portrait.jpg",
+   "w": 360,
+   "h": 544
+  }
+ },
+ "1876": {
+  "ill": {
+   "file": "img/i1876.jpg",
+   "title": "Main Building, Centennial Exhibition, Philadelphia",
+   "artist": "Popular Graphic Arts",
+   "date": "1876",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Grand_United_States_centennial_exhibition_1876-_main_building,_Fairmount_Park,_Philadelphia_LCCN2001702133.jpg",
+   "w": 960,
+   "h": 691
+  },
+  "person": {
+   "file": "img/p1876.jpg",
+   "title": "Alexander Graham Bell",
+   "artist": "Moffett Studio",
+   "date": "c. 1914–19",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Alexander_Graham_Bell.jpg",
+   "w": 360,
+   "h": 468
+  }
+ },
+ "1890": {
+  "ill": {
+   "file": "img/i1890.jpg",
+   "title": "“Votes for Women a Success”: map of states where women could vote",
+   "artist": "National American Woman Suffrage Association",
+   "date": "1912",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Votes_for_Women_a_Success_NAWSA_1912_hand-colored_map.jpg",
+   "w": 1100,
+   "h": 770
+  },
+  "person": {
+   "file": "img/p1890.jpg",
+   "title": "Esther Hobart Morris",
+   "artist": "",
+   "date": "before 1902",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Esther_Morris_cph.3a02555.jpg",
+   "w": 360,
+   "h": 539
+  }
+ },
+ "1896": {
+  "ill": {
+   "file": "img/i1896.jpg",
+   "title": "Salt Lake City decorated for Utah statehood",
+   "artist": "Charles Roscoe Savage",
+   "date": "1896",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Statehood_celebration.jpg",
+   "w": 679,
+   "h": 900
+  }
+ },
+ "1898": {
+  "ill": {
+   "file": "img/i1898.jpg",
+   "title": "Lowering the Hawaiian flag at the annexation ceremony, ʻIolani Palace",
+   "artist": "Frank Davey",
+   "date": "August 12, 1898",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Lowering_the_Hawaiian_flag_at_Annexation_ceremony_(PPWD-8-3-006).jpg",
+   "w": 1100,
+   "h": 866
+  },
+  "person": {
+   "file": "img/p1898.jpg",
+   "title": "Queen Liliʻuokalani",
+   "artist": "James J. Williams",
+   "date": "circa 1891",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Liliuokalani_sitting_on_chair_draped_with_feather_cloak.jpg",
+   "w": 360,
+   "h": 446
+  }
+ },
+ "1903": {
+  "ill": {
+   "file": "img/i1903.jpg",
+   "title": "The first flight, Kitty Hawk, North Carolina",
+   "artist": "John T. Daniels",
+   "date": "December 17, 1903",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Wright_Brothers%27_1903_Aeroplane_Kitty_Hawk_in_First_Flight_-_NARA_-_7580929.jpg",
+   "w": 1100,
+   "h": 761
+  }
+ },
+ "1907": {
+  "ill": {
+   "file": "img/i1907.jpg",
+   "title": "Settlers waiting for the Cherokee Outlet land run",
+   "artist": "Perry, Lee A., copyright claimant",
+   "date": "September 16, 1893",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Rock_Island_train_at_State_Line,_September_16th_1893._opening_of_Cherokee_Strip,_Caldwell,_Kansas._LCCN2012649481.tif",
+   "w": 1100,
+   "h": 798
+  },
+  "person": {
+   "file": "img/p1907.jpg",
+   "title": "Theodore Roosevelt",
+   "artist": "Pach Brothers",
+   "date": "1904",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Theodore_Roosevelt_by_the_Pach_Bros.jpg",
+   "w": 360,
+   "h": 430
+  }
+ },
+ "1912": {
+  "ill": {
+   "file": "img/i1912.jpg",
+   "title": "President Taft signing New Mexico’s statehood papers",
+   "artist": "Harris & Ewing, photographer",
+   "date": "1912",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:William_Howard_Taft_-_Signing_the_New_Mexico_Statehood_Bill_-_LCCN2016861539.jpg",
+   "w": 1100,
+   "h": 880
+  },
+  "person": {
+   "file": "img/p1912.jpg",
+   "title": "Octaviano Larrazolo",
+   "artist": "",
+   "date": "1919",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Octaviano_Larrazolo,_bw_photo_portrait,_1919.jpg",
+   "w": 360,
+   "h": 500
+  }
+ },
+ "1920": {
+  "ill": {
+   "file": "img/i1920.jpg",
+   "title": "Suffragists picketing the White House",
+   "artist": "",
+   "date": "1917",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Suffragists_picketing_the_White_House.jpg",
+   "w": 960,
+   "h": 730
+  },
+  "person": {
+   "file": "img/p1920.jpg",
+   "title": "Susan B. Anthony",
+   "artist": "Engraved by G.E. Perine & Co., NY",
+   "date": "c. 1855",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Susan_B_Anthony_c1855.png",
+   "w": 360,
+   "h": 387
+  }
+ },
+ "1935": {
+  "ill": {
+   "file": "img/i1935.jpg",
+   "title": "Migrant Mother, Nipomo, California",
+   "artist": "Dorothea Lange",
+   "date": "1936",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Lange-MigrantMother02.jpg",
+   "w": 692,
+   "h": 900
+  }
+ },
+ "1941": {
+  "ill": {
+   "file": "img/i1941.jpg",
+   "title": "Woman working on an airplane motor, North American Aviation, California",
+   "artist": "Alfred T. Palmer",
+   "date": "1942",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Woman_working_on_an_airplane_motor_at_North_American_Aviation,_Inc.,_plant_in_Calif.jpg",
+   "w": 1100,
+   "h": 852
+  },
+  "person": {
+   "file": "img/p1941.jpg",
+   "title": "Franklin D. Roosevelt",
+   "artist": "Leon A. Perskie",
+   "date": "1944",
+   "license": "CC BY 2.0",
+   "page": "https://commons.wikimedia.org/wiki/File:FDR_1944_Color_Portrait.jpg",
+   "w": 360,
+   "h": 519
+  }
+ },
+ "1959": {
+  "ill": {
+   "file": "img/i1959.jpg",
+   "title": "President Eisenhower signs the proclamation admitting Hawaii",
+   "artist": "U.S. Army Pictorial Agency.",
+   "date": "August 21, 1959",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:President_Eisenhower_Formally_Admits_Hawaii_into_the_United_States.jpg",
+   "w": 960,
+   "h": 721
+  }
+ },
+ "1964": {
+  "ill": {
+   "file": "img/i1964.jpg",
+   "title": "The March on Washington",
+   "artist": "or not provided",
+   "date": "August 28, 1963",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Civil_Rights_March_on_Washington,_D.C._(Crowd_of_marchers_at_the_Lincoln_Memorial.)_-_NARA_-_542055.tif",
+   "w": 913,
+   "h": 900
+  },
+  "person": {
+   "file": "img/p1964.jpg",
+   "title": "Martin Luther King Jr.",
+   "artist": "Dick DeMarsico",
+   "date": "1964",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Martin_Luther_King_Jr_NYWTS.jpg",
+   "w": 360,
+   "h": 437
+  }
+ },
+ "1969": {
+  "ill": {
+   "file": "img/i1969.jpg",
+   "title": "Buzz Aldrin on the Moon",
+   "artist": "Neil Armstrong, NASA",
+   "date": "July 20, 1969",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Aldrin_Apollo_11.jpg",
+   "w": 900,
+   "h": 900
+  },
+  "person": {
+   "file": "img/p1969.jpg",
+   "title": "Katherine Johnson",
+   "artist": "NASA",
+   "date": "1983",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg",
+   "w": 360,
+   "h": 450
+  }
+ },
+ "1983": {
+  "ill": {
+   "file": "img/i1983.jpg",
+   "title": "ARPANET logical map",
+   "artist": "ARPANET",
+   "date": "March 1977",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Arpanet_logical_map,_march_1977.png",
+   "w": 1000,
+   "h": 716
+  },
+  "person": {
+   "file": "img/p1983.jpg",
+   "title": "Vint Cerf",
+   "artist": "Вени Марковски Veni Markovski",
+   "date": "2010",
+   "license": "CC BY 3.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Vint_Cerf_-_2010.jpg",
+   "w": 360,
+   "h": 360
+  }
+ },
+ "2020": {
+  "ill": {
+   "file": "img/i2020.jpg",
+   "title": "COVID-19 vaccine doses",
+   "artist": "U.S. Secretary of Defense",
+   "date": "December 2020",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Pfizer-BioNTech_COVID-19_vaccine_(2020)_F.jpg",
+   "w": 1100,
+   "h": 733
+  }
+ },
+ "2026": {
+  "ill": {
+   "file": "img/i2026.jpg",
+   "title": "Independence Hall, Philadelphia",
+   "artist": "颐园居",
+   "date": "2024",
+   "license": "CC BY-SA 4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Independence_Hall,_Philadelphia_20240528.jpg",
+   "w": 1100,
+   "h": 733
+  },
+  "person": {
+   "file": "img/p2026.jpg",
+   "title": "“We the People,” the opening words of the U.S. Constitution",
+   "artist": "Constitution_Pg1of4_AC.jpg: Constitutional Convention derivative work:",
+   "date": "1787",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Constitution_We_the_People.jpg",
+   "w": 360,
+   "h": 130
+  }
+ }
+}
