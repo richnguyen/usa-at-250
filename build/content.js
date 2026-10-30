@@ -235,7 +235,7 @@ const STOPS = [
 },
 {
   id: '1803', date: '1803-04-30', when: 'March–April 1803', label: '1803',
-  fun: 'Because of a paperwork mistake, Congress never officially voted to admit Ohio. It fixed the error in 1953, 150 years later, and dated statehood back to March 1, 1803.',
+  fun: 'In 1803, Congress accepted Ohio as a state, but it never passed a formal resolution admitting it. In 1953, for Ohio’s 150th birthday, Congress passed one, dating statehood back to March 1, 1803.',
   title: 'Ohio joins, and the country doubles in size',
   states: ['OH'], acq: 'a1803',
   place: { name: 'New Orleans', lon: -90.07, lat: 29.95 },
@@ -257,7 +257,7 @@ const STOPS = [
 },
 {
   id: '1805', date: '1805-11-15', when: 'November 1805', label: '1805',
-  fun: 'The expedition had a dog. Seaman, Meriwether Lewis’s big black Newfoundland, traveled with the explorers all the way to the Pacific.',
+  fun: 'The expedition had a dog. Seaman, Meriwether Lewis’s big Newfoundland, traveled with the explorers all the way to the Pacific.',
   title: 'Lewis and Clark reach the Pacific',
   states: [],
   place: { name: 'Mouth of the Columbia River', lon: -123.95, lat: 46.25 },
@@ -367,7 +367,7 @@ const STOPS = [
 },
 {
   id: '1819', date: '1819-12-14', when: 'February–December 1819', label: '1819',
-  fun: 'St. Augustine, Florida, founded by Spain in 1565, is the oldest city in the continental United States that has been lived in without a break.',
+  fun: 'St. Augustine, Florida, founded by Spain in 1565, is the oldest European-founded city in the continental United States that has been lived in without a break.',
   title: 'Alabama joins, and Spain gives up Florida',
   states: ['AL'], acq: 'a1819',
   place: { name: 'Huntsville', lon: -86.59, lat: 34.73 },
@@ -411,7 +411,7 @@ const STOPS = [
 },
 {
   id: '1836', date: '1836-06-15', when: 'June 15, 1836', label: '1836',
-  fun: 'In 1881, Arkansas passed a law on how to say its name: “AR-kan-saw,” with a silent s.',
+  fun: 'In 1881, Arkansas lawmakers passed a resolution on how to say the state’s name: “AR-kan-saw,” with a silent s.',
   title: 'Arkansas, along the Trail of Tears',
   states: ['AR'],
   place: { name: 'Little Rock', lon: -92.29, lat: 34.75 },
@@ -477,7 +477,7 @@ const STOPS = [
 },
 {
   id: '1846', date: '1846-12-28', when: 'June–December 1846', label: '1846',
-  fun: 'Iowa is the only state whose east and west borders are formed completely by rivers: the Mississippi on the east, and the Missouri and Big Sioux on the west.',
+  fun: 'Iowa is the only state whose east and west borders are formed almost completely by rivers: the Mississippi on the east, and the Missouri and Big Sioux on the west.',
   title: 'Oregon is shared, and Iowa joins',
   states: ['IA'], acq: 'a1846',
   place: { name: 'Oregon City (end of the Oregon Trail)', lon: -122.61, lat: 45.36 },
@@ -719,7 +719,7 @@ const STOPS = [
 },
 {
   id: '1876', date: '1876-08-01', when: 'August 1, 1876', label: '1876',
-  fun: 'At the 1876 Centennial, visitors could climb up inside the arm and torch of the Statue of Liberty. It was shown there to raise money to build the rest of the statue.',
+  fun: 'At the 1876 Centennial, visitors could climb up inside the arm and torch of the Statue of Liberty. It was shown there to build interest and raise money for the statue project.',
   title: 'Colorado and America’s 100th birthday',
   states: ['CO'],
   place: { name: 'Denver', lon: -104.99, lat: 39.74 },
@@ -807,7 +807,7 @@ const STOPS = [
 },
 {
   id: '1898', date: '1898-08-12', when: 'July–August 1898', label: '1898',
-  fun: 'ʻIolani Palace in Honolulu is the only royal palace in the United States.',
+  fun: 'ʻIolani Palace in Honolulu, home of Hawaii’s last king and queen, is the only official royal residence in the United States.',
   title: 'Hawaii, and lands across the sea',
   states: [], acq: 'a1898',
   place: { name: 'Honolulu', lon: -157.86, lat: 21.31 },
@@ -895,7 +895,7 @@ const STOPS = [
 },
 {
   id: '1920', date: '1920-08-18', when: 'August 18, 1920', label: '1920',
-  fun: 'The words of the 19th Amendment were first introduced in Congress in 1878, 42 years before it finally passed.',
+  fun: 'The 19th Amendment was first introduced in Congress in 1878. Congress finally passed it in 1919, 41 years later.',
   title: 'Women win the vote',
   states: [],
   place: { name: 'Nashville, Tennessee', lon: -86.78, lat: 36.16 },
@@ -961,7 +961,7 @@ const STOPS = [
 },
 {
   id: '1959', date: '1959-08-21', when: 'January–August 1959', label: '1959',
-  fun: 'Measured from its base on the ocean floor, Hawaii’s Mauna Kea is taller than Mount Everest: about 33,000 feet, mostly under water.',
+  fun: 'Measured from its base on the ocean floor, Hawaii’s Mauna Kea is taller than Mount Everest: more than 33,000 feet, mostly under water.',
   title: 'Alaska and Hawaii: the 49th and 50th stars',
   states: ['AK', 'HI'],
   place: { name: 'Honolulu', lon: -157.86, lat: 21.31 },
@@ -983,7 +983,7 @@ const STOPS = [
 },
 {
   id: '1964', date: '1964-07-02', when: 'July 2, 1964', label: '1964',
-  fun: 'The most famous words of the March on Washington were not in King’s written speech. The singer Mahalia Jackson called out, “Tell them about the dream, Martin!” and he did.',
+  fun: 'The famous “I have a dream” words were not in King’s written speech. Witnesses say the singer Mahalia Jackson called out, “Tell them about the dream, Martin!” Soon after, he did.',
   title: 'Civil rights: making the promise real',
   states: [],
   place: { name: 'Washington, D.C.', lon: -77.04, lat: 38.9 },
@@ -1049,11 +1049,11 @@ const STOPS = [
 },
 {
   id: '2020', date: '2020-12-14', when: '2020', label: '2020',
-  fun: 'The first person in the United States to get an approved COVID-19 vaccine was Sandra Lindsay, a nurse who had immigrated from Jamaica.',
+  fun: 'Sandra Lindsay, a nurse who had immigrated from Jamaica, was the first person in the United States to get a COVID-19 vaccine outside a clinical trial, on December 14, 2020.',
   title: 'A pandemic, and a race for vaccines',
   states: [],
   place: { name: 'Philadelphia (University of Pennsylvania)', lon: -75.19, lat: 39.95 },
-  what: 'In 2020, the COVID-19 [[pandemic]] spread around the world. Schools and businesses closed, and by 2022 more than one million Americans had died. Scientists made safe, effective [[vaccines|vaccine]] in less than a year using a new technology called mRNA. The first U.S. shot was given on December 14, 2020, to a nurse in New York City.',
+  what: 'In 2020, the COVID-19 [[pandemic]] spread around the world. Schools and businesses closed, and by 2022 more than one million Americans had died. Scientists made safe, effective [[vaccines|vaccine]] in less than a year using a new technology called mRNA. The first U.S. shot outside a clinical trial was given on December 14, 2020, to a nurse in New York City.',
   why: [
     'A new virus spread quickly, and no one had protection against it.',
     'Decades of earlier research on mRNA made fast vaccine development possible.',
