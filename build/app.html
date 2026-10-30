@@ -209,6 +209,7 @@ a { color: inherit; }
 .scard dt { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
 .scard dd { margin: 0; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; }
 .scard dd small { display: block; font-size: 12.5px; color: var(--ink-2); }
+.scard dd .rank { display: block; font-size: 12.5px; color: var(--ink-2); }
 .story h2 .st-name { white-space: nowrap; }
 .story h2 .sflag {
   height: .78em; width: auto; max-width: 1.5em; margin-right: .22em; vertical-align: -.06em;
@@ -795,14 +796,13 @@ function stateCard(p) {
   const [name, d] = states[p], info = DATA.stateInfo[p] || {};
   const orig = original13.includes(p);
   const label = orig ? `${ORD(ordinal[p])} to ratify` : `${ORD(ordinal[p])} state`;
-  const km2 = Math.round(info.area * 2.58999);
   const rank = areaRank.indexOf(p) + 1;
   let capNote;
   if (info.note) capNote = info.note + (info.cap === info.now || info.note.includes(info.now) ? '' : `; today ${info.now}`);
   else capNote = info.cap === info.now ? 'still the capital today' : `today ${info.now}`;
   return `<li class="scard"><p class="sc-name">${esc(name)}<span>${label}</span></p><dl>
     <div><dt>${orig ? 'Ratified' : 'Joined'}</dt><dd>${fmtDate(d)}</dd></div>
-    <div><dt>Area today</dt><dd>${info.area.toLocaleString('en-US')} sq mi<small>${km2.toLocaleString('en-US')} km² · ${ORD(rank)} largest of 50</small></dd></div>
+    <div><dt>Area today</dt><dd>${info.area.toLocaleString('en-US')} sq mi<span class="rank">rank ${ORD(rank)}/50</span></dd></div>
     <div><dt>Capital then</dt><dd>${info.cap ? esc(info.cap) : 'None fixed'}<small>${esc(capNote)}</small></dd></div>
   </dl></li>`;
 }
