@@ -59,6 +59,7 @@ const ERAS = [
 const STOPS = [
 {
   id: '1776', date: '1776-07-04', when: 'July 4, 1776', label: '1776',
+  fun: 'John Adams and Thomas Jefferson both helped create the Declaration. Both men died on the same day: July 4, 1826, exactly 50 years later.',
   title: 'Thirteen colonies declare independence',
   states: ORIGINAL13, statesNote: 'The 13 original states',
   place: { name: 'Philadelphia', lon: -75.15, lat: 39.95 },
@@ -80,6 +81,7 @@ const STOPS = [
 },
 {
   id: '1783', date: '1783-09-03', when: 'September 3, 1783', label: '1783',
+  fun: 'Benjamin West never finished his painting of the peace talks. The British negotiators would not pose for it, so the right side of the canvas is still empty.',
   title: 'Britain recognizes the United States',
   states: [], acq: 'a1783',
   place: null,
@@ -101,6 +103,7 @@ const STOPS = [
 },
 {
   id: '1787', date: '1787-12-18', when: 'September–December 1787', label: '1787',
+  fun: 'Benjamin Franklin, 81, was the oldest man to sign the Constitution. The youngest, Jonathan Dayton of New Jersey, was only 26.',
   title: 'A new Constitution, and the first states say yes',
   states: ['DE', 'PA', 'NJ'], statesNote: 'First to ratify the Constitution',
   place: { name: 'Philadelphia', lon: -75.15, lat: 39.95 },
@@ -122,6 +125,7 @@ const STOPS = [
 },
 {
   id: '1788', date: '1788-07-26', when: 'January–July 1788', label: '1788',
+  fun: 'The <i>Federalist</i> essays were signed with a fake name, “Publius.” For years, readers did not know for sure that Hamilton, Madison and Jay had written them.',
   title: 'Nine states make it law',
   states: ['GA', 'CT', 'MA', 'MD', 'SC', 'NH', 'VA', 'NY'], statesNote: 'Ratified the Constitution',
   place: { name: 'Concord, New Hampshire', lon: -71.54, lat: 43.21 },
@@ -143,6 +147,7 @@ const STOPS = [
 },
 {
   id: '1789', date: '1790-05-29', when: '1789–1790', label: '1789',
+  fun: 'George Washington’s second inaugural speech, in 1793, was only 135 words long. It is still the shortest in U.S. history.',
   title: 'A president, a Bill of Rights, and the last two states',
   states: ['NC', 'RI'], statesNote: 'Ratified the Constitution',
   place: { name: 'New York City', lon: -74.01, lat: 40.71 },
@@ -164,6 +169,7 @@ const STOPS = [
 },
 {
   id: '1791', date: '1791-03-04', when: 'March 4, 1791', label: '1791',
+  fun: 'As an independent republic, Vermont ran its own post office and even made its own copper coins.',
   title: 'Vermont, the first new state',
   states: ['VT'],
   place: { name: 'Bennington', lon: -73.2, lat: 42.88 },
@@ -185,6 +191,7 @@ const STOPS = [
 },
 {
   id: '1792', date: '1792-06-01', when: 'June 1, 1792', label: '1792',
+  fun: 'The two presidents of the Civil War, Abraham Lincoln and Jefferson Davis, were both born in Kentucky, less than a year apart.',
   title: 'Kentucky: the first state beyond the mountains',
   states: ['KY'],
   place: { name: 'Cumberland Gap', lon: -83.67, lat: 36.6 },
@@ -206,6 +213,7 @@ const STOPS = [
 },
 {
   id: '1796', date: '1796-06-01', when: 'June 1, 1796', label: '1796',
+  fun: 'Tennessee is called “the Volunteer State” because thousands of its men volunteered to fight in the War of 1812.',
   title: 'Tennessee shows the way to statehood',
   states: ['TN'],
   place: { name: 'Knoxville', lon: -83.92, lat: 35.96 },
@@ -227,6 +235,7 @@ const STOPS = [
 },
 {
   id: '1803', date: '1803-04-30', when: 'March–April 1803', label: '1803',
+  fun: 'Because of a paperwork mistake, Congress never officially voted to admit Ohio. It fixed the error in 1953, 150 years later, and dated statehood back to March 1, 1803.',
   title: 'Ohio joins, and the country doubles in size',
   states: ['OH'], acq: 'a1803',
   place: { name: 'New Orleans', lon: -90.07, lat: 29.95 },
@@ -248,6 +257,7 @@ const STOPS = [
 },
 {
   id: '1805', date: '1805-11-15', when: 'November 1805', label: '1805',
+  fun: 'The expedition had a dog. Seaman, Meriwether Lewis’s big black Newfoundland, traveled with the explorers all the way to the Pacific.',
   title: 'Lewis and Clark reach the Pacific',
   states: [],
   place: { name: 'Mouth of the Columbia River', lon: -123.95, lat: 46.25 },
@@ -269,6 +279,7 @@ const STOPS = [
 },
 {
   id: '1812', date: '1812-04-30', when: 'April 30, 1812', label: '1812',
+  fun: 'Louisiana has no counties. Its local areas are called “parishes,” a name from its French and Spanish Catholic past.',
   title: 'Louisiana: gateway to the Mississippi',
   states: ['LA'],
   place: { name: 'New Orleans', lon: -90.07, lat: 29.95 },
@@ -290,6 +301,7 @@ const STOPS = [
 },
 {
   id: '1816', date: '1816-12-11', when: 'December 11, 1816', label: '1816',
+  fun: 'People from Indiana are called “Hoosiers,” but no one knows for sure where the word comes from.',
   title: 'Indiana, “land of the Indians”',
   states: ['IN'],
   place: { name: 'Corydon', lon: -86.12, lat: 38.21 },
@@ -311,6 +323,7 @@ const STOPS = [
 },
 {
   id: '1817', date: '1817-12-10', when: 'December 10, 1817', label: '1817',
+  fun: 'The name Mississippi comes from the Ojibwe words for “great river.”',
   title: 'Mississippi and the cotton boom',
   states: ['MS'],
   place: { name: 'Natchez', lon: -91.4, lat: 31.56 },
@@ -332,6 +345,7 @@ const STOPS = [
 },
 {
   id: '1818', date: '1818-12-03', when: 'December 3, 1818', label: '1818',
+  fun: 'The name Chicago comes from a Native word, <i>shikaakwa</i>, for a wild onion that grew near the lake.',
   title: 'Illinois, and a border that reached Chicago',
   states: ['IL'],
   place: { name: 'Chicago', lon: -87.63, lat: 41.88 },
@@ -353,6 +367,7 @@ const STOPS = [
 },
 {
   id: '1819', date: '1819-12-14', when: 'February–December 1819', label: '1819',
+  fun: 'St. Augustine, Florida, founded by Spain in 1565, is the oldest city in the continental United States that has been lived in without a break.',
   title: 'Alabama joins, and Spain gives up Florida',
   states: ['AL'], acq: 'a1819',
   place: { name: 'Huntsville', lon: -86.59, lat: 34.73 },
@@ -374,6 +389,7 @@ const STOPS = [
 },
 {
   id: '1820', date: '1821-08-10', when: '1820–1821', label: '1820',
+  fun: 'Maine is the only state whose name has just one syllable.',
   title: 'The Missouri Compromise: Maine and Missouri',
   states: ['ME', 'MO'],
   place: { name: 'St. Louis', lon: -90.2, lat: 38.63 },
@@ -395,6 +411,7 @@ const STOPS = [
 },
 {
   id: '1836', date: '1836-06-15', when: 'June 15, 1836', label: '1836',
+  fun: 'In 1881, Arkansas passed a law on how to say its name: “AR-kan-saw,” with a silent s.',
   title: 'Arkansas, along the Trail of Tears',
   states: ['AR'],
   place: { name: 'Little Rock', lon: -92.29, lat: 34.75 },
@@ -416,6 +433,7 @@ const STOPS = [
 },
 {
   id: '1837', date: '1837-01-26', when: 'January 26, 1837', label: '1837',
+  fun: 'Michigan touches four of the five Great Lakes. It has more freshwater shoreline than any other state.',
   title: 'Michigan and the Erie Canal boom',
   states: ['MI'],
   place: { name: 'Detroit', lon: -83.05, lat: 42.33 },
@@ -437,6 +455,7 @@ const STOPS = [
 },
 {
   id: '1845', date: '1845-12-29', when: 'March–December 1845', label: '1845',
+  fun: 'Six flags have flown over Texas: those of Spain, France, Mexico, the Republic of Texas, the Confederacy and the United States.',
   title: 'Florida and Texas join',
   states: ['FL', 'TX'], acq: 'a1845',
   place: { name: 'San Antonio (the Alamo)', lon: -98.49, lat: 29.43 },
@@ -458,6 +477,7 @@ const STOPS = [
 },
 {
   id: '1846', date: '1846-12-28', when: 'June–December 1846', label: '1846',
+  fun: 'Iowa is the only state whose east and west borders are formed completely by rivers: the Mississippi on the east, and the Missouri and Big Sioux on the west.',
   title: 'Oregon is shared, and Iowa joins',
   states: ['IA'], acq: 'a1846',
   place: { name: 'Oregon City (end of the Oregon Trail)', lon: -122.61, lat: 45.36 },
@@ -479,6 +499,7 @@ const STOPS = [
 },
 {
   id: '1848', date: '1848-05-29', when: 'February–May 1848', label: '1848',
+  fun: 'Wisconsin is called “America’s Dairyland.” Today it makes about a quarter of all the cheese in the United States.',
   title: 'War with Mexico, and the West changes hands',
   states: ['WI'], acq: 'a1848',
   place: { name: 'Madison, Wisconsin', lon: -89.4, lat: 43.07 },
@@ -500,6 +521,7 @@ const STOPS = [
 },
 {
   id: '1850', date: '1850-09-09', when: 'September 9, 1850', label: '1850',
+  fun: 'Levi Strauss, a German immigrant, came to San Francisco during the Gold Rush. In 1873, he and the tailor Jacob Davis patented work pants with metal rivets: the first blue jeans.',
   title: 'Gold! California becomes a state',
   states: ['CA'],
   place: { name: 'Sutter’s Mill', lon: -120.89, lat: 38.8 },
@@ -521,6 +543,7 @@ const STOPS = [
 },
 {
   id: '1853', date: '1853-12-30', when: 'December 30, 1853', label: '1853',
+  fun: 'Tombstone, Arizona, home of the famous 1881 gunfight at the O.K. Corral, stands on land from the Gadsden Purchase.',
   title: 'The last piece of the “lower 48”',
   states: [], acq: 'a1853',
   place: { name: 'Tucson', lon: -110.97, lat: 32.22 },
@@ -542,6 +565,7 @@ const STOPS = [
 },
 {
   id: '1858', date: '1858-05-11', when: 'May 11, 1858', label: '1858',
+  fun: 'Minnesota calls itself “the Land of 10,000 Lakes,” but it actually has more than 11,000.',
   title: 'Minnesota: forests, wheat, and flour',
   states: ['MN'],
   place: { name: 'St. Paul', lon: -93.09, lat: 44.95 },
@@ -563,6 +587,7 @@ const STOPS = [
 },
 {
   id: '1859', date: '1859-02-14', when: 'February 14, 1859', label: '1859',
+  fun: 'Oregon’s state flag is the only state flag with a different picture on each side. The back shows a beaver.',
   title: 'Oregon: the end of the trail',
   states: ['OR'],
   place: { name: 'Oregon City', lon: -122.61, lat: 45.36 },
@@ -584,6 +609,7 @@ const STOPS = [
 },
 {
   id: '1861', date: '1861-01-29', when: 'January 29, 1861', label: '1861',
+  fun: 'The geographic center of the 48 “lower” states is in Kansas, near the small town of Lebanon.',
   title: 'Kansas joins as the Union breaks apart',
   states: ['KS'], seceded: true,
   place: { name: 'Lawrence, Kansas', lon: -95.24, lat: 38.97 },
@@ -605,6 +631,7 @@ const STOPS = [
 },
 {
   id: '1863', date: '1864-10-31', when: '1863–1864', label: '1863',
+  fun: 'Nevada sent its whole state constitution to Washington by telegraph. It was the longest telegram ever sent at the time and cost about $4,300.',
   title: 'Two states born in war',
   states: ['WV', 'NV'], seceded: true,
   place: { name: 'Wheeling', lon: -80.72, lat: 40.06 },
@@ -626,6 +653,7 @@ const STOPS = [
 },
 {
   id: '1865', date: '1865-12-06', when: 'April–December 1865', label: '1865',
+  fun: 'Juneteenth, the day freedom was announced in Texas, became a federal holiday in 2021.',
   title: 'The Union is saved, and slavery ends',
   states: [],
   place: { name: 'Appomattox Court House', lon: -78.8, lat: 37.38 },
@@ -647,6 +675,7 @@ const STOPS = [
 },
 {
   id: '1867', date: '1867-03-30', when: 'March 1867', label: '1867',
+  fun: 'Alaska is the farthest north and the farthest west state. Because some of its Aleutian Islands cross the 180° line, it is also, on a map, the farthest east.',
   title: 'Nebraska joins, and Alaska is bought from Russia',
   states: ['NE'], acq: 'a1867',
   place: { name: 'Sitka, Alaska', lon: -135.33, lat: 57.05 },
@@ -668,6 +697,7 @@ const STOPS = [
 },
 {
   id: '1869', date: '1869-05-10', when: 'May 10, 1869', label: '1869',
+  fun: 'The golden spike did not stay in the track. Workers pulled it out right after the ceremony. Today it is in a museum at Stanford University.',
   title: 'The golden spike joins a continent',
   states: [],
   place: { name: 'Promontory Summit, Utah', lon: -112.55, lat: 41.62 },
@@ -689,6 +719,7 @@ const STOPS = [
 },
 {
   id: '1876', date: '1876-08-01', when: 'August 1, 1876', label: '1876',
+  fun: 'At the 1876 Centennial, visitors could climb up inside the arm and torch of the Statue of Liberty. It was shown there to raise money to build the rest of the statue.',
   title: 'Colorado and America’s 100th birthday',
   states: ['CO'],
   place: { name: 'Denver', lon: -104.99, lat: 39.74 },
@@ -710,6 +741,7 @@ const STOPS = [
 },
 {
   id: '1889', date: '1889-11-11', when: 'November 2–11, 1889', label: '1889',
+  fun: 'Washington is the only state named after a president.',
   title: 'Four states in ten days',
   states: ['ND', 'SD', 'MT', 'WA'],
   place: { name: 'Bismarck, North Dakota', lon: -100.78, lat: 46.81 },
@@ -731,6 +763,7 @@ const STOPS = [
 },
 {
   id: '1890', date: '1890-07-10', when: 'July 3–10, 1890', label: '1890',
+  fun: 'Idaho’s state seal is the only one designed by a woman, the artist Emma Edwards Green.',
   title: 'Idaho and Wyoming, and votes for women',
   states: ['ID', 'WY'],
   place: { name: 'Cheyenne, Wyoming', lon: -104.82, lat: 41.14 },
@@ -752,6 +785,7 @@ const STOPS = [
 },
 {
   id: '1896', date: '1896-01-04', when: 'January 4, 1896', label: '1896',
+  fun: 'Utah’s Great Salt Lake is much saltier than the ocean, so swimmers float easily.',
   title: 'Utah, after a long wait',
   states: ['UT'],
   place: { name: 'Salt Lake City', lon: -111.89, lat: 40.76 },
@@ -773,6 +807,7 @@ const STOPS = [
 },
 {
   id: '1898', date: '1898-08-12', when: 'July–August 1898', label: '1898',
+  fun: 'ʻIolani Palace in Honolulu is the only royal palace in the United States.',
   title: 'Hawaii, and lands across the sea',
   states: [], acq: 'a1898',
   place: { name: 'Honolulu', lon: -157.86, lat: 21.31 },
@@ -794,6 +829,7 @@ const STOPS = [
 },
 {
   id: '1903', date: '1903-12-17', when: 'December 17, 1903', label: '1903',
+  fun: 'The Wright brothers tossed a coin to decide who would fly first. Wilbur won, but his try on December 14 failed. Orville made the first successful flight three days later.',
   title: 'Twelve seconds that changed the world',
   states: [],
   place: { name: 'Kitty Hawk, North Carolina', lon: -75.67, lat: 36.02 },
@@ -815,6 +851,7 @@ const STOPS = [
 },
 {
   id: '1907', date: '1907-11-16', when: 'November 16, 1907', label: '1907',
+  fun: 'Oklahomans are called “Sooners” after settlers who sneaked onto the land “sooner” than the official start of the 1889 land run.',
   title: 'Oklahoma, where many nations met',
   states: ['OK'],
   place: { name: 'Guthrie, Oklahoma', lon: -97.43, lat: 35.88 },
@@ -836,6 +873,7 @@ const STOPS = [
 },
 {
   id: '1912', date: '1912-02-14', when: 'January–February 1912', label: '1912',
+  fun: 'Santa Fe, New Mexico, founded around 1610, is the oldest state capital in the United States.',
   title: 'New Mexico and Arizona complete the lower 48',
   states: ['NM', 'AZ'],
   place: { name: 'Santa Fe', lon: -105.94, lat: 35.69 },
@@ -857,6 +895,7 @@ const STOPS = [
 },
 {
   id: '1920', date: '1920-08-18', when: 'August 18, 1920', label: '1920',
+  fun: 'The words of the 19th Amendment were first introduced in Congress in 1878, 42 years before it finally passed.',
   title: 'Women win the vote',
   states: [],
   place: { name: 'Nashville, Tennessee', lon: -86.78, lat: 36.16 },
@@ -878,6 +917,7 @@ const STOPS = [
 },
 {
   id: '1935', date: '1935-08-14', when: 'August 14, 1935', label: '1935',
+  fun: 'The first monthly Social Security check went to Ida May Fuller of Vermont in 1940. She had paid less than $25 in Social Security taxes, lived to 100, and collected nearly $23,000.',
   title: 'The Great Depression and a new safety net',
   states: [],
   place: { name: 'Washington, D.C.', lon: -77.04, lat: 38.9 },
@@ -899,6 +939,7 @@ const STOPS = [
 },
 {
   id: '1941', date: '1945-09-02', when: '1941–1945', label: '1941',
+  fun: 'Navajo “Code Talkers” sent secret messages in their own language during World War II. The enemy never broke their code.',
   title: 'World War II and the “arsenal of democracy”',
   states: [],
   place: { name: 'Pearl Harbor', lon: -157.95, lat: 21.36 },
@@ -920,6 +961,7 @@ const STOPS = [
 },
 {
   id: '1959', date: '1959-08-21', when: 'January–August 1959', label: '1959',
+  fun: 'Measured from its base on the ocean floor, Hawaii’s Mauna Kea is taller than Mount Everest: about 33,000 feet, mostly under water.',
   title: 'Alaska and Hawaii: the 49th and 50th stars',
   states: ['AK', 'HI'],
   place: { name: 'Honolulu', lon: -157.86, lat: 21.31 },
@@ -941,6 +983,7 @@ const STOPS = [
 },
 {
   id: '1964', date: '1964-07-02', when: 'July 2, 1964', label: '1964',
+  fun: 'The most famous words of the March on Washington were not in King’s written speech. The singer Mahalia Jackson called out, “Tell them about the dream, Martin!” and he did.',
   title: 'Civil rights: making the promise real',
   states: [],
   place: { name: 'Washington, D.C.', lon: -77.04, lat: 38.9 },
@@ -962,6 +1005,7 @@ const STOPS = [
 },
 {
   id: '1969', date: '1969-07-20', when: 'July 20, 1969', label: '1969',
+  fun: 'Apollo 11 left a small silicon disk on the Moon. It carries goodwill messages from the leaders of 73 countries.',
   title: 'One giant leap',
   states: [],
   place: { name: 'Kennedy Space Center', lon: -80.6, lat: 28.57 },
@@ -983,6 +1027,7 @@ const STOPS = [
 },
 {
   id: '1983', date: '1983-01-01', when: 'January 1, 1983', label: '1983',
+  fun: 'The first message ever sent over ARPANET, in 1969, was supposed to be “LOGIN.” The system crashed after just two letters, so the first message was “LO.”',
   title: 'The Internet connects the world',
   states: [],
   place: { name: 'Silicon Valley, California', lon: -122.03, lat: 37.37 },
@@ -1004,6 +1049,7 @@ const STOPS = [
 },
 {
   id: '2020', date: '2020-12-14', when: '2020', label: '2020',
+  fun: 'The first person in the United States to get an approved COVID-19 vaccine was Sandra Lindsay, a nurse who had immigrated from Jamaica.',
   title: 'A pandemic, and a race for vaccines',
   states: [],
   place: { name: 'Philadelphia (University of Pennsylvania)', lon: -75.19, lat: 39.95 },
@@ -1025,6 +1071,7 @@ const STOPS = [
 },
 {
   id: '2026', date: '2026-07-04', when: 'July 4, 2026', label: '2026',
+  fun: 'A 250th anniversary has a special name: a “semiquincentennial.”',
   title: 'America at 250',
   states: [],
   place: { name: 'Philadelphia (Independence Hall)', lon: -75.15, lat: 39.95 },

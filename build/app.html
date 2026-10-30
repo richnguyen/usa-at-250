@@ -204,6 +204,15 @@ figure.ill { margin: 20px 0 0; }
 figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; place-items: center; }
 figure.ill img { display: block; width: 100%; height: auto; max-height: 340px; object-fit: contain; }
 figure.ill .ph { padding: 36px 20px; text-align: center; color: var(--ink-2); font-size: 14px; }
+.fun {
+  margin-top: 14px; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 2px 12px; align-items: start;
+  padding: 12px 16px 13px 12px; border-radius: 8px;
+  background: color-mix(in srgb, var(--gold) 11%, var(--sheet));
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+}
+.fun svg { grid-row: span 2; width: 26px; height: 26px; fill: var(--gold); margin-top: 1px; }
+.fun .k { margin: 0; font: 700 11.5px var(--f-body); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.fun p { margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--ink); }
 figcaption, .credit { font-size: 12.5px; color: var(--ink-2); margin-top: 8px; line-height: 1.45; }
 figcaption i, .credit i { font-family: var(--f-serif); }
 figcaption a, .credit a { text-underline-offset: 2px; }
@@ -354,6 +363,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .era-band { font-size: 0; }
   .era-band::first-letter { font-size: 11px; }
   .tl-btns .play-wrap { display: none; }
+  .ylabel:not(.edge) { display: none; }
   .tick { width: 6px; height: 6px; margin-left: -3px; top: 4px; border-width: 1.5px; }
   .tick:not(.state) { width: 5px; height: 5px; margin-left: -2.5px; top: 4.5px; }
   .track { --thumb: 18px; }
@@ -761,6 +771,7 @@ function renderStory(i) {
     <p class="when">${esc(s.when)}</p>
     ${chips ? `<ul class="chips">${chips}</ul>` : ''}
     ${ill}
+    ${s.fun ? `<aside class="fun" aria-label="Fun fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l2.9 6.6 7.2.6-5.5 4.7 1.7 7.1L12 17.1l-6.3 3.7 1.7-7.1L1.9 9l7.2-.6z"/></svg><p class="k">Fun fact</p><p>${gloss(s.fun)}</p></aside>` : ''}
     <h3 class="sec">What happened</h3>
     <p class="what">${gloss(s.what)}</p>
     <h3 class="sec">${esc(s.whyTitle || 'Why it happened')}</h3>
@@ -837,7 +848,7 @@ $('#eras').innerHTML = eraIdx.map(({ e, a, b }, k) => {
 }).join('');
 const labelIdx = new Set([0, N - 1, ...eraIdx.map(x => x.a)]);
 function ylabels(i) {
-  $('#ylabels').innerHTML = [...labelIdx].filter(j => Math.abs(j - i) > 1).map(j => `<span class="ylabel" style="left:${pos(j)}">${esc(stops[j].label)}</span>`).join('');
+  $('#ylabels').innerHTML = [...labelIdx].filter(j => Math.abs(j - i) > 1).map(j => `<span class="ylabel${j === 0 || j === N - 1 ? ' edge' : ''}" style="left:${pos(j)}">${esc(stops[j].label)}</span>`).join('');
 }
 slider.addEventListener('input', () => go(+slider.value, true));
 
