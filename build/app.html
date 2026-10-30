@@ -4,6 +4,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
 /* Layout: an atlas spread. Map plate on the left that zooms as the nation grows; the story on the right; a timeline rail along the bottom. */
 :root {
@@ -12,7 +13,7 @@
   --ink: #162133;
   --ink-2: #4a576d;
   --rule: #d4dbe4;
-  --water: #dce6ef;
+  --water: #d7e3ee;
   --grat: #c8d4e0;
   --land: #e9e6df;
   --land-edge: #c7c1b3;
@@ -22,8 +23,8 @@
   --new: #c4352b;
   --terr: #a7bfdc;
   --terr-new: #e7a49b;
-  --sec: #8a8f99;
-  --gold: #9a7417;
+  --sec: #6f7580;
+  --gold: #876511;
   --progress: #23427a;
   --cost: #9b3b31;
   --focus: #d89b00;
@@ -39,7 +40,7 @@
     --paper: #0e1522; --sheet: #121b2a; --ink: #e7ecf3; --ink-2: #a4afc1; --rule: #283449;
     --water: #0c1827; --grat: #1a2a3e; --land: #1f2735; --land-edge: #364257;
     --union: #5d86c8; --union-ink: #0b1220; --union-edge: #0e1522; --new: #ff6b5d;
-    --terr: #39587f; --terr-new: #7a3b37; --sec: #59606d; --gold: #d9b45d; --progress: #93b3e8; --cost: #f1958a;
+    --terr: #39587f; --terr-new: #7a3b37; --sec: #8b919c; --gold: #d9b45d; --progress: #93b3e8; --cost: #f1958a;
     --focus: #f5c242; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35);
     color-scheme: dark;
   }
@@ -48,7 +49,7 @@
   --paper: #0e1522; --sheet: #121b2a; --ink: #e7ecf3; --ink-2: #a4afc1; --rule: #283449;
   --water: #0c1827; --grat: #1a2a3e; --land: #1f2735; --land-edge: #364257;
   --union: #5d86c8; --union-ink: #0b1220; --union-edge: #0e1522; --new: #ff6b5d;
-  --terr: #39587f; --terr-new: #7a3b37; --sec: #59606d; --gold: #d9b45d; --progress: #93b3e8; --cost: #f1958a;
+  --terr: #39587f; --terr-new: #7a3b37; --sec: #8b919c; --gold: #d9b45d; --progress: #93b3e8; --cost: #f1958a;
   --focus: #f5c242; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35);
   color-scheme: dark;
 }
@@ -102,6 +103,8 @@ a { color: inherit; }
   padding: 6px 14px; font-size: 14px; cursor: pointer;
 }
 .btn-quiet:hover { border-color: var(--ink-2); }
+.theme-btn { display: inline-flex; align-items: center; gap: 6px; padding-left: 11px; }
+.theme-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- stage ---------- */
 .stage {
@@ -341,7 +344,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .stats dd { font-size: 18px; }
   .stats dd small { display: block; margin: 0; }
-  .tools { width: 100%; justify-content: flex-end; }
+  .tools { width: 100%; justify-content: flex-end; order: -1; margin-bottom: -4px; }
   .top { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .brand { flex-basis: 100%; align-items: flex-start; }
   .brand h1 { font-size: 21px; }
@@ -386,6 +389,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
     <div class="tools">
       <button class="btn-quiet" id="btn-words" type="button">Word list</button>
       <button class="btn-quiet" id="btn-about" type="button">About</button>
+      <button class="btn-quiet theme-btn" id="btn-theme" type="button" aria-label="Switch color mode"></button>
     </div>
   </header>
 
@@ -893,6 +897,30 @@ function closeSheets() { document.querySelectorAll('.sheet-overlay').forEach(o =
 document.querySelectorAll('.sheet-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o || e.target.closest('[data-close]')) closeSheets(); }));
 $('#btn-words').addEventListener('click', () => openSheet('#ov-words'));
 $('#btn-about').addEventListener('click', () => openSheet('#ov-about'));
+
+// ---------- light / dark mode ----------
+const themeBtn = $('#btn-theme');
+const sysDark = matchMedia('(prefers-color-scheme: dark)');
+const ICON_SUN = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>';
+const ICON_MOON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7z"/></svg>';
+const isDark = () => {
+  const t = document.documentElement.getAttribute('data-theme');
+  return t ? t === 'dark' : sysDark.matches;
+};
+function paintThemeBtn() {
+  const dark = isDark();
+  themeBtn.innerHTML = (dark ? ICON_SUN : ICON_MOON) + `<span>${dark ? 'Light' : 'Dark'}</span>`;
+  themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+}
+themeBtn.addEventListener('click', () => {
+  const next = isDark() ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
+  paintThemeBtn();
+});
+sysDark.addEventListener('change', paintThemeBtn);
+new MutationObserver(paintThemeBtn).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+paintThemeBtn();
 $('#words-list').innerHTML = Object.keys(glossary).sort().map(k => `<dt>${esc(k)}</dt><dd>${esc(glossary[k])}</dd>`).join('');
 $('#about-body').innerHTML = DATA.about;
 

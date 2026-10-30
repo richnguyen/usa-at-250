@@ -22,7 +22,7 @@ It is written for a general audience and for people learning English. Each miles
 - **Written for English learners.** Sentences are short and plain. 41 harder words, such as *ratify*, *annex* and *suffrage*, show a simple meaning when tapped. A word list collects them all.
 - **A timeline slider** with previous/next buttons, autoplay and keyboard navigation (← →). The header shows the number of states, land area and population at each date.
 - **Pictures with credits.** Illustrations and portraits come from Wikimedia Commons. Each one shows its title, artist, date, license and a link to its source page.
-- **Easy to run and share.** It is a single static page with no server and no build step needed to view it. It works in light and dark mode and on phones. Each milestone has its own link, for example `index.html#1803`.
+- **Easy to run and share.** It is a single static page with no server and no build step needed to view it. It has light and dark modes, with a switch in the top-right corner, and it works on phones. Each milestone has its own link, for example `index.html#1803`.
 
 ## Getting started
 
