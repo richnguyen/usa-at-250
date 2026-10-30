@@ -77,12 +77,20 @@ a { color: inherit; }
   padding-right: max(20px, env(safe-area-inset-right, 0px));
   border-bottom: 1px solid var(--rule);
 }
-.brand { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; min-width: 0; }
-.brand h1 {
-  margin: 0; font: 400 30px/1 var(--f-display); letter-spacing: .005em;
+.brand { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 420px; }
+.flag {
+  flex: none; width: 80px; aspect-ratio: 19 / 10; border-radius: 2px; overflow: hidden;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 22%, transparent), 0 2px 6px rgb(0 0 0 / .12);
 }
-.brand h1 .amp { color: var(--new); }
-.brand p { margin: 0; color: var(--ink-2); font-size: 14px; letter-spacing: .02em; }
+.flag svg { display: block; width: 100%; height: 100%; }
+.flag.changed { animation: flagin .9s ease-out 1; }
+@keyframes flagin { 0% { transform: scale(.82); opacity: .2; } 100% { transform: none; opacity: 1; } }
+.brand-text { display: grid; gap: 4px; min-width: 0; }
+.brand h1 {
+  margin: 0; font: 400 26px/1.1 var(--f-display); letter-spacing: .005em; text-wrap: balance;
+}
+.brand p { margin: 0; color: var(--ink-2); font-size: 13.5px; letter-spacing: .01em; }
+.brand p b { color: var(--ink); font-weight: 600; }
 .stats { display: flex; gap: 6px 26px; margin: 0 0 0 auto; flex-wrap: wrap; }
 .stats div { display: grid; gap: 0; min-width: 0; }
 .stats dt { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-2); }
@@ -333,10 +341,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .stats dd { font-size: 18px; }
   .stats dd small { display: block; margin: 0; }
-  .tools { position: absolute; top: 12px; right: max(16px, env(safe-area-inset-right, 0px)); }
-  .top { position: relative; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-  .brand h1 { font-size: 26px; }
-  .brand p { width: 100%; }
+  .tools { width: 100%; justify-content: flex-end; }
+  .top { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .brand { flex-basis: 100%; align-items: flex-start; }
+  .brand h1 { font-size: 21px; }
+  .flag { width: 60px; margin-top: 3px; }
 }
 @media (max-width: 560px) {
   .era-band { font-size: 0; }
@@ -363,8 +372,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 <div class="app">
   <header class="top">
     <div class="brand">
-      <h1>From 13 to 50</h1>
-      <p>How the United States grew, 1776–2026</p>
+      <div class="flag" id="flag" role="img" aria-label="The U.S. flag at this milestone"></div>
+      <div class="brand-text">
+        <h1>How the United States evolves through 1776–2026</h1>
+        <p id="flag-cap" aria-live="polite"></p>
+      </div>
     </div>
     <dl class="stats" aria-live="polite">
       <div><dt>States</dt><dd id="st-states">13</dd></div>
@@ -441,6 +453,100 @@ function gloss(text) {
     if (!glossary[k]) return shown;
     return `<button type="button" class="term" data-k="${esc(k)}" aria-expanded="false">${shown}</button>`;
   });
+}
+
+// ---------- flag ----------
+// The official flag in force on a date. Stars and Stripes from June 14, 1777; 15 stars and stripes from
+// May 1, 1795; from July 4, 1818, 13 stripes and one star per state, added on the July 4 after a state joins.
+const FLAGS = (() => {
+  const list = [
+    { from: '1775-12-03', union: true },
+    { from: '1777-06-14', stars: 13, stripes: 13 },
+    { from: '1795-05-01', stars: 15, stripes: 15 }
+  ];
+  let prev = 0;
+  for (let y = 1818; y <= 1960; y++) {
+    const d = `${y}-07-04`;
+    const n = Object.values(states).filter(v => v[1] < d).length;
+    if (n !== prev) { list.push({ from: d, stars: n, stripes: 13 }); prev = n; }
+  }
+  list.forEach((e, i) => { e.to = list[i + 1] ? list[i + 1].from : null; });
+  return list;
+})();
+const flagAt = date => FLAGS.filter(f => f.from <= date).pop();
+
+function starPath(x, y, r) {
+  let d = '';
+  for (let i = 0; i < 10; i++) {
+    const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .382 : r;
+    d += (i ? 'L' : 'M') + (x + rr * Math.cos(a)).toFixed(2) + ' ' + (y + rr * Math.sin(a)).toFixed(2);
+  }
+  return d + 'Z';
+}
+// Star positions in the blue canton. The 1912, 1959 and 1960 layouts are the official ones;
+// earlier laws set no pattern, so those flags use a typical layout.
+function starLayout(n, cw, ch) {
+  const pts = [];
+  let r;
+  if (n === 13) {
+    for (let i = 0; i < 13; i++) {
+      const a = -Math.PI / 2 + i * 2 * Math.PI / 13;
+      pts.push([cw / 2 + ch * .34 * Math.cos(a), ch / 2 + ch * .34 * Math.sin(a)]);
+    }
+    r = ch * .085;
+  } else if (n === 50) {
+    for (let row = 0; row < 9; row++) for (let c = 0; c < (row % 2 ? 5 : 6); c++) pts.push([cw / 12 * (1 + 2 * c + row % 2), ch / 10 * (row + 1)]);
+    r = 3.08;
+  } else if (n === 49) {
+    for (let row = 0; row < 7; row++) for (let c = 0; c < 7; c++) pts.push([cw / 15 * (1 + 2 * c + row % 2), ch / 8 * (row + 1)]);
+    r = 3.2;
+  } else if (n === 48) {
+    for (let row = 0; row < 6; row++) for (let c = 0; c < 8; c++) pts.push([cw / 8 * (c + .5), ch / 6 * (row + .5)]);
+    r = 3.1;
+  } else {
+    const rows = Math.min(7, Math.max(3, Math.round(Math.sqrt(n / 1.41))));
+    const base = Math.floor(n / rows), extra = n % rows, cols = Math.ceil(n / rows);
+    const sx = cw / cols, sy = ch / rows;
+    for (let row = 0; row < rows; row++) {
+      const long = Math.floor((row + 1) * extra / rows) > Math.floor(row * extra / rows);
+      const k = base + (long ? 1 : 0);
+      for (let c = 0; c < k; c++) pts.push([sx * (c + .5 + (cols - k) / 2), sy * (row + .5)]);
+    }
+    r = Math.min(sx, sy) * .36;
+  }
+  return pts.map(([x, y]) => starPath(x, y, r)).join('');
+}
+function flagSVG(f) {
+  const W = 190, H = 100, red = '#b22234', white = '#ffffff', blue = '#3c3b6e';
+  const n = f.union ? 13 : f.stripes, sh = H / n;
+  const ch = sh * (n === 15 ? 8 : 7), cw = 76;
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><rect width="${W}" height="${H}" fill="${white}"/>`;
+  for (let i = 0; i < n; i += 2) s += `<rect y="${(i * sh).toFixed(3)}" width="${W}" height="${sh.toFixed(3)}" fill="${red}"/>`;
+  if (f.union) {
+    // British Union Flag of 1606 in the canton: St Andrew's white saltire under St George's red cross
+    const t = ch / 5;
+    s += `<svg width="${cw}" height="${ch.toFixed(3)}" viewBox="0 0 ${cw} ${ch.toFixed(3)}"><rect width="${cw}" height="${ch}" fill="${blue}"/>`
+      + `<path d="M0 0L${cw} ${ch}M${cw} 0L0 ${ch}" stroke="${white}" stroke-width="${t}"/>`
+      + `<rect x="0" y="${ch / 2 - t * .85}" width="${cw}" height="${t * 1.7}" fill="${white}"/><rect x="${cw / 2 - t * .85}" y="0" width="${t * 1.7}" height="${ch}" fill="${white}"/>`
+      + `<rect x="0" y="${ch / 2 - t / 2}" width="${cw}" height="${t}" fill="${red}"/><rect x="${cw / 2 - t / 2}" y="0" width="${t}" height="${ch}" fill="${red}"/></svg>`;
+  } else {
+    s += `<rect width="${cw}" height="${ch.toFixed(3)}" fill="${blue}"/><path fill="${white}" d="${starLayout(f.stars, cw, ch)}"/>`;
+  }
+  return s + '</svg>';
+}
+let lastFlag = null;
+function showFlag(s) {
+  const f = flagAt(s.date), el = $('#flag');
+  const y0 = f.from.slice(0, 4), y1 = f.to ? f.to.slice(0, 4) : null;
+  const what = f.union ? 'Continental Colors' : `${f.stars} stars, ${f.stripes} stripes`;
+  const when = f.union ? 'used 1775–1777, before the Stars and Stripes' : (y1 ? `official flag ${y0}–${y1}` : `official flag since July 4, ${y0}`);
+  $('#flag-cap').innerHTML = `<b>${what}</b> · ${when}`;
+  el.setAttribute('aria-label', `U.S. flag in ${s.label}: ${what}, ${when}`);
+  if (f !== lastFlag) {
+    el.innerHTML = flagSVG(f);
+    if (lastFlag) { el.classList.remove('changed'); void el.offsetWidth; el.classList.add('changed'); }
+    lastFlag = f;
+  }
 }
 
 // ---------- stats ----------
@@ -751,7 +857,7 @@ function go(i, fromSlider) {
   document.querySelectorAll('.era-band').forEach(b => b.classList.toggle('cur', era && b.dataset.era === era.id));
   ylabels(i);
   $('#btn-prev').disabled = i === 0; $('#btn-next').disabled = i === N - 1;
-  stats(s); mapState(s); renderStory(i); zoomTo(s);
+  stats(s); showFlag(s); mapState(s); renderStory(i); zoomTo(s);
   try { history.replaceState(null, '', '#' + s.id); } catch (e) {}
 }
 $('#btn-prev').addEventListener('click', () => { stopPlay(); go(cur - 1); });

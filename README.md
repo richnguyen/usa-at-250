@@ -4,7 +4,7 @@ An interactive map and timeline of how the United States grew from 13 states to 
 
 It is written for a general audience and for people learning English. Each milestone tells what happened and why, and names one person who helped make it happen. It also has short sections on **the progress**, **the promise** and **the cost** of that moment.
 
-![From 13 to 50: the 1803 milestone, with Ohio and the Louisiana Purchase on the map](docs/screenshot.png)
+![The 1803 milestone: the 15-star flag, and Ohio and the Louisiana Purchase on the map](docs/screenshot.png)
 
 ## Features
 
@@ -17,6 +17,7 @@ It is written for a general audience and for people learning English. Each miles
   - each territorial acquisition, outlined in the year it happened (Louisiana Purchase, Florida, Texas, Oregon, Mexican Cession, Gadsden Purchase, Alaska, Hawaii and Puerto Rico)
 
   The map zooms out as the country grows.
+- **The flag of the day.** The top-left corner shows the official U.S. flag in force at each milestone. It starts with the Continental Colors of 1776, then shows the 13-star flag of 1777, the 15-stripe flag of 1795, and every star added under the Flag Act of 1818, up to today's 50-star flag. That makes 28 versions in all.
 - **One key person per milestone,** tagged by field: politics, economy or science.
 - **Written for English learners.** Sentences are short and plain. 41 harder words, such as *ratify*, *annex* and *suffrage*, show a simple meaning when tapped. A word list collects them all.
 - **A timeline slider** with previous/next buttons, autoplay and keyboard navigation (← →). The header shows the number of states, land area and population at each date.
