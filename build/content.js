@@ -21,6 +21,61 @@ const STATES = {
   OK: ['Oklahoma', '1907-11-16'], NM: ['New Mexico', '1912-01-06'], AZ: ['Arizona', '1912-02-14'],
   AK: ['Alaska', '1959-01-03'], HI: ['Hawaii', '1959-08-21']
 };
+// Today's total area (square miles, land and water; U.S. Census Bureau, 2010 census),
+// the capital when the state joined (or ratified the Constitution), and today's capital.
+// cap: null means there was no fixed capital at the time.
+const STATE_INFO = {
+  DE: { area: 2489, cap: 'Dover', now: 'Dover' },
+  PA: { area: 46054, cap: 'Philadelphia', now: 'Harrisburg' },
+  NJ: { area: 8723, cap: null, now: 'Trenton', note: 'Trenton from 1790' },
+  GA: { area: 59425, cap: 'Augusta', now: 'Atlanta' },
+  CT: { area: 5543, cap: 'Hartford and New Haven', now: 'Hartford', note: 'two capitals until 1875' },
+  MA: { area: 10554, cap: 'Boston', now: 'Boston' },
+  MD: { area: 12406, cap: 'Annapolis', now: 'Annapolis' },
+  SC: { area: 32020, cap: 'Charleston', now: 'Columbia', note: 'the government moved to Columbia in 1790' },
+  NH: { area: 9349, cap: null, now: 'Concord', note: 'Concord from 1808' },
+  VA: { area: 42775, cap: 'Richmond', now: 'Richmond' },
+  NY: { area: 54555, cap: 'New York City', now: 'Albany' },
+  NC: { area: 53819, cap: null, now: 'Raleigh', note: 'Raleigh from 1794' },
+  RI: { area: 1545, cap: null, now: 'Providence', note: 'five towns shared the role; Providence alone from 1900' },
+  VT: { area: 9616, cap: null, now: 'Montpelier', note: 'Montpelier from 1805' },
+  KY: { area: 40408, cap: 'Lexington', now: 'Frankfort', note: 'Frankfort was chosen later in 1792' },
+  TN: { area: 42144, cap: 'Knoxville', now: 'Nashville' },
+  OH: { area: 44826, cap: 'Chillicothe', now: 'Columbus' },
+  LA: { area: 52378, cap: 'New Orleans', now: 'Baton Rouge' },
+  IN: { area: 36420, cap: 'Corydon', now: 'Indianapolis' },
+  MS: { area: 48432, cap: 'Washington (near Natchez)', now: 'Jackson' },
+  IL: { area: 57914, cap: 'Kaskaskia', now: 'Springfield' },
+  AL: { area: 52420, cap: 'Huntsville', now: 'Montgomery', note: 'a temporary capital' },
+  ME: { area: 35380, cap: 'Portland', now: 'Augusta' },
+  MO: { area: 69707, cap: 'St. Charles', now: 'Jefferson City', note: 'a temporary capital' },
+  AR: { area: 53179, cap: 'Little Rock', now: 'Little Rock' },
+  MI: { area: 96714, cap: 'Detroit', now: 'Lansing' },
+  FL: { area: 65758, cap: 'Tallahassee', now: 'Tallahassee' },
+  TX: { area: 268596, cap: 'Austin', now: 'Austin' },
+  IA: { area: 56273, cap: 'Iowa City', now: 'Des Moines' },
+  WI: { area: 65496, cap: 'Madison', now: 'Madison' },
+  CA: { area: 163695, cap: 'San Jose', now: 'Sacramento' },
+  MN: { area: 86936, cap: 'St. Paul', now: 'St. Paul' },
+  OR: { area: 98379, cap: 'Salem', now: 'Salem' },
+  KS: { area: 82278, cap: 'Topeka', now: 'Topeka' },
+  WV: { area: 24230, cap: 'Wheeling', now: 'Charleston' },
+  NV: { area: 110572, cap: 'Carson City', now: 'Carson City' },
+  NE: { area: 77348, cap: 'Omaha', now: 'Lincoln' },
+  CO: { area: 104094, cap: 'Denver', now: 'Denver' },
+  ND: { area: 70698, cap: 'Bismarck', now: 'Bismarck' },
+  SD: { area: 77116, cap: 'Pierre', now: 'Pierre' },
+  MT: { area: 147040, cap: 'Helena', now: 'Helena' },
+  WA: { area: 71298, cap: 'Olympia', now: 'Olympia' },
+  ID: { area: 83569, cap: 'Boise', now: 'Boise' },
+  WY: { area: 97813, cap: 'Cheyenne', now: 'Cheyenne' },
+  UT: { area: 84897, cap: 'Salt Lake City', now: 'Salt Lake City' },
+  OK: { area: 69899, cap: 'Guthrie', now: 'Oklahoma City' },
+  NM: { area: 121590, cap: 'Santa Fe', now: 'Santa Fe' },
+  AZ: { area: 113990, cap: 'Phoenix', now: 'Phoenix' },
+  AK: { area: 665384, cap: 'Juneau', now: 'Juneau' },
+  HI: { area: 10932, cap: 'Honolulu', now: 'Honolulu' }
+};
 const ORIGINAL13 = ['DE', 'PA', 'NJ', 'GA', 'CT', 'MA', 'MD', 'SC', 'NH', 'VA', 'NY', 'NC', 'RI'];
 const CONFEDERACY = ['SC', 'MS', 'FL', 'AL', 'GA', 'LA', 'TX', 'VA', 'AR', 'NC', 'TN'];
 
@@ -1140,4 +1195,4 @@ const GLOSSARY = {
   vaccine: 'A medicine that trains the body to fight a disease.'
 };
 
-module.exports = { STATES, ORIGINAL13, CONFEDERACY, ACQ, POP, ERAS, STOPS, GLOSSARY };
+module.exports = { STATES, STATE_INFO, ORIGINAL13, CONFEDERACY, ACQ, POP, ERAS, STOPS, GLOSSARY };

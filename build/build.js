@@ -86,12 +86,12 @@ const about = `
 <h3>The flag</h3>
 <p>The flag in the top left is the official U.S. flag in force on the date of each milestone. Before June 1777, Americans used the Continental Colors: 13 stripes with the British flag in the corner. Congress adopted the Stars and Stripes on June 14, 1777. The Flag Act of 1794 added two stars and two stripes in 1795. The Flag Act of 1818 went back to 13 stripes and added one star for each state, on the July 4 after it joined, so the flag can have fewer stars than there are states. Laws did not set the pattern of the stars until 1912, so earlier flags are shown with a typical pattern. The 48-, 49- and 50-star layouts are the official ones.</p>
 <h3>Sources</h3>
-<p>Statehood and ratification dates: U.S. National Archives and state records. Land added by each acquisition: U.S. Census Bureau and Bureau of Land Management tables of territorial acquisitions (square miles, land and water; published tables differ by less than 1%, so figures are rounded); the 2026 figure is today’s official total area of the 50 states and D.C. Population: U.S. decennial census counts, with estimates for 1776 and 1780 and the Census Bureau’s 2024 estimate. State flags next to each new state are today’s official flags (as of 2026), from Wikimedia Commons; Mississippi (2021), Utah (2024) and Minnesota (2024) adopted new flags recently. State shapes: U.S. Census Bureau cartographic boundaries, via the us-atlas project. Other countries: Natural Earth, via the world-atlas project.</p>
+<p>Statehood and ratification dates: U.S. National Archives and state records. Land added by each acquisition: U.S. Census Bureau and Bureau of Land Management tables of territorial acquisitions (square miles, land and water; published tables differ by less than 1%, so figures are rounded); the 2026 figure is today’s official total area of the 50 states and D.C. Population: U.S. decennial census counts, with estimates for 1776 and 1780 and the Census Bureau’s 2024 estimate. State flags next to each new state are today’s official flags (as of 2026), from Wikimedia Commons; Mississippi (2021), Utah (2024) and Minnesota (2024) adopted new flags recently. State areas are today’s total areas (land and water) from the U.S. Census Bureau’s 2010 census. Capitals are the seat of government on the day each state joined. State shapes: U.S. Census Bureau cartographic boundaries, via the us-atlas project. Other countries: Natural Earth, via the world-atlas project.</p>
 <h3>Image credits</h3>
 <ol>${credits || '<li>Images are added from Wikimedia Commons.</li>'}</ol>`;
 
 const DATA = {
-  stops, states: C.STATES, acq: C.ACQ, pop: C.POP, eras: C.ERAS, glossary: C.GLOSSARY,
+  stops, states: C.STATES, stateInfo: C.STATE_INFO, acq: C.ACQ, pop: C.POP, eras: C.ERAS, glossary: C.GLOSSARY,
   original13: C.ORIGINAL13, confederacy: C.CONFEDERACY, geo: geoRuntime, images, about, stateFlags
 };
 let html = fs.readFileSync(__dirname + '/app.html', 'utf8');

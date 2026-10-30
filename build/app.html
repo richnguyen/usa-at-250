@@ -199,6 +199,16 @@ a { color: inherit; }
 .chip::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--new); flex: none; }
 .chip.acqchip::before { background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
 .chip .meta { color: var(--ink-2); font-size: 13px; }
+.scards { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.scard { border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); padding: 10px 12px 11px; min-width: 0; }
+.scard .sc-name { margin: 0 0 6px; font: 700 15.5px/1.3 var(--f-body); display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.scard .sc-name::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--new); flex: none; align-self: center; }
+.scard .sc-name span { font-weight: 400; font-size: 13px; color: var(--ink-2); }
+.scard dl { margin: 0; display: grid; gap: 4px; }
+.scard dl div { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.scard dt { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.scard dd { margin: 0; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.scard dd small { display: block; font-size: 12.5px; color: var(--ink-2); }
 .story h2 .st-name { white-space: nowrap; }
 .story h2 .sflag {
   height: .78em; width: auto; max-width: 1.5em; margin-right: .22em; vertical-align: -.06em;
@@ -779,16 +789,30 @@ function titleWithFlags(s) {
   return out;
 }
 
+// Facts card for a state that joins at this milestone: order, date, today's area, and its capital then and now.
+const areaRank = Object.keys(DATA.stateInfo).sort((a, b) => DATA.stateInfo[b].area - DATA.stateInfo[a].area);
+function stateCard(p) {
+  const [name, d] = states[p], info = DATA.stateInfo[p] || {};
+  const orig = original13.includes(p);
+  const label = orig ? `${ORD(ordinal[p])} to ratify` : `${ORD(ordinal[p])} state`;
+  const km2 = Math.round(info.area * 2.58999);
+  const rank = areaRank.indexOf(p) + 1;
+  let capNote;
+  if (info.note) capNote = info.note + (info.note.includes(info.now) ? '' : `; today ${info.now}`);
+  else capNote = info.cap === info.now ? 'still the capital today' : `today ${info.now}`;
+  return `<li class="scard"><p class="sc-name">${esc(name)}<span>${label}</span></p><dl>
+    <div><dt>${orig ? 'Ratified' : 'Joined'}</dt><dd>${fmtDate(d)}</dd></div>
+    <div><dt>Area today</dt><dd>${info.area.toLocaleString('en-US')} sq mi<small>${km2.toLocaleString('en-US')} km² · ${ORD(rank)} largest of 50</small></dd></div>
+    <div><dt>Capital then</dt><dd>${info.cap ? esc(info.cap) : 'None fixed'}<small>${esc(capNote)}</small></dd></div>
+  </dl></li>`;
+}
+
 function renderStory(i) {
   const s = stops[i], era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to) || eras[eras.length - 1];
   const im = images[s.id] || {};
   let chips = '';
   if (s.id === '1776') chips = `<li class="chip">13 original states <span class="meta">declared independence together</span></li>`;
-  else chips = s.states.map(p => {
-    const d = states[p][1];
-    const label = original13.includes(p) ? `${ORD(ordinal[p])} to ratify` : `${ORD(ordinal[p])} state`;
-    return `<li class="chip">${esc(states[p][0])} <span class="meta">${label} · ${fmtDate(d)}</span></li>`;
-  }).join('');
+  const cards = s.id === '1776' ? '' : s.states.map(stateCard).join('');
   if (s.acq && acq[s.acq]) chips += `<li class="chip acqchip">${esc(acq[s.acq].name)} <span class="meta">about ${acq[s.acq].approx} sq mi added</span></li>`;
   const ill = im.ill
     ? `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}" loading="eager"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`
@@ -802,6 +826,7 @@ function renderStory(i) {
     <p class="kicker"><span class="era">${esc(era.name)}</span><span>Milestone ${i + 1} of ${N}</span></p>
     <h2>${titleWithFlags(s)}</h2>
     <p class="when">${esc(s.when)}</p>
+    ${cards ? `<ul class="scards" aria-label="New states">${cards}</ul>` : ''}
     ${chips ? `<ul class="chips">${chips}</ul>` : ''}
     ${ill}
     ${s.fun ? `<aside class="fun" aria-label="Fun fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l2.9 6.6 7.2.6-5.5 4.7 1.7 7.1L12 17.1l-6.3 3.7 1.7-7.1L1.9 9l7.2-.6z"/></svg><p class="k">Fun fact</p><p>${gloss(s.fun)}</p></aside>` : ''}

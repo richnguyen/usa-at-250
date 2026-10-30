@@ -19,6 +19,7 @@ It is written for a general audience and for people learning English. Each miles
   The map zooms out as the country grows.
 - **The flag of the day.** The top-left corner shows the official U.S. flag in force at each milestone. It starts with the Continental Colors of 1776, then shows the 13-star flag of 1777, the 15-stripe flag of 1795, and every star added under the Flag Act of 1818, up to today's 50-star flag. That makes 28 versions in all.
 - **State flags.** When a state joins (or, for the original 13, ratifies the Constitution), the milestone heading shows its current official flag right next to its name. The flags come from Wikimedia Commons and include Mississippi's 2021 flag and the 2024 flags of Utah and Minnesota.
+- **A fact card for every new state:** when it joined (or ratified the Constitution), its total area today in square miles and km² with its size rank, and its capital at the time it joined, along with today's capital if it has changed. For example, Ohio's capital in 1803 was Chillicothe; today it is Columbus.
 - **A fun fact for every milestone,** shown just below the picture, to make each moment easy to remember. For example: the Wright brothers tossed a coin to decide who would fly first.
 - **One key person per milestone,** tagged by field: politics, economy or science.
 - **Written for English learners.** Sentences are short and plain. 41 harder words, such as *ratify*, *annex* and *suffrage*, show a simple meaning when tapped. A word list collects them all.
@@ -89,6 +90,7 @@ npm run build        # writes ../index.html and build/artifact.html
 
 - **Statehood and ratification dates:** U.S. National Archives and state records.
 - **Land added by each acquisition:** U.S. Census Bureau and Bureau of Land Management tables of territorial acquisitions (published tables differ by under 1%, so figures are rounded).
+- **State areas:** U.S. Census Bureau, 2010 census (total area, land and water). **Capitals at statehood:** state government and historical society records.
 - **Population:** U.S. decennial census counts, with estimates for 1776 and 1780, and the Census Bureau's 2024 estimate.
 - **Map data:** U.S. Census Bureau cartographic boundaries via [us-atlas](https://github.com/topojson/us-atlas), and [Natural Earth](https://www.naturalearthdata.com/) via [world-atlas](https://github.com/topojson/world-atlas).
 - **Images:** [Wikimedia Commons](https://commons.wikimedia.org/). Credits for each image are listed in `build/images.json` and in the app's *About* panel.
