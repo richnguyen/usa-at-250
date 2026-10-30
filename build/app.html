@@ -798,7 +798,7 @@ function stateCard(p) {
   const km2 = Math.round(info.area * 2.58999);
   const rank = areaRank.indexOf(p) + 1;
   let capNote;
-  if (info.note) capNote = info.note + (info.note.includes(info.now) ? '' : `; today ${info.now}`);
+  if (info.note) capNote = info.note + (info.cap === info.now || info.note.includes(info.now) ? '' : `; today ${info.now}`);
   else capNote = info.cap === info.now ? 'still the capital today' : `today ${info.now}`;
   return `<li class="scard"><p class="sc-name">${esc(name)}<span>${label}</span></p><dl>
     <div><dt>${orig ? 'Ratified' : 'Joined'}</dt><dd>${fmtDate(d)}</dd></div>
