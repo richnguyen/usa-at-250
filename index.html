@@ -859,27 +859,21 @@ function targetBox(s) {
   for (const a in geo.acq) { const base = a.replace('hi', ''); if (acq[base] && acq[base].date <= s.date) add(geo.acq[a].b); }
   if (s.placeXY) add([[s.placeXY[0] - 40, s.placeXY[1] - 30], [s.placeXY[0] + 40, s.placeXY[1] + 30]]);
   let w = x1 - x0, h = y1 - y0;
-  const padX = Math.max(w * .14, 40), padY = Math.max(h * .14, 40);
-  x0 -= padX; x1 += padX; y0 -= padY * 1.7; y1 += padY;
+  const padX = Math.max(w * .06, 24), padY = Math.max(h * .07, 24);
+  x0 -= padX; x1 += padX; y0 -= padY * 1.4; y1 += padY;
+  // never frame beyond the map itself, so the whole map fits the panel's width
+  x0 = Math.max(x0, 0); x1 = Math.min(x1, geo.W); y0 = Math.max(y0, 0); y1 = Math.min(y1, geo.H);
   w = x1 - x0; h = y1 - y0;
   const minW = 300; if (w < minW) { x0 -= (minW - w) / 2; w = minW; }
   return [x0, y0, w, h];
 }
-// Share of the map's width hidden behind the year card when it lists new states (desktop only)
-function reserveLeft() {
-  const yc = $('#yearcard');
-  if (full || !yc.classList.contains('has-states') || getComputedStyle(yc).position !== 'absolute') return 0;
-  return Math.min(.45, (yc.offsetWidth + 28) / Math.max(1, svg.clientWidth));
-}
+// Fit the frame to the panel, centered. The year card may cover a corner of the map (often Alaska).
 function fitAspect(b) {
-  const f = reserveLeft();
-  const r = svg.clientWidth * (1 - f) / Math.max(1, svg.clientHeight);
+  const r = svg.clientWidth / Math.max(1, svg.clientHeight);
   let [x, y, w, h] = b;
   if (w / h > r) { const nh = w / r; y -= (nh - h) / 2; h = nh; } else { const nw = h * r; x -= (nw - w) / 2; w = nw; }
-  if (f) { const tw = w / (1 - f); x -= tw - w; w = tw; }
   // keep the frame on the map where possible
-  if (f) x = Math.min(x, geo.W - w + 450);
-  else if (w <= geo.W) x = Math.min(Math.max(x, 0), geo.W - w); else x = (geo.W - w) / 2;
+  if (w <= geo.W) x = Math.min(Math.max(x, 0), geo.W - w); else x = (geo.W - w) / 2;
   if (h <= geo.H) y = Math.min(Math.max(y, 0), geo.H - h); else y = (geo.H - h) / 2;
   return [x, y, w, h];
 }
