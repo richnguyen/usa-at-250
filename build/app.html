@@ -162,12 +162,10 @@ a { color: inherit; }
   box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 10px 30px rgb(22 33 51 / .12);
 }
 .yc-year {
-  display: grid; padding: 14px 18px 13px;
+  display: grid; padding: 14px 18px 15px;
   background: linear-gradient(180deg, color-mix(in srgb, var(--union) 9%, transparent), transparent);
 }
 .yc-year .yr { font: 400 clamp(54px, 5.6vw, 84px)/.88 var(--f-display); letter-spacing: -.01em; color: var(--ink); font-variant-numeric: lining-nums; }
-.yc-year .yr-sub { margin-top: 7px; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
-.yc-year .yr-sub:empty { display: none; }
 .yc-states { overflow-y: auto; border-top: 1px solid var(--rule); overscroll-behavior: contain; }
 .yc-states.more { -webkit-mask-image: linear-gradient(#000 calc(100% - 44px), transparent); mask-image: linear-gradient(#000 calc(100% - 44px), transparent); }
 .ycs { padding: 13px 18px 14px; }
@@ -381,8 +379,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
     position: static; width: auto; max-height: none; border-radius: 0; border-width: 0 0 1px;
     box-shadow: none; backdrop-filter: none; background: var(--sheet);
   }
-  .yc-year { grid-template-columns: auto 1fr; align-items: end; gap: 4px 14px; padding: 12px 16px 12px; }
-  .yc-year .yr-sub { margin: 0 0 4px; }
+  .yc-year { padding: 12px 16px 12px; }
   .ycs, .ycs.compact { padding-left: 16px; padding-right: 16px; }
   .story { border-left: 0; overflow: visible; }
   .timeline { position: sticky; bottom: 0; z-index: 20; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -6px 20px rgb(0 0 0 / .06); }
@@ -453,7 +450,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       <div id="tip" role="tooltip" hidden></div>
       </div>
       <aside class="yearcard" id="yearcard" aria-label="This milestone">
-        <div class="yc-year"><span class="yr" id="yr">1776</span><span class="yr-sub" id="yr-sub"></span></div>
+        <div class="yc-year"><span class="yr" id="yr">1776</span></div>
         <div class="yc-states" id="yc-states" hidden></div>
       </aside>
     </section>
@@ -952,7 +949,6 @@ function go(i, fromSlider) {
   const s = stops[i];
   hidePop();
   $('#yr').textContent = s.label;
-  $('#yr-sub').textContent = s.when === s.label ? '' : s.when;
   if (!fromSlider) slider.value = i;
   slider.setAttribute('aria-valuetext', `${s.label}: ${s.title}`);
   $('#bubble').textContent = s.label;
