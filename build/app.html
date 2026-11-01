@@ -132,6 +132,8 @@ a { color: inherit; }
 #map .st.new { animation: pulse 1.4s ease-out 1; }
 @keyframes pulse { 0% { fill-opacity: .2; } 60% { fill-opacity: 1; } }
 #map .inset-bg { fill: var(--water); }
+#map [data-inset] { transition: opacity .6s ease; }
+#map [data-inset].inset-off { opacity: 0; pointer-events: none; }
 #map .inset { fill: none; stroke: var(--ink-2); stroke-width: .8px; vector-effect: non-scaling-stroke; stroke-dasharray: 3 3; }
 #map text { font-family: var(--f-body); pointer-events: none; paint-order: stroke; }
 #map .lbl { font-size: calc(var(--k, 1) * 11px); font-weight: 700; fill: var(--union-ink); text-anchor: middle; dominant-baseline: central; letter-spacing: .04em; opacity: 0; transition: opacity .4s; }
@@ -151,37 +153,37 @@ a { color: inherit; }
 #pin text { font-size: 12.5px; font-weight: 700; fill: var(--ink); stroke: var(--sheet); stroke-width: 3.5px; stroke-linejoin: round; }
 
 .mapcanvas { position: absolute; inset: 0; }
-.yearcard {
-  position: absolute; left: max(14px, env(safe-area-inset-left, 0px)); top: 14px; z-index: 3;
-  width: min(312px, 42%); max-height: calc(100% - 66px); display: flex; flex-direction: column;
-  background: color-mix(in srgb, var(--sheet) 90%, transparent); backdrop-filter: blur(6px);
-  border: 1px solid var(--rule); border-radius: 14px; overflow: hidden;
-  box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 10px 30px rgb(22 33 51 / .12);
+/* the milestone bar: year and title, centered at the top of the map */
+.milestone {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 5;
+  display: flex; align-items: center; gap: 16px; max-width: min(760px, calc(100% - 420px));
+  padding: 8px 22px 9px 18px; border-radius: 999px;
+  background: color-mix(in srgb, var(--sheet) 92%, transparent); backdrop-filter: blur(6px);
+  border: 1px solid var(--rule); box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 8px 24px rgb(22 33 51 / .12);
 }
-.yc-year {
-  display: grid; padding: 14px 18px 15px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--union) 9%, transparent), transparent);
-}
-.yc-year .yr { font: 400 clamp(54px, 5.6vw, 84px)/.88 var(--f-display); letter-spacing: -.01em; color: var(--ink); font-variant-numeric: lining-nums; }
-.yc-states { overflow-y: auto; border-top: 1px solid var(--rule); overscroll-behavior: contain; }
-.yc-states.more { -webkit-mask-image: linear-gradient(#000 calc(100% - 44px), transparent); mask-image: linear-gradient(#000 calc(100% - 44px), transparent); }
-.ycs { padding: 13px 18px 14px; }
+.milestone .yr { font: 400 40px/1 var(--f-display); letter-spacing: -.01em; color: var(--new); font-variant-numeric: lining-nums; flex: none; }
+.milestone .ms-title { margin: 0; padding-left: 16px; border-left: 1px solid var(--rule); font: 400 21px/1.2 var(--f-display); color: var(--ink); text-wrap: balance; }
+
+/* new-state entries inside the States panel */
+.ycs { padding: 14px 0; }
+.ycs:first-child { padding-top: 2px; }
+.ycs:last-child { padding-bottom: 0; }
 .ycs + .ycs { border-top: 1px dashed var(--rule); }
-.ycs.note { font: italic 400 15px/1.4 var(--f-serif); color: var(--ink-2); }
-.ycs-head { display: flex; align-items: center; gap: 12px; }
-.ycs-flag { flex: none; width: 56px; height: 37px; object-fit: contain; filter: drop-shadow(0 1px 1px rgb(0 0 0 / .25)) drop-shadow(0 0 .6px rgb(0 0 0 / .5)); }
-.ycs-name { margin: 0; font: 400 23px/1.1 var(--f-display); }
-.ycs-ord { margin: 4px 0 0; font: 700 10.5px/1 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--new); }
-.ycs dl { margin: 12px 0 0; display: grid; gap: 7px; }
-.ycs dl div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.ycs.note { font: italic 400 16px/1.45 var(--f-serif); color: var(--ink-2); }
+.ycs-head { display: flex; align-items: center; gap: 13px; }
+.ycs-flag { flex: none; width: 60px; height: 40px; object-fit: contain; filter: drop-shadow(0 1px 1px rgb(0 0 0 / .25)) drop-shadow(0 0 .6px rgb(0 0 0 / .5)); }
+.ycs-name { margin: 0; font: 400 24px/1.1 var(--f-display); }
+.ycs-ord { margin: 5px 0 0; font: 700 10.5px/1 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--new); }
+.ycs dl { margin: 12px 0 0; display: grid; gap: 8px; }
+.ycs dl div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; align-items: baseline; }
 .ycs dt { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
-.ycs dd { margin: 0; font-size: 14.5px; line-height: 1.35; font-variant-numeric: tabular-nums; }
-.ycs dd small { display: block; margin-top: 1px; font-size: 12px; color: var(--ink-2); }
-.ycs.compact { padding: 10px 18px 11px; }
-.ycs.compact .ycs-flag { width: 40px; height: 27px; }
-.ycs.compact .ycs-name { font-size: 18px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ycs dd { margin: 0; font-size: 15px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.ycs dd small { display: block; margin-top: 1px; font-size: 12.5px; color: var(--ink-2); }
+.ycs.compact { padding: 11px 0; }
+.ycs.compact .ycs-flag { width: 44px; height: 30px; }
+.ycs.compact .ycs-name { font-size: 19px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .ycs.compact .ycs-ord { margin: 0; }
-.ycs-facts { margin: 3px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ycs-facts { margin: 3px 0 0; font-size: 13px; line-height: 1.45; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .ycs-facts b { font-weight: 600; color: var(--ink); }
 
 .legend {
@@ -209,8 +211,8 @@ a { color: inherit; }
 
 /* ---------- story sections: a dock of buttons and the panels they open ---------- */
 .reader {
-  position: absolute; top: 14px; bottom: 64px; right: max(14px, env(safe-area-inset-right, 0px)); z-index: 4;
-  display: flex; flex-direction: row-reverse; align-items: flex-start; gap: 12px; pointer-events: none;
+  position: absolute; top: 14px; bottom: 64px; left: max(14px, env(safe-area-inset-left, 0px)); z-index: 4;
+  display: flex; align-items: flex-start; gap: 12px; pointer-events: none;
 }
 .reader > * { pointer-events: auto; }
 .dock { display: grid; gap: 6px; width: max-content; }
@@ -227,10 +229,12 @@ a { color: inherit; }
 .sec-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .sec-btn[aria-disabled="true"] { opacity: .45; }
 .sec-btn .dot { width: 7px; height: 7px; border-radius: 50%; margin-left: auto; background: currentColor; opacity: 0; }
+.sec-btn .badge { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--new); color: #fff; font-size: 11.5px; font-weight: 700; display: grid; place-items: center; font-variant-numeric: tabular-nums; }
+.sec-btn .badge + .dot { margin-left: 6px; }
 .sec-btn[aria-pressed="true"] .dot { opacity: 1; }
 
 .panels {
-  width: min(430px, 36vw); max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+  width: min(440px, 34vw); max-height: 100%; margin-top: 66px; overflow-y: auto; overscroll-behavior: contain;
   display: grid; gap: 12px; align-content: start; scroll-behavior: smooth;
 }
 .panels:empty { display: none; }
@@ -284,10 +288,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 .person .did { margin-top: 14px; font-size: 16px; line-height: 1.6; }
 .person .credit { margin-top: 10px; }
 
-.yc-kicker { margin: 10px 0 0; display: flex; gap: 8px; flex-wrap: wrap; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
-.yc-kicker .era { color: var(--new); font-weight: 700; }
-.yc-title { margin: 6px 0 0; font: 400 21px/1.15 var(--f-display); text-wrap: balance; }
-.ycs.land { display: flex; gap: 10px; align-items: center; font-size: 13.5px; }
+.ycs.land { display: flex; gap: 12px; align-items: center; font-size: 14.5px; }
 .ycs.land .sw { width: 14px; height: 14px; border-radius: 3px; flex: none; background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
 .ycs.land span { color: var(--ink-2); }
 .ycs.land b { font-weight: 600; color: var(--ink); }
@@ -380,20 +381,16 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .mapwrap { overflow: visible; display: flex; flex-direction: column; }
   .mapcanvas { order: 1; position: relative; inset: auto; aspect-ratio: 17 / 10; max-width: 100%; overflow: hidden; }
   .legend { order: 2; position: static; transform: none; width: auto; max-width: none; border-radius: 0; border-width: 0 0 1px; backdrop-filter: none; background: var(--sheet); justify-content: flex-start; padding: 8px 16px; font-size: 11.5px; }
-  .yearcard {
-    order: 3; position: static; width: auto; max-height: none; border-radius: 0; border-width: 0 0 1px;
-    box-shadow: none; backdrop-filter: none; background: var(--sheet);
-  }
-  .yc-year { padding: 12px 16px 12px; }
-  .ycs, .ycs.compact { padding-left: 16px; padding-right: 16px; }
+  .milestone { order: 0; position: static; transform: none; max-width: none; border-radius: 0; border-width: 0 0 1px; box-shadow: none; backdrop-filter: none; background: var(--sheet); padding: 10px 16px; gap: 12px; }
+  .milestone .yr { font-size: 32px; }
+  .milestone .ms-title { font-size: 18px; padding-left: 12px; }
   .reader { order: 4; position: static; display: block; pointer-events: auto; }
   .dock { width: auto; display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; background: var(--paper); border-bottom: 1px solid var(--rule); scrollbar-width: none; }
   .dock .dock-h { display: none; }
   .sec-btn { width: auto; flex: none; backdrop-filter: none; background: var(--sheet); }
-  .panels { width: auto; max-height: none; overflow: visible; padding: 12px 16px 24px; background: var(--paper); }
+  .panels { width: auto; max-height: none; margin-top: 0; overflow: visible; padding: 12px 16px 24px; background: var(--paper); }
   .panel { backdrop-filter: none; background: var(--sheet); box-shadow: none; }
   .timeline { position: sticky; bottom: 0; z-index: 20; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -6px 20px rgb(0 0 0 / .06); }
-  .yc-year .yr { font-size: clamp(44px, 12vw, 64px); }
   .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .stats dd { font-size: 18px; }
   .stats dd small { display: block; margin: 0; }
@@ -449,14 +446,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       %%SVG%%
       <div id="tip" role="tooltip" hidden></div>
       </div>
-      <aside class="yearcard" id="yearcard" aria-label="This milestone" aria-live="polite">
-        <div class="yc-year">
-          <span class="yr" id="yr">1776</span>
-          <p class="yc-kicker" id="yc-kicker"></p>
-          <h2 class="yc-title" id="yc-title"></h2>
-        </div>
-        <div class="yc-states" id="yc-states" hidden></div>
-      </aside>
+      <header class="milestone" id="milestone" aria-live="polite"><span class="yr" id="yr">1776</span><h2 class="ms-title" id="ms-title"></h2></header>
       <div class="reader">
         <nav class="dock" id="dock" aria-label="Story sections"></nav>
         <div class="panels" id="panels"></div>
@@ -667,6 +657,9 @@ function mapState(s) {
     if (acqEdge[a]) acqEdge[a].classList.toggle('fresh', isNew);
     if (acqLbl[a]) acqLbl[a].classList.toggle('show', isNew);
   }
+  // Alaska, Hawaii and Puerto Rico appear in their insets only once they become U.S. land
+  const insetFrom = { AK: acq.a1867.date, HI: acq.a1898.date, PR: acq.a1898.date };
+  svg.querySelectorAll('[data-inset]').forEach(el => el.classList.toggle('inset-off', s.date < insetFrom[el.dataset.inset]));
   if (s.place && s.placeXY) {
     pin.removeAttribute('hidden'); pin.dataset.x = s.placeXY[0]; pin.dataset.y = s.placeXY[1];
     pinText.textContent = s.place.name;
@@ -805,32 +798,23 @@ function stateEntry(p, compact) {
     <div><dt>Capital then</dt><dd>${info.cap ? esc(info.cap) : 'None fixed'}<small>${esc(capNote)}</small></dd></div>
   </dl></div>`;
 }
-function renderYearCard(s, i) {
-  const era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to) || eras[eras.length - 1];
-  $('#yc-kicker').innerHTML = `<span class="era">${esc(era.name)}</span><span>Milestone ${i + 1} of ${N}</span>`;
-  $('#yc-title').textContent = s.title;
-  const box = $('#yc-states');
+function renderMilestone(s) {
+  $('#ms-title').textContent = s.title;
+}
+// New states (with flags and facts) and any land added, for the States panel
+function statesBody(s) {
   let html = '';
-  if (s.id === '1776') html = '<div class="ycs note">The 13 original states declare independence together.</div>';
-  else if (s.states.length) html = s.states.map(p => stateEntry(p, s.states.length > 1)).join('');
-  if (s.acq && acq[s.acq]) html += `<div class="ycs land"><span class="sw"></span><p><b>${esc(acq[s.acq].name)}</b> <span>· about ${acq[s.acq].approx} sq mi added</span></p></div>`;
-  box.innerHTML = html;
-  box.hidden = !html;
-  box.scrollTop = 0;
-  $('#yearcard').classList.toggle('has-states', !!s.states.length && s.id !== '1776');
-  fadeMore();
+  if (s.id === '1776') html = '<div class="ycs note">The 13 original states declare independence together. Each one joins the Union under the Constitution when it ratifies, from 1787 to 1790.</div>';
+  else if (s.states.length) html = s.states.map(p => stateEntry(p, s.states.length > 3)).join('');
+  if (s.acq && acq[s.acq]) html += `<div class="ycs land"><span class="sw"></span><p><b>${esc(acq[s.acq].name)}</b> <span>· about ${acq[s.acq].approx} sq mi of land added</span></p></div>`;
+  return html || '<p class="empty">No new state at this milestone.</p>';
 }
-// fade the bottom of the state list while more entries are hidden below
-function fadeMore() {
-  const box = $('#yc-states');
-  box.classList.toggle('more', box.scrollHeight - box.scrollTop - box.clientHeight > 4);
-}
-$('#yc-states').addEventListener('scroll', fadeMore, { passive: true });
 
 // ---------- story sections ----------
 // Each section of the story is a button in the dock. A button opens its panel; pressing it again (or ×) closes it.
 // Open panels stay open while you move between milestones, and show the new milestone's text.
 const ICONS = {
+  states: '<path d="M9 4L3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/>',
   picture: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/>',
   fun: '<path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6-4.5-4.1 6-.7z"/>',
   what: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',
@@ -843,6 +827,7 @@ const ICONS = {
 };
 const svgIcon = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
 const SECTIONS = [
+  { id: 'states', label: 'States', title: s => s.states.length > 1 && s.id !== '1776' ? `${s.states.length} new states` : s.states.length && s.id !== '1776' ? 'New state' : s.id === '1776' ? 'The 13 original states' : 'New land', has: s => !!(s.states.length || s.acq), count: s => s.id === '1776' ? 13 : s.states.length },
   { id: 'picture', label: 'Picture', title: () => 'Picture', has: s => !!(images[s.id] || {}).ill },
   { id: 'fun', label: 'Fun fact', title: () => 'Fun fact', has: s => !!s.fun },
   { id: 'what', label: 'What happened', title: () => 'What happened', has: () => true },
@@ -859,6 +844,7 @@ const saveOpen = () => { try { localStorage.setItem('openSections', JSON.stringi
 
 function sectionBody(id, s) {
   const im = images[s.id] || {};
+  if (id === 'states') return statesBody(s);
   if (id === 'picture') return im.ill
     ? `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`
     : '<p class="empty">No picture for this milestone yet.</p>';
@@ -885,7 +871,8 @@ function sectionBody(id, s) {
 function renderDock(s) {
   $('#dock').innerHTML = '<p class="dock-h">Read the story</p>' + SECTIONS.map(sec => {
     const has = sec.has(s), on = open.has(sec.id);
-    return `<button type="button" class="sec-btn" data-sec="${sec.id}" aria-pressed="${on}" aria-controls="panel-${sec.id}"${has ? '' : ' aria-disabled="true"'}>${svgIcon(sec.id)}<span>${sec.label}</span><i class="dot" aria-hidden="true"></i></button>`;
+    const n = sec.count ? sec.count(s) : 0;
+    return `<button type="button" class="sec-btn" data-sec="${sec.id}" aria-pressed="${on}" aria-controls="panel-${sec.id}"${has ? '' : ' aria-disabled="true"'}>${svgIcon(sec.id)}<span>${sec.label}</span>${n ? `<b class="badge" aria-label="${n} new">${n}</b>` : ''}<i class="dot" aria-hidden="true"></i></button>`;
   }).join('');
 }
 function renderPanels() {
@@ -976,7 +963,7 @@ function go(i, fromSlider) {
   document.querySelectorAll('.era-band').forEach(b => b.classList.toggle('cur', era && b.dataset.era === era.id));
   ylabels(i);
   $('#btn-prev').disabled = i === 0; $('#btn-next').disabled = i === N - 1;
-  stats(s); showFlag(s); mapState(s); renderYearCard(s, i); renderPanels(); zoomTo(s);
+  stats(s); showFlag(s); mapState(s); renderMilestone(s); renderPanels(); zoomTo(s);
   try { history.replaceState(null, '', '#' + s.id); } catch (e) {}
 }
 $('#btn-prev').addEventListener('click', () => { stopPlay(); go(cur - 1); });

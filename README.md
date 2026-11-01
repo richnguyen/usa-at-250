@@ -9,16 +9,16 @@ It is written for a general audience and for people learning English. Each miles
 ## Features
 
 - **47 milestones.** Every year a new state joined the Union, plus turning points such as the Treaty of Paris (1783), the end of slavery (1865), the transcontinental railroad (1869), women's suffrage (1920), the Moon landing (1969) and America at 250 (2026).
-- **A full-screen map of the United States that changes at each step.** The view is fixed on the continental U.S., with Alaska, Hawaii and Puerto Rico in inset boxes, as on a classic U.S. map. It shows:
+- **A full-screen map of the United States that changes at each step.** The view is fixed on the continental U.S. Alaska, Hawaii and Puerto Rico appear in inset boxes, as on a classic U.S. map, once they become U.S. land. A short bar at the top names the milestone: the year and a one-line title. It shows:
   - states already in the Union
   - states that join at that milestone
   - U.S. land that was not yet a state
   - the states that left the Union in 1861–65
   - each territorial acquisition, outlined in the year it happened (Louisiana Purchase, Florida, Texas, Oregon, Mexican Cession, Gadsden Purchase, Alaska, Hawaii and Puerto Rico)
-- **The story, one button at a time.** A column of buttons on the right of the map opens each part of the story: Picture, Fun fact, What happened, Why, People, Progress, Promise, Cost and Also. Press a button to open it, and press it again to close it. Open sections stay open as you move between milestones, so you can follow one theme, such as the People or the Cost, through 250 years.
+- **The story, one button at a time.** A column of buttons on the left of the map opens each part of the story: States, Picture, Fun fact, What happened, Why, People, Progress, Promise, Cost and Also. A red badge on States shows how many states join. Press a button to open it, and press it again to close it. Open sections stay open as you move between milestones, so you can follow one theme, such as the People or the Cost, through 250 years.
 - **The flag of the day.** The top-left corner shows the official U.S. flag in force at each milestone. It starts with the Continental Colors of 1776, then shows the 13-star flag of 1777, the 15-stripe flag of 1795, and every star added under the Flag Act of 1818, up to today's 50-star flag. That makes 28 versions in all.
-- **State flags.** When a state joins (or, for the original 13, ratifies the Constitution), its entry in the year card on the map shows its current official flag. The flags come from Wikimedia Commons and include Mississippi's 2021 flag and the 2024 flags of Utah and Minnesota.
-- **A year card on the map** shows the milestone's year. Under it, a fact entry for every new state gives the state's flag, when it joined (or ratified the Constitution), its total area today in square miles with its size rank (for example, rank 34th/50), and its capital at the time it joined, along with today's capital if it has changed. For example, Ohio's capital in 1803 was Chillicothe; today it is Columbus.
+- **State flags.** When a state joins (or, for the original 13, ratifies the Constitution), its fact card shows its current official flag. The flags come from Wikimedia Commons and include Mississippi's 2021 flag and the 2024 flags of Utah and Minnesota.
+- **A fact card for every new state,** under the States button, gives the state's flag, when it joined (or ratified the Constitution), its total area today in square miles with its size rank (for example, rank 34th/50), and its capital at the time it joined, along with today's capital if it has changed. For example, Ohio's capital in 1803 was Chillicothe; today it is Columbus.
 - **A fun fact for every milestone,** shown just below the picture, to make each moment easy to remember. For example: the Wright brothers tossed a coin to decide who would fly first.
 - **One key person per milestone,** tagged by field: politics, economy or science.
 - **Written for English learners.** Sentences are short and plain. 41 harder words, such as *ratify*, *annex* and *suffrage*, show a simple meaning when tapped. A word list collects them all.

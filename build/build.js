@@ -30,20 +30,20 @@ P.push(`<path class="usland" d="${G.usLand}"/>`);
 // inset boxes for Alaska, Hawaii and Puerto Rico, each with its own water and land
 const INSETS = [['AK', G.AK_BOX, 'ALASKA'], ['HI', G.HI_BOX, 'HAWAII'], ['PR', G.PR_BOX, 'PUERTO RICO']];
 P.push('<g>');
-for (const [p, B] of INSETS) P.push(`<rect class="inset-bg" x="${B.x}" y="${B.y}" width="${B.w}" height="${B.h}" rx="3"/><path class="usland" d="${G.insetLand[p]}"/>`);
+for (const [p, B] of INSETS) P.push(`<g data-inset="${p}"><rect class="inset-bg" x="${B.x}" y="${B.y}" width="${B.w}" height="${B.h}" rx="3"/><path class="usland" d="${G.insetLand[p]}"/></g>`);
 P.push('</g>');
 P.push('<g>');
 for (const [k, v] of Object.entries(G.acqPaths)) P.push(`<path class="acq" data-a="${k}" d="${v.d}"/>`);
 P.push('</g><g>');
-for (const [p, v] of Object.entries(G.states)) if (C.STATES[p]) P.push(`<path class="st" data-p="${p}" d="${v.d}"><title>${esc(C.STATES[p][0])}</title></path>`);
+for (const [p, v] of Object.entries(G.states)) if (C.STATES[p]) P.push(`<path class="st" data-p="${p}"${['AK', 'HI'].includes(p) ? ` data-inset="${p}"` : ''} d="${v.d}"><title>${esc(C.STATES[p][0])}</title></path>`);
 P.push('</g><g>');
 for (const [k, v] of Object.entries(G.acqPaths)) P.push(`<path class="acq-edge" data-a="${k}" d="${v.d}"/>`);
 P.push('</g>');
 const hb = G.HI_BOX;
 P.push('<g>');
-for (const [p, B, name] of INSETS) P.push(`<rect class="inset" x="${B.x}" y="${B.y}" width="${B.w}" height="${B.h}" rx="3"/><text class="inset-lbl" x="${B.x + 4}" y="${B.y + 9}">${name}</text>`);
+for (const [p, B, name] of INSETS) P.push(`<g data-inset="${p}"><rect class="inset" x="${B.x}" y="${B.y}" width="${B.w}" height="${B.h}" rx="3"/><text class="inset-lbl" x="${B.x + 4}" y="${B.y + 9}">${name}</text></g>`);
 P.push('</g>');
-const geoLbl = [['CANADA', -100, 51.5, ''], ['MEXICO', -104.5, 28.2, ''], ['PACIFIC OCEAN', -128.5, 36.5, 'sea'], ['ATLANTIC OCEAN', -66, 35.5, 'sea'], ['GULF', -90, 26.3, 'sea hide']];
+const geoLbl = [['MEXICO', -104.5, 28.2, ''], ['PACIFIC OCEAN', -123.4, 32.3, 'sea'], ['ATLANTIC OCEAN', -66, 35.5, 'sea']];
 P.push('<g>');
 for (const [t, lon, lat, c] of geoLbl) { if (c.includes('hide')) continue; const [x, y] = G.project(lon, lat); P.push(`<text class="geo-lbl ${c}" x="${x}" y="${y}">${t}</text>`); }
 P.push('</g><g>');
@@ -87,9 +87,9 @@ const credits = C.STOPS.map(s => {
   return li.join('');
 }).join('');
 const about = `
-<p>Move the slider, use the arrow buttons, or press ← and → on your keyboard to travel through ${stops.length} milestones, from the Declaration of Independence in 1776 to the 250th anniversary in 2026. Use the buttons on the right of the map (Picture, Fun fact, What happened, Why, People, Progress, Promise, Cost, Also) to open the parts of the story you want to read; press a button again to close it. Open sections stay open as you move to other milestones. Tap any underlined word for a simple meaning. Tap a state on the map to jump to the moment it joined.</p>
+<p>Move the slider, use the arrow buttons, or press ← and → on your keyboard to travel through ${stops.length} milestones, from the Declaration of Independence in 1776 to the 250th anniversary in 2026. Use the buttons on the left of the map (States, Picture, Fun fact, What happened, Why, People, Progress, Promise, Cost, Also) to open the parts of the story you want to read; press a button again to close it. Open sections stay open as you move to other milestones. Tap any underlined word for a simple meaning. Tap a state on the map to jump to the moment it joined.</p>
 <h3>How to read the map</h3>
-<p>Blue states are part of the Union at that moment. Red marks what is new. Light blue is land the United States owned that was not yet a state. In 1861–65, gray shows the 11 states that left the Union. The map uses today’s state borders for clarity. The borders of territorial acquisitions are approximate and follow the usual U.S. history maps (for example, the 1818 Red River Basin is shown as part of the Louisiana Purchase). Alaska, Hawaii and Puerto Rico are shown in boxes below the lower 48, not to scale with it.</p>
+<p>Blue states are part of the Union at that moment. Red marks what is new. Light blue is land the United States owned that was not yet a state. In 1861–65, gray shows the 11 states that left the Union. The map uses today’s state borders for clarity. The borders of territorial acquisitions are approximate and follow the usual U.S. history maps (for example, the 1818 Red River Basin is shown as part of the Louisiana Purchase). Alaska, Hawaii and Puerto Rico are shown in boxes below the lower 48, not to scale with it, from the time each became U.S. land.</p>
 <h3>The flag</h3>
 <p>The flag in the top left is the official U.S. flag in force on the date of each milestone. Before June 1777, Americans used the Continental Colors: 13 stripes with the British flag in the corner. Congress adopted the Stars and Stripes on June 14, 1777. The Flag Act of 1794 added two stars and two stripes in 1795. The Flag Act of 1818 went back to 13 stripes and added one star for each state, on the July 4 after it joined, so the flag can have fewer stars than there are states. Laws did not set the pattern of the stars until 1912, so earlier flags are shown with a typical pattern. The 48-, 49- and 50-star layouts are the official ones.</p>
 <h3>Sources</h3>
