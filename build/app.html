@@ -70,9 +70,11 @@ a { color: inherit; }
 .app { height: 100%; position: relative; overflow: hidden; }
 /* frosted glass for the two bars that float over the map */
 .timeline, .top {
-  background: color-mix(in srgb, var(--sheet) 60%, transparent);
-  -webkit-backdrop-filter: blur(16px) saturate(1.5); backdrop-filter: blur(16px) saturate(1.5);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--sheet) 34%, transparent), color-mix(in srgb, var(--sheet) 24%, transparent));
+  -webkit-backdrop-filter: blur(7px) saturate(1.8); backdrop-filter: blur(7px) saturate(1.8);
+  text-shadow: 0 0 10px var(--sheet), 0 0 2px var(--sheet);
 }
+.timeline .round, .top .btn-quiet { background: color-mix(in srgb, var(--sheet) 70%, transparent); }
 
 /* ---------- header ---------- */
 .top {
@@ -180,9 +182,9 @@ a { color: inherit; }
 .ycs-facts b { font-weight: 600; color: var(--ink); }
 
 .legend {
-  position: absolute; left: 50%; bottom: calc(var(--bot-h, 80px) + 12px); transform: translateX(-50%); z-index: 2;
-  max-width: calc(100% - 28px); width: max-content;
-  background: color-mix(in srgb, var(--sheet) 88%, transparent); backdrop-filter: blur(4px);
+  position: absolute; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bot-h, 80px) + 12px); z-index: 2;
+  max-width: calc(100% - min(468px, 36vw) - 48px); width: max-content;
+  background: color-mix(in srgb, var(--sheet) 55%, transparent); -webkit-backdrop-filter: blur(7px) saturate(1.6); backdrop-filter: blur(7px) saturate(1.6);
   border: 1px solid var(--rule); border-radius: 999px; padding: 6px 14px;
   display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 12.5px;
 }
@@ -202,63 +204,66 @@ a { color: inherit; }
 }
 #tip b { font-family: var(--f-serif); font-size: 15px; }
 
-/* ---------- story sections: a dock of buttons and the panels they open ---------- */
-.reader {
-  position: absolute; top: calc(var(--top-h, 130px) + 12px); bottom: calc(var(--bot-h, 80px) + 62px); left: max(14px, env(safe-area-inset-left, 0px)); z-index: 4;
-  display: flex; align-items: flex-start; gap: 12px; pointer-events: none;
+/* ---------- the story: one reading page over the map, each section can be shown or hidden ---------- */
+.story {
+  position: absolute; z-index: 4; left: max(14px, env(safe-area-inset-left, 0px));
+  top: calc(var(--top-h, 130px) + 12px); bottom: calc(var(--bot-h, 80px) + 12px);
+  width: min(468px, 36vw); overflow-y: auto; overscroll-behavior: contain; scroll-behavior: smooth;
+  background: color-mix(in srgb, var(--sheet) 94%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid var(--rule); border-radius: 16px;
+  box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 14px 40px rgb(22 33 51 / .16);
+  padding: 18px 24px 28px;
 }
-.reader > * { pointer-events: auto; }
-.dock { display: grid; gap: 6px; width: max-content; }
-.sec-btn span { white-space: nowrap; }
-.dock .dock-h { margin: 0 0 2px 4px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); text-shadow: 0 0 6px var(--water); }
-.sec-btn {
-  display: flex; align-items: center; gap: 9px; width: 100%; padding: 7px 12px 7px 9px; cursor: pointer; text-align: left;
-  border: 1px solid var(--rule); border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--ink);
-  background: color-mix(in srgb, var(--sheet) 90%, transparent); backdrop-filter: blur(4px);
-  box-shadow: 0 1px 2px rgb(22 33 51 / .06);
+.story[hidden] { display: none; }
+.story-top { display: flex; align-items: center; gap: 10px; }
+.story-kicker { margin: 0; flex: 1; display: flex; gap: 8px; flex-wrap: wrap; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+.story-kicker .era { color: var(--new); font-weight: 700; }
+.pill-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--rule); background: var(--paper); font-size: 12.5px; font-weight: 600; color: var(--ink-2);
 }
-.sec-btn svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.sec-btn:hover { border-color: var(--ink-2); }
-.sec-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.sec-btn[aria-disabled="true"] { opacity: .45; }
-.sec-btn .dot { width: 7px; height: 7px; border-radius: 50%; margin-left: auto; background: currentColor; opacity: 0; }
-.sec-btn .badge { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--new); color: #fff; font-size: 11.5px; font-weight: 700; display: grid; place-items: center; font-variant-numeric: tabular-nums; }
-.sec-btn .badge + .dot { margin-left: 6px; }
-.sec-btn[aria-pressed="true"] .dot { opacity: 1; }
+.pill-btn:hover { color: var(--ink); border-color: var(--ink-2); }
+.pill-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.story-title { margin: 10px 0 2px; font: 400 29px/1.13 var(--f-display); text-wrap: balance; }
+.story-when { margin: 0; font: italic 400 16px var(--f-serif); color: var(--ink-2); }
+.story-tools { display: flex; gap: 8px; margin: 14px 0 6px; }
+.story-tools .pill-btn { font-weight: 500; }
+.story-show {
+  position: absolute; z-index: 4; left: max(14px, env(safe-area-inset-left, 0px)); top: calc(var(--top-h, 130px) + 12px);
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--rule); background: color-mix(in srgb, var(--sheet) 92%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  font-size: 14px; font-weight: 600; color: var(--ink); box-shadow: 0 6px 20px rgb(22 33 51 / .14);
+}
+.story-show svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-.panels {
-  width: min(440px, 34vw); max-height: 100%; margin-top: 21px; overflow-y: auto; overscroll-behavior: contain;
-  display: grid; gap: 12px; align-content: start; scroll-behavior: smooth;
+.ss { border-top: 1px solid var(--rule); }
+.ss-h { margin: 0; }
+.ss-h button {
+  display: flex; align-items: center; gap: 11px; width: 100%; padding: 13px 2px; cursor: pointer; text-align: left;
+  background: none; border: 0; color: var(--ink); font: 400 20px/1.2 var(--f-display);
 }
-.panels:empty { display: none; }
-.panel {
-  background: color-mix(in srgb, var(--sheet) 96%, transparent); backdrop-filter: blur(8px);
-  border: 1px solid var(--rule); border-radius: 14px; padding: 14px 18px 18px;
-  box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 10px 30px rgb(22 33 51 / .14);
-  animation: panelin .25s ease-out;
+.ss-h button:hover .chev { color: var(--ink); }
+.ss-h .ico { width: 19px; height: 19px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.ss-h .chev { width: 18px; height: 18px; margin-left: auto; flex: none; fill: none; stroke: var(--ink-2); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s ease; }
+.ss-h button[aria-expanded="false"] .chev { transform: rotate(-90deg); }
+.ss-h .count { min-width: 21px; height: 21px; padding: 0 6px; border-radius: 999px; background: var(--new); color: #fff; font: 700 11.5px/21px var(--f-body); text-align: center; }
+.ss-b { padding: 0 0 18px; }
+.ss-b[hidden] { display: none; }
+.ss[data-sec="progress"] .ss-h button { color: var(--progress); }
+.ss[data-sec="promise"] .ss-h button, .ss[data-sec="fun"] .ss-h button { color: var(--gold); }
+.ss[data-sec="cost"] .ss-h button { color: var(--cost); }
+.ss-b p { margin: 0; }
+.ss-b .body { font-size: 16.5px; line-height: 1.62; }
+.ss[data-sec="picture"] { border-top: 0; }
+.ss[data-sec="picture"] .ss-b { padding-bottom: 14px; }
+.fun-box {
+  padding: 13px 16px 14px; border-radius: 10px;
+  background: color-mix(in srgb, var(--gold) 11%, var(--sheet)); border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
 }
-@keyframes panelin { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-.panel-h { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
-.panel-h svg { width: 19px; height: 19px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.panel-h h3 { margin: 0; font: 400 21px/1.15 var(--f-display); flex: 1; }
-.panel-h .x {
-  width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--rule); background: var(--paper); cursor: pointer;
-  display: grid; place-items: center; padding: 0; color: var(--ink-2); flex: none;
-}
-.panel-h .x:hover { color: var(--ink); border-color: var(--ink-2); }
-.panel-h .x svg { width: 14px; height: 14px; }
-.panel[data-sec="progress"] .panel-h { color: var(--progress); }
-.panel[data-sec="promise"] .panel-h { color: var(--gold); }
-.panel[data-sec="cost"] .panel-h { color: var(--cost); }
-.panel[data-sec="fun"] .panel-h { color: var(--gold); }
-.panel p { margin: 0; }
-.panel .body { font-size: 16px; line-height: 1.6; }
-.panel .when { margin: 0 0 6px; font: italic 400 15px var(--f-serif); color: var(--ink-2); }
-.panel .empty { color: var(--ink-2); font-style: italic; }
 
 figure.ill { margin: 0; }
-figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; place-items: center; }
-figure.ill img { display: block; width: 100%; height: auto; max-height: 52vh; object-fit: contain; }
+figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; display: grid; place-items: center; }
+figure.ill img { display: block; width: 100%; height: auto; max-height: 300px; object-fit: contain; }
 .fun-text { font-size: 17px; line-height: 1.55; }
 figcaption, .credit { font-size: 12.5px; color: var(--ink-2); margin-top: 8px; line-height: 1.45; }
 figcaption i, .credit i { font-family: var(--f-serif); }
@@ -388,12 +393,9 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .mapwrap { overflow: visible; display: flex; flex-direction: column; }
   .mapcanvas { order: 1; position: relative; inset: auto; aspect-ratio: 17 / 10; max-width: 100%; overflow: hidden; }
   .legend { order: 2; position: static; transform: none; width: auto; max-width: none; border-radius: 0; border-width: 0 0 1px; backdrop-filter: none; background: var(--sheet); justify-content: flex-start; padding: 8px 16px; font-size: 11.5px; }
-  .reader { order: 4; position: static; display: block; pointer-events: auto; }
-  .dock { width: auto; display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; background: var(--paper); border-bottom: 1px solid var(--rule); scrollbar-width: none; }
-  .dock .dock-h { display: none; }
-  .sec-btn { width: auto; flex: none; backdrop-filter: none; background: var(--sheet); }
-  .panels { width: auto; max-height: none; margin-top: 0; overflow: visible; padding: 12px 16px 24px; background: var(--paper); }
-  .panel { backdrop-filter: none; background: var(--sheet); box-shadow: none; }
+  .story { order: 4; position: static; width: auto; overflow: visible; border-radius: 0; border-width: 0 0 1px; box-shadow: none; backdrop-filter: none; background: var(--sheet); padding: 16px 16px 24px; }
+  .story-hide, .story-show { display: none !important; }
+  .legend { max-width: none; }
   .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .stats dd { font-size: 18px; }
   .stats dd small { display: block; margin: 0; }
@@ -451,10 +453,17 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       %%SVG%%
       <div id="tip" role="tooltip" hidden></div>
       </div>
-      <div class="reader">
-        <nav class="dock" id="dock" aria-label="Story sections"></nav>
-        <div class="panels" id="panels"></div>
-      </div>
+      <article class="story" id="story" aria-label="The story of this milestone">
+        <div class="story-top">
+          <p class="story-kicker" id="story-kicker"></p>
+          <button type="button" class="pill-btn story-hide" id="story-hide" aria-controls="story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Hide</button>
+        </div>
+        <h2 class="story-title" id="story-title"></h2>
+        <p class="story-when" id="story-when"></p>
+        <div class="story-tools"><button type="button" class="pill-btn" id="ss-all-open">Show all sections</button><button type="button" class="pill-btn" id="ss-all-close">Hide all sections</button></div>
+        <div id="story-body"></div>
+      </article>
+      <button type="button" class="story-show" id="story-show" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>Read the story</button>
       <div class="legend" id="legend" aria-label="Map key"></div>
     </section>
   </main>
@@ -700,13 +709,18 @@ function barInsets() {
   return [tl.offsetHeight + 4, sb.offsetHeight + lg.offsetHeight + 20];
 }
 // Fit the frame, centered, into the map area between the bars
+function storyInset() {
+  const st = $('#story');
+  if (st.hidden || getComputedStyle(st).position !== 'absolute') return 0;
+  return st.offsetWidth + 24;
+}
 function fitAspect(b) {
-  const [it, ib] = barInsets();
-  const W = svg.clientWidth, H = svg.clientHeight, ah = Math.max(60, H - it - ib);
+  const [it, ib] = barInsets(), il = storyInset();
+  const W = svg.clientWidth, H = svg.clientHeight, ah = Math.max(60, H - it - ib), aw = Math.max(60, W - il);
   let [x, y, w, h] = b;
-  const sc = Math.min(W / w, ah / h);
+  const sc = Math.min(aw / w, ah / h);
   const vw = W / sc, vh = H / sc;
-  x -= (vw - w) / 2;
+  x -= (il + (aw - w * sc) / 2) / sc;
   y -= (it + (ah - h * sc) / 2) / sc;
   return [x, y, vw, vh];
 }
@@ -859,30 +873,31 @@ const ICONS = {
   also: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
 };
 const svgIcon = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
+// The story page lists every section in reading order; each can be shown or hidden, and the choice is kept
+// across milestones (and remembered in the browser).
 const SECTIONS = [
-  { id: 'states', label: 'States', title: s => s.states.length > 1 && s.id !== '1776' ? `${s.states.length} new states` : s.states.length && s.id !== '1776' ? 'New state' : s.id === '1776' ? 'The 13 original states' : 'New land', has: s => !!(s.states.length || s.acq), count: s => s.id === '1776' ? 13 : s.states.length },
-  { id: 'picture', label: 'Picture', title: () => 'Picture', has: s => !!(images[s.id] || {}).ill },
-  { id: 'fun', label: 'Fun fact', title: () => 'Fun fact', has: s => !!s.fun },
-  { id: 'what', label: 'What happened', title: () => 'What happened', has: () => true },
-  { id: 'why', label: 'Why', title: s => s.whyTitle || 'Why it happened', has: () => true },
-  { id: 'people', label: 'People', title: () => 'The people', has: () => true },
-  { id: 'progress', label: 'Progress', title: () => 'The progress', has: () => true },
-  { id: 'promise', label: 'Promise', title: () => 'The promise', has: () => true },
-  { id: 'cost', label: 'Cost', title: s => s.costTitle || 'The cost', has: () => true },
-  { id: 'also', label: 'Also', title: () => 'Also in this era', has: s => !!s.also }
+  { id: 'picture', title: () => 'Picture', has: s => !!(images[s.id] || {}).ill },
+  { id: 'fun', title: () => 'Fun fact', has: s => !!s.fun },
+  { id: 'states', title: s => s.id === '1776' ? 'The 13 original states' : s.states.length > 1 ? 'New states' : s.states.length ? 'New state' : 'New land', has: s => !!(s.states.length || s.acq), count: s => s.id === '1776' ? 13 : s.states.length },
+  { id: 'what', title: () => 'What happened', has: () => true },
+  { id: 'why', title: s => s.whyTitle || 'Why it happened', has: () => true },
+  { id: 'people', title: () => 'The people', has: () => true },
+  { id: 'progress', title: () => 'The progress', has: () => true },
+  { id: 'promise', title: () => 'The promise', has: () => true },
+  { id: 'cost', title: s => s.costTitle || 'The cost', has: () => true },
+  { id: 'also', title: () => 'Also in this era', has: s => !!s.also }
 ];
-let open = new Set();
-try { JSON.parse(localStorage.getItem('openSections') || '[]').forEach(k => open.add(k)); } catch (e) {}
-const saveOpen = () => { try { localStorage.setItem('openSections', JSON.stringify([...open])); } catch (e) {} };
+let closed = new Set();
+try { JSON.parse(localStorage.getItem('closedSections') || '[]').forEach(k => closed.add(k)); } catch (e) {}
+const saveClosed = () => { try { localStorage.setItem('closedSections', JSON.stringify([...closed])); } catch (e) {} };
+const CHEV = '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 
 function sectionBody(id, s) {
   const im = images[s.id] || {};
   if (id === 'states') return statesBody(s);
-  if (id === 'picture') return im.ill
-    ? `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`
-    : '<p class="empty">No picture for this milestone yet.</p>';
-  if (id === 'fun') return s.fun ? `<p class="fun-text">${gloss(s.fun)}</p>` : '<p class="empty">No fun fact for this milestone.</p>';
-  if (id === 'what') return `<p class="when">${esc(s.when)}</p><p class="body">${gloss(s.what)}</p>`;
+  if (id === 'picture') return `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`;
+  if (id === 'fun') return `<div class="fun-box"><p class="body">${gloss(s.fun)}</p></div>`;
+  if (id === 'what') return `<p class="body">${gloss(s.what)}</p>`;
   if (id === 'why') return `<ul class="why">${s.why.map(w => `<li>${gloss(w)}</li>`).join('')}</ul>`;
   if (id === 'people') {
     const p = s.person;
@@ -898,37 +913,47 @@ function sectionBody(id, s) {
   if (id === 'progress') return `<p class="body">${gloss(s.progress)}</p>`;
   if (id === 'promise') return `<p class="body">${gloss(s.promise)}</p>`;
   if (id === 'cost') return `<p class="body">${gloss(s.cost)}</p>`;
-  if (id === 'also') return s.also ? `<p class="body">${gloss(s.also)}</p>` : '<p class="empty">Nothing else listed for this milestone.</p>';
+  if (id === 'also') return `<p class="body">${gloss(s.also)}</p>`;
   return '';
-}
-function renderDock(s) {
-  $('#dock').innerHTML = '<p class="dock-h">Read the story</p>' + SECTIONS.map(sec => {
-    const has = sec.has(s), on = open.has(sec.id);
-    const n = sec.count ? sec.count(s) : 0;
-    return `<button type="button" class="sec-btn" data-sec="${sec.id}" aria-pressed="${on}" aria-controls="panel-${sec.id}"${has ? '' : ' aria-disabled="true"'}>${svgIcon(sec.id)}<span>${sec.label}</span>${n ? `<b class="badge" aria-label="${n} new">${n}</b>` : ''}<i class="dot" aria-hidden="true"></i></button>`;
-  }).join('');
 }
 function renderPanels() {
   const s = stops[cur];
-  renderDock(s);
-  const wrap = $('#panels');
-  wrap.innerHTML = SECTIONS.filter(sec => open.has(sec.id)).map(sec =>
-    `<section class="panel" id="panel-${sec.id}" data-sec="${sec.id}" aria-label="${esc(sec.title(s))}">
-      <div class="panel-h">${svgIcon(sec.id)}<h3>${esc(sec.title(s))}</h3>
-        <button type="button" class="x" data-close-sec="${sec.id}" aria-label="Close ${esc(sec.label)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-      ${sectionBody(sec.id, s)}
-    </section>`).join('');
-  wrap.scrollTop = 0;
+  const era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to) || eras[eras.length - 1];
+  $('#story-kicker').innerHTML = `<span class="era">${esc(era.name)}</span><span>Milestone ${cur + 1} of ${N}</span>`;
+  $('#story-title').textContent = s.title;
+  $('#story-when').textContent = s.when;
+  $('#story-body').innerHTML = SECTIONS.filter(sec => sec.has(s)).map(sec => {
+    const shut = closed.has(sec.id), n = sec.count ? sec.count(s) : 0;
+    return `<section class="ss" data-sec="${sec.id}">
+      <h3 class="ss-h"><button type="button" data-sec="${sec.id}" aria-expanded="${!shut}" aria-controls="ss-${sec.id}">${svgIcon(sec.id).replace('<svg', '<svg class="ico"')}<span>${esc(sec.title(s))}</span>${n ? `<b class="count" aria-label="${n} states">${n}</b>` : ''}${CHEV}</button></h3>
+      <div class="ss-b" id="ss-${sec.id}"${shut ? ' hidden' : ''}>${sectionBody(sec.id, s)}</div>
+    </section>`;
+  }).join('');
+  $('#story').scrollTop = 0;
 }
-function toggleSection(id) {
-  if (open.has(id)) open.delete(id); else open.add(id);
-  saveOpen();
-  renderPanels();
-  const el = $('#panel-' + id);
-  if (el) el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'nearest' });
+function setSection(id, show) {
+  if (show) closed.delete(id); else closed.add(id);
+  const btn = $(`.ss-h button[data-sec="${id}"]`), body = $('#ss-' + id);
+  if (btn) btn.setAttribute('aria-expanded', String(show));
+  if (body) body.hidden = !show;
 }
-$('#dock').addEventListener('click', e => { const b = e.target.closest('.sec-btn'); if (b) toggleSection(b.dataset.sec); });
-$('#panels').addEventListener('click', e => { const b = e.target.closest('[data-close-sec]'); if (b) toggleSection(b.dataset.closeSec); });
+$('#story-body').addEventListener('click', e => {
+  const b = e.target.closest('.ss-h button'); if (!b) return;
+  setSection(b.dataset.sec, b.getAttribute('aria-expanded') !== 'true'); saveClosed();
+});
+$('#ss-all-open').addEventListener('click', () => { SECTIONS.forEach(sec => setSection(sec.id, true)); saveClosed(); });
+$('#ss-all-close').addEventListener('click', () => { SECTIONS.forEach(sec => setSection(sec.id, false)); saveClosed(); });
+// hide or show the whole story page; the map recenters in the space it leaves
+let storyHidden = false;
+try { storyHidden = localStorage.getItem('storyHidden') === '1'; } catch (e) {}
+function setStory(hidden) {
+  storyHidden = hidden;
+  $('#story').hidden = hidden; $('#story-show').hidden = !hidden;
+  try { localStorage.setItem('storyHidden', hidden ? '1' : '0'); } catch (e) {}
+  if (cur >= 0) zoomTo(stops[cur]);
+}
+$('#story-hide').addEventListener('click', () => setStory(true));
+$('#story-show').addEventListener('click', () => setStory(false));
 
 // glossary popover
 const popEl = $('#pop');
@@ -955,7 +980,7 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('mouseover', e => { const t = e.target.closest('.term'); if (t && matchMedia('(hover: hover)').matches) showPop(t); });
 document.addEventListener('mouseout', e => { const t = e.target.closest('.term'); if (t && matchMedia('(hover: hover)').matches && !t.contains(e.relatedTarget)) hidePop(); });
-$('#panels').addEventListener('scroll', hidePop, { passive: true });
+$('#story').addEventListener('scroll', hidePop, { passive: true });
 
 // ---------- timeline ----------
 const slider = $('#slider');
@@ -1057,6 +1082,7 @@ $('#about-body').innerHTML = DATA.about;
 // ---------- start ----------
 const fromHash = () => stops.findIndex(s => '#' + s.id === location.hash);
 addEventListener('hashchange', () => { const i = fromHash(); if (i >= 0 && i !== cur) go(i); });
+$('#story').hidden = storyHidden; $('#story-show').hidden = !storyHidden;
 const start = fromHash();
 go(start >= 0 ? start : 0);
 zoomTo(stops[cur], true);
