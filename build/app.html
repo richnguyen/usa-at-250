@@ -183,7 +183,7 @@ a { color: inherit; }
 
 .legend {
   position: absolute; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bot-h, 80px) + 12px); z-index: 2;
-  max-width: calc(100% - min(468px, 36vw) - 48px); width: max-content;
+  max-width: calc(100% - min(490px, 37vw) - 42px); width: max-content;
   background: color-mix(in srgb, var(--sheet) 55%, transparent); -webkit-backdrop-filter: blur(7px) saturate(1.6); backdrop-filter: blur(7px) saturate(1.6);
   border: 1px solid var(--rule); border-radius: 999px; padding: 6px 14px;
   display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 12.5px;
@@ -208,7 +208,7 @@ a { color: inherit; }
 .story {
   position: absolute; z-index: 4; left: max(14px, env(safe-area-inset-left, 0px));
   top: calc(var(--top-h, 130px) + 12px); bottom: calc(var(--bot-h, 80px) + 12px);
-  width: min(468px, 36vw); overflow-y: auto; overscroll-behavior: contain; scroll-behavior: smooth;
+  box-sizing: border-box; width: min(490px, 37vw); overflow-y: auto; overscroll-behavior: contain; scroll-behavior: smooth;
   background: color-mix(in srgb, var(--sheet) 94%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   border: 1px solid var(--rule); border-radius: 16px;
   box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 14px 40px rgb(22 33 51 / .16);
