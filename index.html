@@ -73,19 +73,22 @@ button { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
 a { color: inherit; }
 
-.app {
-  height: 100%;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+.app { height: 100%; position: relative; overflow: hidden; }
+/* frosted glass for the two bars that float over the map */
+.timeline, .top {
+  background: color-mix(in srgb, var(--sheet) 60%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5); backdrop-filter: blur(16px) saturate(1.5);
 }
 
 /* ---------- header ---------- */
 .top {
-  display: flex; align-items: center; gap: 12px 28px; flex-wrap: wrap;
-  padding-block: 12px;
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 10;
+  display: flex; align-items: center; gap: 10px 28px; flex-wrap: wrap;
+  padding-block: 10px calc(10px + env(safe-area-inset-bottom, 0px));
   padding-left: max(20px, env(safe-area-inset-left, 0px));
   padding-right: max(20px, env(safe-area-inset-right, 0px));
-  border-bottom: 1px solid var(--rule);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: 0 -8px 28px rgb(22 33 51 / .08);
 }
 .brand { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 420px; }
 .flag {
@@ -116,8 +119,8 @@ a { color: inherit; }
 .theme-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- stage ---------- */
-.stage { min-height: 0; display: grid; }
-.mapwrap { position: relative; min-height: 0; background: var(--water); overflow: hidden; }
+.stage { position: absolute; inset: 0; }
+.mapwrap { position: relative; height: 100%; background: var(--water); overflow: hidden; }
 #map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
 
 /* map layers */
@@ -183,7 +186,7 @@ a { color: inherit; }
 .ycs-facts b { font-weight: 600; color: var(--ink); }
 
 .legend {
-  position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 2;
+  position: absolute; left: 50%; bottom: calc(var(--bot-h, 80px) + 12px); transform: translateX(-50%); z-index: 2;
   max-width: calc(100% - 28px); width: max-content;
   background: color-mix(in srgb, var(--sheet) 88%, transparent); backdrop-filter: blur(4px);
   border: 1px solid var(--rule); border-radius: 999px; padding: 6px 14px;
@@ -207,7 +210,7 @@ a { color: inherit; }
 
 /* ---------- story sections: a dock of buttons and the panels they open ---------- */
 .reader {
-  position: absolute; top: 14px; bottom: 64px; left: max(14px, env(safe-area-inset-left, 0px)); z-index: 4;
+  position: absolute; top: calc(var(--top-h, 130px) + 12px); bottom: calc(var(--bot-h, 80px) + 62px); left: max(14px, env(safe-area-inset-left, 0px)); z-index: 4;
   display: flex; align-items: flex-start; gap: 12px; pointer-events: none;
 }
 .reader > * { pointer-events: auto; }
@@ -303,9 +306,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 
 /* ---------- timeline ---------- */
 .timeline {
-  border-top: 1px solid var(--rule); background: var(--sheet);
+  position: absolute; left: 0; right: 0; top: 0; z-index: 10;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: 0 8px 28px rgb(22 33 51 / .08);
   display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px;
-  padding-block: 10px 12px;
+  padding-block: calc(10px + env(safe-area-inset-top, 0px)) 4px;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
@@ -317,7 +322,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 .round:hover { border-color: var(--ink-2); }
 .round svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .round.play svg { fill: currentColor; stroke: none; }
-.track { position: relative; height: 106px; --thumb: 22px; min-width: 0; }
+.track { position: relative; height: 122px; --thumb: 26px; min-width: 0; }
 .eras { position: absolute; left: 0; right: 0; top: 0; height: 18px; }
 .era-band { position: absolute; top: 0; height: 18px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 1px solid var(--rule); padding-left: 6px; line-height: 18px; }
 .era-band.cur { color: var(--new); font-weight: 700; }
@@ -338,28 +343,28 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 #slider::-webkit-slider-runnable-track { height: 26px; background: transparent; }
 #slider::-moz-range-track { height: 26px; background: transparent; }
 #slider::-webkit-slider-thumb {
-  -webkit-appearance: none; width: var(--thumb); height: var(--thumb); margin-top: 2px; border-radius: 50%;
-  background: var(--new); border: 3px solid var(--sheet); box-shadow: 0 0 0 1.5px var(--new), var(--shadow);
+  -webkit-appearance: none; width: var(--thumb); height: var(--thumb); margin-top: 0; border-radius: 50%;
+  background: var(--new); border: 4px solid var(--sheet); box-shadow: 0 0 0 2px var(--new), 0 0 0 7px color-mix(in srgb, var(--new) 22%, transparent), var(--shadow);
 }
 #slider::-moz-range-thumb {
-  width: 16px; height: 16px; border-radius: 50%; background: var(--new); border: 3px solid var(--sheet); box-shadow: 0 0 0 1.5px var(--new);
+  width: 18px; height: 18px; border-radius: 50%; background: var(--new); border: 4px solid var(--sheet); box-shadow: 0 0 0 2px var(--new), 0 0 0 7px color-mix(in srgb, var(--new) 22%, transparent);
 }
 #slider:focus-visible { outline: none; }
 #slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--focus); }
 #slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(--focus); }
 .tl-cap {
   position: absolute; top: 72px; left: 0; z-index: 1; max-width: 100%;
-  display: inline-flex; align-items: center; gap: 10px; padding: 3px 14px 3px 3px;
-  background: var(--sheet); border: 1px solid var(--rule); border-radius: 999px;
-  box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 4px 12px rgb(22 33 51 / .08);
+  display: inline-flex; align-items: center; gap: 12px; padding: 4px 20px 4px 4px;
+  background: var(--sheet); border: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); border-radius: 999px;
+  box-shadow: 0 2px 4px rgb(22 33 51 / .08), 0 10px 26px rgb(22 33 51 / .16);
   white-space: nowrap; transition: left .25s ease;
 }
 .tl-cap::before {
-  content: ""; position: absolute; top: -6px; left: var(--caret, 50%); width: 10px; height: 10px; margin-left: -5px;
-  background: var(--sheet); border-left: 1px solid var(--rule); border-top: 1px solid var(--rule); transform: rotate(45deg);
+  content: ""; position: absolute; top: -7px; left: var(--caret, 50%); width: 12px; height: 12px; margin-left: -6px;
+  background: var(--sheet); border-left: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); border-top: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); transform: rotate(45deg);
 }
-.cap-yr { flex: none; padding: 2px 10px; border-radius: 999px; background: var(--new); color: #fff; font: 700 15px/1.3 var(--f-serif); font-variant-numeric: lining-nums tabular-nums; }
-.cap-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; font: 400 17px/1.3 var(--f-display); color: var(--ink); }
+.cap-yr { flex: none; padding: 3px 14px 4px; border-radius: 999px; background: var(--new); color: #fff; font: 700 24px/1.1 var(--f-serif); letter-spacing: .01em; font-variant-numeric: lining-nums tabular-nums; }
+.cap-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; font: 400 21px/1.25 var(--f-display); color: var(--ink); }
 
 /* ---------- overlays ---------- */
 .sheet-overlay { position: fixed; inset: 0; z-index: 40; background: rgb(10 16 26 / .45); display: grid; place-items: center; padding: 16px; }
@@ -380,8 +385,12 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 /* ---------- responsive ---------- */
 @media (max-width: 960px) {
   html, body { height: auto; }
-  .app { height: auto; display: block; }
-  .stage { display: block; }
+  .app { height: auto; overflow: visible; display: flex; flex-direction: column; }
+  .timeline { position: sticky; order: 1; padding-block: calc(8px + env(safe-area-inset-top, 0px)) 2px; }
+  .stage { position: static; order: 2; }
+  .mapwrap { height: auto; }
+  .top { position: static; order: 3; box-shadow: none; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .legend { bottom: auto; }
   .mapwrap { overflow: visible; display: flex; flex-direction: column; }
   .mapcanvas { order: 1; position: relative; inset: auto; aspect-ratio: 17 / 10; max-width: 100%; overflow: hidden; }
   .legend { order: 2; position: static; transform: none; width: auto; max-width: none; border-radius: 0; border-width: 0 0 1px; backdrop-filter: none; background: var(--sheet); justify-content: flex-start; padding: 8px 16px; font-size: 11.5px; }
@@ -391,11 +400,10 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .sec-btn { width: auto; flex: none; backdrop-filter: none; background: var(--sheet); }
   .panels { width: auto; max-height: none; margin-top: 0; overflow: visible; padding: 12px 16px 24px; background: var(--paper); }
   .panel { backdrop-filter: none; background: var(--sheet); box-shadow: none; }
-  .timeline { position: sticky; bottom: 0; z-index: 20; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -6px 20px rgb(0 0 0 / .06); }
   .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .stats dd { font-size: 18px; }
   .stats dd small { display: block; margin: 0; }
-  .tools { width: 100%; justify-content: flex-end; order: -1; margin-bottom: -4px; }
+  .tools { width: 100%; justify-content: flex-start; }
   .top { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .brand { flex-basis: 100%; align-items: flex-start; }
   .brand h1 { font-size: 21px; }
@@ -408,10 +416,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .ylabel:not(.edge) { display: none; }
   .tick { width: 6px; height: 6px; margin-left: -3px; top: 4px; border-width: 1.5px; }
   .tick:not(.state) { width: 5px; height: 5px; margin-left: -2.5px; top: 4.5px; }
-  .track { --thumb: 18px; height: 116px; }
+  .track { --thumb: 22px; height: 122px; }
+  .cap-yr { font-size: 20px; }
   .tl-cap { white-space: normal; border-radius: 16px; align-items: flex-start; padding: 4px 12px 5px 4px; }
-  .cap-t { font-size: 15.5px; padding-top: 1px; }
-  #slider::-webkit-slider-thumb { width: 18px; height: 18px; margin-top: 4px; }
+  .cap-t { font-size: 16.5px; padding-top: 3px; }
+  #slider::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: 2px; }
   .person .head { grid-template-columns: 72px minmax(0, 1fr); }
   .person .portrait { width: 72px; height: 88px; }
   .sheet-panel dl { grid-template-columns: 1fr; gap: 2px 0; }
@@ -424,25 +433,24 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 </head>
 <body>
 <div class="app">
-  <header class="top">
-    <div class="brand">
-      <div class="flag" id="flag" role="img" aria-label="The U.S. flag at this milestone"></div>
-      <div class="brand-text">
-        <h1>How the United States evolves through 1776–2026</h1>
-        <p id="flag-cap" aria-live="polite"></p>
-      </div>
+
+  <nav class="timeline" aria-label="Timeline">
+    <div class="tl-btns">
+      <button class="round" id="btn-prev" type="button" aria-label="Previous milestone"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span class="play-wrap"><button class="round play" id="btn-play" type="button" aria-label="Play the story"><svg viewBox="0 0 24 24" id="play-ico"><path d="M8 5v14l11-7z"/></svg></button></span>
     </div>
-    <dl class="stats" aria-live="polite">
-      <div><dt>States</dt><dd id="st-states">13</dd></div>
-      <div><dt>Land area</dt><dd id="st-area">–</dd></div>
-      <div><dt>People</dt><dd id="st-pop">–</dd></div>
-    </dl>
-    <div class="tools">
-      <button class="btn-quiet" id="btn-words" type="button">Word list</button>
-      <button class="btn-quiet" id="btn-about" type="button">About</button>
-      <button class="btn-quiet theme-btn" id="btn-theme" type="button" aria-label="Switch color mode"></button>
+    <div class="track" id="track">
+      <div class="eras" id="eras"></div>
+      <div class="rail"><div class="fill" id="rail-fill"></div></div>
+      <div class="ticks" id="ticks"></div>
+      <div class="ylabels" id="ylabels"></div>
+      <input type="range" id="slider" min="0" max="1" step="1" value="0" aria-label="Choose a milestone">
+      <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span></div>
     </div>
-  </header>
+    <div class="tl-btns">
+      <button class="round" id="btn-next" type="button" aria-label="Next milestone"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </nav>
 
   <main class="stage">
     <section class="mapwrap" aria-label="Map of the United States">
@@ -623,23 +631,26 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
     </section>
   </main>
 
-  <footer class="timeline" aria-label="Timeline">
-    <div class="tl-btns">
-      <button class="round" id="btn-prev" type="button" aria-label="Previous milestone"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <span class="play-wrap"><button class="round play" id="btn-play" type="button" aria-label="Play the story"><svg viewBox="0 0 24 24" id="play-ico"><path d="M8 5v14l11-7z"/></svg></button></span>
+  <footer class="top" aria-label="Status">
+    <div class="brand">
+      <div class="flag" id="flag" role="img" aria-label="The U.S. flag at this milestone"></div>
+      <div class="brand-text">
+        <h1>How the United States evolves through 1776–2026</h1>
+        <p id="flag-cap" aria-live="polite"></p>
+      </div>
     </div>
-    <div class="track" id="track">
-      <div class="eras" id="eras"></div>
-      <div class="rail"><div class="fill" id="rail-fill"></div></div>
-      <div class="ticks" id="ticks"></div>
-      <div class="ylabels" id="ylabels"></div>
-      <input type="range" id="slider" min="0" max="1" step="1" value="0" aria-label="Choose a milestone">
-      <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span></div>
-    </div>
-    <div class="tl-btns">
-      <button class="round" id="btn-next" type="button" aria-label="Next milestone"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <dl class="stats" aria-live="polite">
+      <div><dt>States</dt><dd id="st-states">13</dd></div>
+      <div><dt>Land area</dt><dd id="st-area">–</dd></div>
+      <div><dt>People</dt><dd id="st-pop">–</dd></div>
+    </dl>
+    <div class="tools">
+      <button class="btn-quiet" id="btn-words" type="button">Word list</button>
+      <button class="btn-quiet" id="btn-about" type="button">About</button>
+      <button class="btn-quiet theme-btn" id="btn-theme" type="button" aria-label="Switch color mode"></button>
     </div>
   </footer>
+
 </div>
 
 <div id="pop" role="tooltip" hidden></div>
@@ -854,12 +865,28 @@ function targetBox() {
   const [x, y, w, h] = geo.frame;
   return [x - 14, y - 16, w + 28, h + 50];
 }
-// Fit the frame to the panel, centered. The year card may cover a corner of the map (often Alaska).
+// Space taken at the top and bottom by the glass bars (desktop, where they float over the map)
+function barInsets() {
+  const tl = $('.timeline'), sb = $('.top'), lg = $('#legend');
+  if (getComputedStyle(tl).position !== 'absolute') return [0, 0];
+  return [tl.offsetHeight + 4, sb.offsetHeight + lg.offsetHeight + 20];
+}
+// Fit the frame, centered, into the map area between the bars
 function fitAspect(b) {
-  const r = svg.clientWidth / Math.max(1, svg.clientHeight);
+  const [it, ib] = barInsets();
+  const W = svg.clientWidth, H = svg.clientHeight, ah = Math.max(60, H - it - ib);
   let [x, y, w, h] = b;
-  if (w / h > r) { const nh = w / r; y -= (nh - h) / 2; h = nh; } else { const nw = h * r; x -= (nw - w) / 2; w = nw; }
-  return [x, y, w, h];
+  const sc = Math.min(W / w, ah / h);
+  const vw = W / sc, vh = H / sc;
+  x -= (vw - w) / 2;
+  y -= (it + (ah - h * sc) / 2) / sc;
+  return [x, y, vw, vh];
+}
+// keep the map key and the story column clear of the bars
+function syncBars() {
+  const app = $('.app');
+  app.style.setProperty('--top-h', $('.timeline').offsetHeight + 'px');
+  app.style.setProperty('--bot-h', $('.top').offsetHeight + 'px');
 }
 // show a state's abbreviation only where it fits at the current zoom
 function fitLabels(v) {
@@ -1163,6 +1190,8 @@ $('#btn-play').addEventListener('click', () => {
 
 new ResizeObserver(() => { if (cur >= 0) zoomTo(stops[cur], true); }).observe(svg);
 new ResizeObserver(() => { if (cur >= 0) placeCaption(); }).observe($('#track'));
+const barsRO = new ResizeObserver(() => { syncBars(); if (cur >= 0) zoomTo(stops[cur], true); });
+barsRO.observe($('.timeline')); barsRO.observe($('.top'));
 
 // ---------- overlays ----------
 function openSheet(id) { const o = $(id); o.hidden = false; o.querySelector('[data-close]').focus(); }
