@@ -159,12 +159,41 @@ a { color: inherit; }
 #pin circle.ring { fill: none; stroke: var(--ink); stroke-width: 1.2px; vector-effect: non-scaling-stroke; opacity: .5; }
 #pin text { font-size: 12.5px; font-weight: 700; fill: var(--ink); stroke: var(--sheet); stroke-width: 3.5px; stroke-linejoin: round; }
 
-.yearmark {
-  position: absolute; left: max(18px, env(safe-area-inset-left, 0px)); top: 12px; z-index: 2; pointer-events: none;
-  display: grid; line-height: 1;
+.mapcanvas { position: absolute; inset: 0; }
+.yearcard {
+  position: absolute; left: max(14px, env(safe-area-inset-left, 0px)); top: 14px; z-index: 3;
+  width: min(312px, 42%); max-height: calc(100% - 66px); display: flex; flex-direction: column;
+  background: color-mix(in srgb, var(--sheet) 90%, transparent); backdrop-filter: blur(6px);
+  border: 1px solid var(--rule); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 10px 30px rgb(22 33 51 / .12);
 }
-.yearmark .yr { font: 400 clamp(56px, 7.2vw, 104px)/.9 var(--f-display); letter-spacing: -.01em; color: var(--ink); text-shadow: 0 0 18px var(--water), 0 0 2px var(--water); font-variant-numeric: lining-nums; }
-.yearmark .yr-sub { margin-top: 6px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); text-shadow: 0 0 8px var(--water); }
+.yc-year {
+  display: grid; padding: 14px 18px 13px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--union) 9%, transparent), transparent);
+}
+.yc-year .yr { font: 400 clamp(54px, 5.6vw, 84px)/.88 var(--f-display); letter-spacing: -.01em; color: var(--ink); font-variant-numeric: lining-nums; }
+.yc-year .yr-sub { margin-top: 7px; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+.yc-year .yr-sub:empty { display: none; }
+.yc-states { overflow-y: auto; border-top: 1px solid var(--rule); overscroll-behavior: contain; }
+.yc-states.more { -webkit-mask-image: linear-gradient(#000 calc(100% - 44px), transparent); mask-image: linear-gradient(#000 calc(100% - 44px), transparent); }
+.ycs { padding: 13px 18px 14px; }
+.ycs + .ycs { border-top: 1px dashed var(--rule); }
+.ycs.note { font: italic 400 15px/1.4 var(--f-serif); color: var(--ink-2); }
+.ycs-head { display: flex; align-items: center; gap: 12px; }
+.ycs-flag { flex: none; width: 56px; height: 37px; object-fit: contain; filter: drop-shadow(0 1px 1px rgb(0 0 0 / .25)) drop-shadow(0 0 .6px rgb(0 0 0 / .5)); }
+.ycs-name { margin: 0; font: 400 23px/1.1 var(--f-display); }
+.ycs-ord { margin: 4px 0 0; font: 700 10.5px/1 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--new); }
+.ycs dl { margin: 12px 0 0; display: grid; gap: 7px; }
+.ycs dl div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.ycs dt { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+.ycs dd { margin: 0; font-size: 14.5px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.ycs dd small { display: block; margin-top: 1px; font-size: 12px; color: var(--ink-2); }
+.ycs.compact { padding: 10px 18px 11px; }
+.ycs.compact .ycs-flag { width: 40px; height: 27px; }
+.ycs.compact .ycs-name { font-size: 18px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.ycs.compact .ycs-ord { margin: 0; }
+.ycs-facts { margin: 3px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ycs-facts b { font-weight: 600; color: var(--ink); }
 
 .legend {
   position: absolute; right: 12px; top: 12px; z-index: 2;
@@ -208,42 +237,6 @@ a { color: inherit; }
 .chip::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--new); flex: none; }
 .chip.acqchip::before { background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
 .chip .meta { color: var(--ink-2); font-size: 13px; }
-.scards { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
-.scards.solo { grid-template-columns: 1fr; }
-.scard {
-  position: relative; overflow: hidden; min-width: 0;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--union) 7%, var(--sheet)) 0, var(--sheet) 74px);
-  border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px 15px;
-  box-shadow: 0 1px 2px rgb(22 33 51 / .05), 0 6px 18px rgb(22 33 51 / .06);
-}
-.scard .sc-num {
-  position: absolute; right: 12px; top: 4px; pointer-events: none;
-  font: 400 52px/1 var(--f-display); font-variant-numeric: lining-nums;
-  color: color-mix(in srgb, var(--union) 16%, transparent);
-}
-.scard .sc-head { display: flex; align-items: center; gap: 13px; padding-right: 52px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
-.scard .sc-flag {
-  flex: none; width: 66px; height: 44px; object-fit: contain;
-  filter: drop-shadow(0 1px 1px rgb(0 0 0 / .25)) drop-shadow(0 0 .6px rgb(0 0 0 / .5));
-}
-.scard .sc-name { margin: 0; font: 400 23px/1.1 var(--f-display); text-wrap: balance; }
-.scard .sc-ord { margin: 5px 0 0; font: 700 11px/1 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--new); }
-.scard dl { margin: 0; display: grid; gap: 9px; }
-.scard dl div { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; align-items: baseline; }
-.scard dt { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
-.scard dd { margin: 0; font-size: 15px; line-height: 1.35; font-variant-numeric: tabular-nums; }
-.scard dd small, .scard dd .rank { display: block; margin-top: 2px; font-size: 12.5px; color: var(--ink-2); }
-.scards:not(.solo) .sc-num { display: none; }
-.scards:not(.solo) .sc-head { padding-right: 0; }
-.scards:not(.solo) .sc-flag { width: 58px; height: 39px; }
-.scards:not(.solo) .sc-name { font-size: 21px; }
-.scards.solo dl { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-.scards.solo dl div { display: block; }
-.scards.solo dt { margin-bottom: 4px; }
-@media (max-width: 440px) {
-  .scards.solo dl { grid-template-columns: 1fr; gap: 9px; }
-  .scards.solo dl div { display: grid; }
-}
 
 figure.ill { margin: 20px 0 0; }
 figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; place-items: center; }
@@ -388,13 +381,21 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   html, body { height: auto; }
   .app { height: auto; display: block; }
   .stage { display: block; }
-  .mapwrap { aspect-ratio: 1000 / 720; max-width: 100%; }
+  .mapwrap { overflow: visible; }
+  .mapcanvas { position: relative; inset: auto; aspect-ratio: 1000 / 720; max-width: 100%; overflow: hidden; }
+  .yearcard {
+    position: static; width: auto; max-height: none; border-radius: 0; border-width: 0 0 1px;
+    box-shadow: none; backdrop-filter: none; background: var(--sheet);
+  }
+  .yc-year { grid-template-columns: auto 1fr; align-items: end; gap: 4px 14px; padding: 12px 16px 12px; }
+  .yc-year .yr-sub { margin: 0 0 4px; }
+  .ycs, .ycs.compact { padding-left: 16px; padding-right: 16px; }
   .story { border-left: 0; overflow: visible; }
   .timeline { position: sticky; bottom: 0; z-index: 20; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -6px 20px rgb(0 0 0 / .06); }
   .legend { font-size: 11px; padding: 7px 9px; gap: 4px; top: auto; bottom: 46px; right: 8px; }
   .legend .sw { width: 11px; height: 11px; }
   .map-note { display: none; }
-  .yearmark .yr { font-size: clamp(44px, 12vw, 72px); }
+  .yc-year .yr { font-size: clamp(44px, 12vw, 64px); }
   .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .stats dd { font-size: 18px; }
   .stats dd small { display: block; margin: 0; }
@@ -451,7 +452,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 
   <main class="stage">
     <section class="mapwrap" aria-label="Map of North America showing the United States">
-      <div class="yearmark" aria-hidden="true"><span class="yr" id="yr">1776</span><span class="yr-sub" id="yr-sub"></span></div>
+      <div class="mapcanvas">
       <svg id="map" viewBox="0 0 1000 720" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Map of North America. U.S. states are colored by when they joined the Union.">
 <rect class="water" x="-600" y="-500" width="2200" height="1720"/>
 <path class="grat" d="M-450,335.7L-349.9,258.8L-149.2,104.6L44,-43.9L172.1,-142.3M-444.7,512.6L-273.7,347L-91.9,170.9L83.1,1.3L199.1,-111.1M-338.9,610L-187.9,425.9L-27.5,230.2L127,41.8L229.4,-83.1M-222.6,694.7L-93.7,494.6L43.3,281.8L175.3,76.9L262.8,-58.8M-97.5,765.5L7.7,552L119.6,324.9L227.3,106.4L298.7,-38.5M34.9,821.6L115,597.4L200.3,359.1L282.3,129.6L336.7,-22.4M172.8,862.2L226.9,630.3L284.3,383.8L339.6,146.5L376.2,-10.8M314.5,886.7L341.7,650.2L370.6,398.8L398.4,156.7L416.9,-3.7M458.1,894.9L458.1,656.9L458.1,403.8L458.1,160.1L458.1,-1.4M601.6,886.7L574.4,650.2L545.5,398.8L517.7,156.7L499.3,-3.7M743.3,862.2L689.3,630.3L631.9,383.8L576.6,146.5L539.9,-10.8M881.3,821.6L801.1,597.4L715.9,359.1L633.9,129.6L579.5,-22.4M1013.7,765.5L908.4,552L796.6,324.9L688.9,106.4L617.5,-38.5M1138.8,694.7L1009.9,494.6L872.8,281.8L740.9,76.9L653.4,-58.8M-450,507L-444.7,512.6L-419.3,538.1L-393.2,562.8L-366.4,586.8L-338.9,610L-310.7,632.4L-282,654L-252.6,674.8L-222.6,694.7L-192.1,713.7L-161.1,731.9L-129.5,749.1L-97.5,765.5L-65,780.9L-32.1,795.4L1.2,809L34.9,821.6L68.9,833.2L103.3,843.8L137.9,853.5L172.8,862.2L208,869.8L243.3,876.5L278.9,882.1L314.5,886.7L350.3,890.3L386.2,892.9L422.1,894.4L458.1,894.9L494,894.4L530,892.9L565.8,890.3L601.6,886.7L637.3,882.1L672.8,876.5L708.2,869.8L743.3,862.2L778.2,853.5L812.9,843.8L847.2,833.2L881.3,821.6L914.9,809L948.3,795.4L981.2,780.9L1013.7,765.5L1045.7,749.1L1077.2,731.9L1108.3,713.7L1138.8,694.7L1168.7,674.8L1198.1,654L1226.9,632.4L1255,610M-440.2,328.1L-420.1,353.6L-399.2,378.4L-377.7,402.6L-355.5,426.2L-332.6,449.2L-309.1,471.5L-284.9,493.1L-260.1,514L-234.8,534.2L-208.8,553.6L-182.4,572.3L-155.4,590.3L-127.9,607.4L-99.9,623.8L-71.5,639.4L-42.6,654.1L-13.3,668L16.3,681.1L46.4,693.3L76.7,704.6L107.4,715.1L138.3,724.7L169.6,733.4L201,741.2L232.7,748.1L264.5,754.1L296.6,759.2L328.7,763.3L361,766.6L393.3,768.9L425.7,770.3L458.1,770.8L490.5,770.3L522.9,768.9L555.2,766.6L587.4,763.3L619.6,759.2L651.6,754.1L683.5,748.1L715.1,741.2L746.6,733.4L777.8,724.7L808.8,715.1L839.4,704.6L869.8,693.3L899.8,681.1L929.5,668L958.8,654.1L987.6,639.4L1016.1,623.8L1044,607.4L1071.5,590.3L1098.5,572.3L1125,553.6L1150.9,534.2L1176.3,514M-336.8,248.7L-319,271.2L-300.5,293.1L-281.5,314.6L-261.8,335.5L-241.6,355.8L-220.7,375.5L-199.4,394.6L-177.4,413.1L-155,431L-132.1,448.2L-108.6,464.7L-84.8,480.6L-60.4,495.8L-35.7,510.3L-10.5,524.1L15,537.1L40.9,549.4L67.2,561L93.8,571.8L120.6,581.8L147.8,591.1L175.2,599.6L202.8,607.3L230.6,614.2L258.6,620.3L286.8,625.6L315.2,630.1L343.6,633.8L372.1,636.6L400.7,638.7L429.4,639.9L458.1,640.3L486.8,639.9L515.4,638.7L544,636.6L572.6,633.8L601,630.1L629.3,625.6L657.5,620.3L685.5,614.2L713.4,607.3L741,599.6L768.4,591.1L795.5,581.8L822.4,571.8L849,561L875.2,549.4L901.1,537.1L926.7,524.1L951.8,510.3L976.6,495.8L1000.9,480.6L1024.8,464.7L1048.2,448.2L1071.2,431L1093.6,413.1M-230,166.7L-214.6,186.2L-198.7,205.2L-182.2,223.7L-165.1,241.8L-147.6,259.4L-129.6,276.5L-111.1,293L-92.1,309L-72.7,324.5L-52.8,339.4L-32.5,353.7L-11.9,367.5L9.2,380.6L30.6,393.2L52.4,405.1L74.5,416.4L96.9,427L119.7,437L142.7,446.4L165.9,455.1L189.4,463.1L213.1,470.5L237.1,477.1L261.2,483.1L285.4,488.4L309.8,493L334.3,496.9L359,500.1L383.7,502.5L408.4,504.3L433.2,505.4L458.1,505.7L482.9,505.4L507.7,504.3L532.5,502.5L557.2,500.1L581.8,496.9L606.3,493L630.7,488.4L655,483.1L679.1,477.1L703,470.5L726.7,463.1L750.2,455.1L773.5,446.4L796.5,437L819.2,427L841.6,416.4L863.7,405.1L885.5,393.2L907,380.6L928,367.5L948.7,353.7L969,339.4L988.8,324.5L1008.3,309M-122.3,83.9L-109.3,100.4L-95.9,116.4L-82,132.1L-67.6,147.3L-52.8,162.1L-37.6,176.5L-22,190.5L-6,204L10.4,217.1L27.1,229.6L44.2,241.7L61.7,253.3L79.4,264.4L97.5,275L115.9,285L134.6,294.5L153.5,303.5L172.6,312L192,319.9L211.7,327.2L231.5,334L251.5,340.2L271.7,345.8L292,350.8L312.4,355.3L333,359.2L353.7,362.5L374.5,365.1L395.3,367.2L416.2,368.7L437.1,369.6L458.1,369.9L479,369.6L499.9,368.7L520.8,367.2L541.7,365.1L562.4,362.5L583.1,359.2L603.7,355.3L624.2,350.8L644.5,345.8L664.7,340.2L684.7,334L704.5,327.2L724.1,319.9L743.5,312L762.7,303.5L781.6,294.5L800.3,285L818.6,275L836.7,264.4L854.5,253.3L871.9,241.7L889,229.6L905.8,217.1L922.2,204M-17.4,3.3L-6.7,16.7L4.3,29.9L15.7,42.7L27.4,55.2L39.6,67.4L52,79.2L64.8,90.6L77.9,101.7L91.3,112.3L105.1,122.6L119.1,132.5L133.4,142L147.9,151.1L162.7,159.8L177.8,168L193.1,175.8L208.5,183.2L224.2,190.1L240.1,196.6L256.2,202.6L272.4,208.1L288.8,213.2L305.4,217.8L322,221.9L338.8,225.6L355.6,228.8L372.6,231.4L389.6,233.7L406.7,235.4L423.8,236.6L440.9,237.3L458.1,237.6L475.2,237.3L492.4,236.6L509.5,235.4L526.6,233.7L543.6,231.4L560.5,228.8L577.4,225.6L594.1,221.9L610.8,217.8L627.3,213.2L643.7,208.1L659.9,202.6L676,196.6L691.9,190.1L707.6,183.2L723.1,175.8L738.4,168L753.4,159.8L768.2,151.1L782.8,142L797.1,132.5L811.1,122.6L824.8,112.3L838.2,101.7M78.1,-70L86.6,-59.3L95.4,-48.8L104.5,-38.5L113.9,-28.5L123.6,-18.8L133.5,-9.4L143.7,-0.3L154.2,8.6L165,17.1L175.9,25.3L187.1,33.3L198.5,40.9L210.2,48.1L222,55L234,61.6L246.3,67.9L258.6,73.7L271.2,79.3L283.9,84.4L296.7,89.2L309.7,93.7L322.8,97.7L336,101.4L349.3,104.7L362.7,107.6L376.2,110.2L389.7,112.3L403.3,114.1L417,115.4L430.7,116.4L444.4,117L458.1,117.2L471.8,117L485.5,116.4L499.2,115.4L512.8,114.1L526.4,112.3L539.9,110.2L553.4,107.6L566.8,104.7L580.1,101.4L593.3,97.7L606.4,93.7L619.4,89.2L632.3,84.4L645,79.3L657.5,73.7L669.9,67.9L682.1,61.6L694.1,55L706,48.1L717.6,40.9L729,33.3L740.2,25.3L751.2,17.1L761.9,8.6M150.8,-125.9L157.7,-117.2L164.8,-108.8L172.2,-100.5L179.8,-92.4L187.6,-84.5L195.7,-76.9L203.9,-69.5L212.4,-62.4L221.1,-55.5L229.9,-48.8L239,-42.4L248.2,-36.3L257.6,-30.4L267.2,-24.8L276.9,-19.5L286.8,-14.4L296.8,-9.7L307,-5.2L317.2,-1L327.6,2.8L338.1,6.4L348.7,9.7L359.4,12.7L370.1,15.4L381,17.7L391.9,19.8L402.8,21.5L413.8,22.9L424.9,24L435.9,24.8L447,25.3L458.1,25.5L469.2,25.3L480.2,24.8L491.3,24L502.3,22.9L513.3,21.5L524.3,19.8L535.2,17.7L546,15.4L556.8,12.7L567.4,9.7L578,6.4L588.5,2.8L598.9,-1L609.2,-5.2L619.3,-9.7L629.3,-14.4L639.2,-19.5L648.9,-24.8L658.5,-30.4L667.9,-36.3L677.2,-42.4L686.2,-48.8L695.1,-55.5L703.7,-62.4"/>
@@ -616,6 +617,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       <p class="map-note">Map uses today’s state borders. Territory borders are approximate.</p>
       <div class="map-actions"><button class="btn-quiet" id="btn-zoom" type="button" aria-pressed="false">Show whole continent</button></div>
       <div id="tip" role="tooltip" hidden></div>
+      </div>
+      <aside class="yearcard" id="yearcard" aria-label="This milestone">
+        <div class="yc-year"><span class="yr" id="yr">1776</span><span class="yr-sub" id="yr-sub"></span></div>
+        <div class="yc-states" id="yc-states" hidden></div>
+      </aside>
     </section>
     <article class="story" id="story" aria-live="polite"></article>
   </main>
@@ -862,12 +868,21 @@ function targetBox(s) {
   const minW = 300; if (w < minW) { x0 -= (minW - w) / 2; w = minW; }
   return [x0, y0, w, h];
 }
+// Share of the map's width hidden behind the year card when it lists new states (desktop only)
+function reserveLeft() {
+  const yc = $('#yearcard');
+  if (full || !yc.classList.contains('has-states') || getComputedStyle(yc).position !== 'absolute') return 0;
+  return Math.min(.45, (yc.offsetWidth + 28) / Math.max(1, svg.clientWidth));
+}
 function fitAspect(b) {
-  const r = svg.clientWidth / Math.max(1, svg.clientHeight);
+  const f = reserveLeft();
+  const r = svg.clientWidth * (1 - f) / Math.max(1, svg.clientHeight);
   let [x, y, w, h] = b;
   if (w / h > r) { const nh = w / r; y -= (nh - h) / 2; h = nh; } else { const nw = h * r; x -= (nw - w) / 2; w = nw; }
+  if (f) { const tw = w / (1 - f); x -= tw - w; w = tw; }
   // keep the frame on the map where possible
-  if (w <= geo.W) x = Math.min(Math.max(x, 0), geo.W - w); else x = (geo.W - w) / 2;
+  if (f) x = Math.min(x, geo.W - w + 450);
+  else if (w <= geo.W) x = Math.min(Math.max(x, 0), geo.W - w); else x = (geo.W - w) / 2;
   if (h <= geo.H) y = Math.min(Math.max(y, 0), geo.H - h); else y = (geo.H - h) / 2;
   return [x, y, w, h];
 }
@@ -951,9 +966,10 @@ function credit(img, kind) {
   const when = img.date ? ` (${esc(img.date)})` : '';
   return `${kind}: <i>${esc(img.title)}</i>${who}${when}. <a href="${esc(img.page)}" target="_blank" rel="noopener">Wikimedia Commons</a>, ${esc(img.license)}.`;
 }
-// Facts card for a state that joins at this milestone: order, date, today's area, and its capital then and now.
+// The year card on the map: the year, and a fact entry for each state that joins at this milestone
+// (flag, order, date, today's area with rank, capital then and now). Three or more states use a compact entry.
 const areaRank = Object.keys(DATA.stateInfo).sort((a, b) => DATA.stateInfo[b].area - DATA.stateInfo[a].area);
-function stateCard(p) {
+function stateEntry(p, compact) {
   const [name, d] = states[p], info = DATA.stateInfo[p] || {};
   const orig = original13.includes(p);
   const label = orig ? `${ORD(ordinal[p])} to ratify` : `${ORD(ordinal[p])} state`;
@@ -962,21 +978,41 @@ function stateCard(p) {
   if (info.note) capNote = info.note + (info.cap === info.now || info.note.includes(info.now) ? '' : `; today ${info.now}`);
   else capNote = info.cap === info.now ? 'still the capital today' : `today ${info.now}`;
   const fl = DATA.stateFlags[p];
-  const flag = fl ? `<img class="sc-flag" src="${esc(fl.file)}" alt="Flag of ${esc(name)}" width="${fl.w}" height="${fl.h}" title="Today’s official flag of ${esc(name)}">` : '';
-  return `<li class="scard"><span class="sc-num" aria-hidden="true">${ordinal[p]}</span>
-    <div class="sc-head">${flag}<div><p class="sc-name">${esc(name)}</p><p class="sc-ord">${label}</p></div></div><dl>
+  const flag = fl ? `<img class="ycs-flag" src="${esc(fl.file)}" alt="Flag of ${esc(name)}" width="${fl.w}" height="${fl.h}" title="Today’s official flag of ${esc(name)}">` : '';
+  const area = `${info.area.toLocaleString('en-US')} sq mi`;
+  const cap = info.cap ? esc(info.cap) : 'none fixed';
+  if (compact) return `<div class="ycs compact"><div class="ycs-head">${flag}<div>
+      <p class="ycs-name">${esc(name)}<span class="ycs-ord">${label}</span></p>
+      <p class="ycs-facts">${fmtDate(d)} · ${area} (${ORD(rank)}/50) · capital <b title="${esc(capNote)}">${cap}</b></p>
+    </div></div></div>`;
+  return `<div class="ycs"><div class="ycs-head">${flag}<div><p class="ycs-name">${esc(name)}</p><p class="ycs-ord">${label}</p></div></div><dl>
     <div><dt>${orig ? 'Ratified' : 'Joined'}</dt><dd>${fmtDate(d)}</dd></div>
-    <div><dt>Area today</dt><dd>${info.area.toLocaleString('en-US')} sq mi<span class="rank">rank ${ORD(rank)}/50</span></dd></div>
+    <div><dt>Area today</dt><dd>${area}<small>rank ${ORD(rank)}/50</small></dd></div>
     <div><dt>Capital then</dt><dd>${info.cap ? esc(info.cap) : 'None fixed'}<small>${esc(capNote)}</small></dd></div>
-  </dl></li>`;
+  </dl></div>`;
 }
+function renderYearCard(s) {
+  const box = $('#yc-states');
+  let html = '';
+  if (s.id === '1776') html = '<div class="ycs note">The 13 original states declare independence together.</div>';
+  else if (s.states.length) html = s.states.map(p => stateEntry(p, s.states.length > 2)).join('');
+  box.innerHTML = html;
+  box.hidden = !html;
+  box.scrollTop = 0;
+  $('#yearcard').classList.toggle('has-states', !!html && s.id !== '1776');
+  fadeMore();
+}
+// fade the bottom of the state list while more entries are hidden below
+function fadeMore() {
+  const box = $('#yc-states');
+  box.classList.toggle('more', box.scrollHeight - box.scrollTop - box.clientHeight > 4);
+}
+$('#yc-states').addEventListener('scroll', fadeMore, { passive: true });
 
 function renderStory(i) {
   const s = stops[i], era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to) || eras[eras.length - 1];
   const im = images[s.id] || {};
   let chips = '';
-  if (s.id === '1776') chips = `<li class="chip">13 original states <span class="meta">declared independence together</span></li>`;
-  const cards = s.id === '1776' ? '' : s.states.map(stateCard).join('');
   if (s.acq && acq[s.acq]) chips += `<li class="chip acqchip">${esc(acq[s.acq].name)} <span class="meta">about ${acq[s.acq].approx} sq mi added</span></li>`;
   const ill = im.ill
     ? `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}" loading="eager"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`
@@ -990,7 +1026,6 @@ function renderStory(i) {
     <p class="kicker"><span class="era">${esc(era.name)}</span><span>Milestone ${i + 1} of ${N}</span></p>
     <h2>${esc(s.title)}</h2>
     <p class="when">${esc(s.when)}</p>
-    ${cards ? `<ul class="scards${s.states.length === 1 ? ' solo' : ''}" aria-label="New states">${cards}</ul>` : ''}
     ${chips ? `<ul class="chips">${chips}</ul>` : ''}
     ${ill}
     ${s.fun ? `<aside class="fun" aria-label="Fun fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l2.9 6.6 7.2.6-5.5 4.7 1.7 7.1L12 17.1l-6.3 3.7 1.7-7.1L1.9 9l7.2-.6z"/></svg><p class="k">Fun fact</p><p>${gloss(s.fun)}</p></aside>` : ''}
@@ -1094,7 +1129,7 @@ function go(i, fromSlider) {
   document.querySelectorAll('.era-band').forEach(b => b.classList.toggle('cur', era && b.dataset.era === era.id));
   ylabels(i);
   $('#btn-prev').disabled = i === 0; $('#btn-next').disabled = i === N - 1;
-  stats(s); showFlag(s); mapState(s); renderStory(i); zoomTo(s);
+  stats(s); showFlag(s); mapState(s); renderYearCard(s); renderStory(i); zoomTo(s);
   try { history.replaceState(null, '', '#' + s.id); } catch (e) {}
 }
 $('#btn-prev').addEventListener('click', () => { stopPlay(); go(cur - 1); });
