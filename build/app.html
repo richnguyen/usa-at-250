@@ -110,11 +110,7 @@ a { color: inherit; }
 .theme-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- stage ---------- */
-.stage {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(360px, 1fr);
-  min-height: 0;
-}
+.stage { min-height: 0; display: grid; }
 .mapwrap { position: relative; min-height: 0; background: var(--water); overflow: hidden; }
 #map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
 
@@ -135,6 +131,7 @@ a { color: inherit; }
 #map .st:hover { filter: brightness(1.12); }
 #map .st.new { animation: pulse 1.4s ease-out 1; }
 @keyframes pulse { 0% { fill-opacity: .2; } 60% { fill-opacity: 1; } }
+#map .inset-bg { fill: var(--water); }
 #map .inset { fill: none; stroke: var(--ink-2); stroke-width: .8px; vector-effect: non-scaling-stroke; stroke-dasharray: 3 3; }
 #map text { font-family: var(--f-body); pointer-events: none; paint-order: stroke; }
 #map .lbl { font-size: calc(var(--k, 1) * 11px); font-weight: 700; fill: var(--union-ink); text-anchor: middle; dominant-baseline: central; letter-spacing: .04em; opacity: 0; transition: opacity .4s; }
@@ -188,20 +185,20 @@ a { color: inherit; }
 .ycs-facts b { font-weight: 600; color: var(--ink); }
 
 .legend {
-  position: absolute; right: 12px; top: 12px; z-index: 2;
+  position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 2;
+  max-width: calc(100% - 28px); width: max-content;
   background: color-mix(in srgb, var(--sheet) 88%, transparent); backdrop-filter: blur(4px);
-  border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px;
-  display: grid; gap: 6px; font-size: 12.5px; max-width: 230px;
+  border: 1px solid var(--rule); border-radius: 999px; padding: 6px 14px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 12.5px;
 }
-.legend .row { display: flex; gap: 8px; align-items: center; }
-.legend .sw { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent); }
+.legend .row { display: flex; gap: 7px; align-items: center; white-space: nowrap; }
+.legend .sw { width: 13px; height: 13px; border-radius: 3px; flex: none; border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent); }
 .legend .sw.in { background: var(--union); }
 .legend .sw.new { background: var(--new); }
 .legend .sw.terr { background: var(--terr); }
 .legend .sw.sec { background: var(--sec); }
 .legend .sw.out { background: var(--land); }
-.map-actions { position: absolute; right: 12px; bottom: 12px; z-index: 2; display: flex; gap: 8px; }
-.map-note { position: absolute; left: 12px; bottom: 10px; z-index: 2; font-size: 11.5px; color: var(--ink-2); max-width: 46%; text-shadow: 0 0 6px var(--water); pointer-events: none; }
+.legend .note { color: var(--ink-2); font-size: 11.5px; }
 
 #tip {
   position: absolute; z-index: 5; pointer-events: none;
@@ -210,83 +207,90 @@ a { color: inherit; }
 }
 #tip b { font-family: var(--f-serif); font-size: 15px; }
 
-/* ---------- story ---------- */
-.story {
-  min-height: 0; overflow-y: auto; background: var(--sheet);
-  border-left: 1px solid var(--rule);
-  padding-block: 22px 40px;
-  padding-left: max(28px, env(safe-area-inset-left, 0px));
-  padding-right: max(28px, env(safe-area-inset-right, 0px));
-  scroll-behavior: smooth;
+/* ---------- story sections: a dock of buttons and the panels they open ---------- */
+.reader {
+  position: absolute; top: 14px; bottom: 64px; right: max(14px, env(safe-area-inset-right, 0px)); z-index: 4;
+  display: flex; flex-direction: row-reverse; align-items: flex-start; gap: 12px; pointer-events: none;
 }
-.story > * { max-width: 640px; }
-.kicker { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin: 0; }
-.kicker .era { color: var(--new); font-weight: 700; }
-.story h2 { font: 400 clamp(28px, 2.6vw, 36px)/1.12 var(--f-display); margin: 8px 0 4px; text-wrap: balance; }
-.when { margin: 0; font: italic 400 16px var(--f-serif); color: var(--ink-2); }
-.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 16px 0 0; }
-.chip { border: 1px solid var(--rule); border-radius: 999px; padding: 4px 12px 4px 10px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; background: var(--paper); }
-.chip::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--new); flex: none; }
-.chip.acqchip::before { background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
-.chip .meta { color: var(--ink-2); font-size: 13px; }
+.reader > * { pointer-events: auto; }
+.dock { display: grid; gap: 6px; width: max-content; }
+.sec-btn span { white-space: nowrap; }
+.dock .dock-h { margin: 0 0 2px 4px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); text-shadow: 0 0 6px var(--water); }
+.sec-btn {
+  display: flex; align-items: center; gap: 9px; width: 100%; padding: 7px 12px 7px 9px; cursor: pointer; text-align: left;
+  border: 1px solid var(--rule); border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--ink);
+  background: color-mix(in srgb, var(--sheet) 90%, transparent); backdrop-filter: blur(4px);
+  box-shadow: 0 1px 2px rgb(22 33 51 / .06);
+}
+.sec-btn svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sec-btn:hover { border-color: var(--ink-2); }
+.sec-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.sec-btn[aria-disabled="true"] { opacity: .45; }
+.sec-btn .dot { width: 7px; height: 7px; border-radius: 50%; margin-left: auto; background: currentColor; opacity: 0; }
+.sec-btn[aria-pressed="true"] .dot { opacity: 1; }
 
-figure.ill { margin: 20px 0 0; }
-figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; place-items: center; }
-figure.ill img { display: block; width: 100%; height: auto; max-height: 340px; object-fit: contain; }
-figure.ill .ph { padding: 36px 20px; text-align: center; color: var(--ink-2); font-size: 14px; }
-.fun {
-  margin-top: 14px; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 2px 12px; align-items: start;
-  padding: 12px 16px 13px 12px; border-radius: 8px;
-  background: color-mix(in srgb, var(--gold) 11%, var(--sheet));
-  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+.panels {
+  width: min(430px, 36vw); max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+  display: grid; gap: 12px; align-content: start; scroll-behavior: smooth;
 }
-.fun svg { grid-row: span 2; width: 26px; height: 26px; fill: var(--gold); margin-top: 1px; }
-.fun .k { margin: 0; font: 700 11.5px var(--f-body); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
-.fun p { margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--ink); }
+.panels:empty { display: none; }
+.panel {
+  background: color-mix(in srgb, var(--sheet) 96%, transparent); backdrop-filter: blur(8px);
+  border: 1px solid var(--rule); border-radius: 14px; padding: 14px 18px 18px;
+  box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 10px 30px rgb(22 33 51 / .14);
+  animation: panelin .25s ease-out;
+}
+@keyframes panelin { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.panel-h { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
+.panel-h svg { width: 19px; height: 19px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.panel-h h3 { margin: 0; font: 400 21px/1.15 var(--f-display); flex: 1; }
+.panel-h .x {
+  width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--rule); background: var(--paper); cursor: pointer;
+  display: grid; place-items: center; padding: 0; color: var(--ink-2); flex: none;
+}
+.panel-h .x:hover { color: var(--ink); border-color: var(--ink-2); }
+.panel-h .x svg { width: 14px; height: 14px; }
+.panel[data-sec="progress"] .panel-h { color: var(--progress); }
+.panel[data-sec="promise"] .panel-h { color: var(--gold); }
+.panel[data-sec="cost"] .panel-h { color: var(--cost); }
+.panel[data-sec="fun"] .panel-h { color: var(--gold); }
+.panel p { margin: 0; }
+.panel .body { font-size: 16px; line-height: 1.6; }
+.panel .when { margin: 0 0 6px; font: italic 400 15px var(--f-serif); color: var(--ink-2); }
+.panel .empty { color: var(--ink-2); font-style: italic; }
+
+figure.ill { margin: 0; }
+figure.ill .frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; place-items: center; }
+figure.ill img { display: block; width: 100%; height: auto; max-height: 52vh; object-fit: contain; }
+.fun-text { font-size: 17px; line-height: 1.55; }
 figcaption, .credit { font-size: 12.5px; color: var(--ink-2); margin-top: 8px; line-height: 1.45; }
 figcaption i, .credit i { font-family: var(--f-serif); }
 figcaption a, .credit a { text-underline-offset: 2px; }
 
-.story h3.sec { font: 700 12px var(--f-body); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); margin: 28px 0 8px; }
-.story p { margin: 0; }
-.story .what { font-size: 17.5px; line-height: 1.6; }
-ul.why { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+ul.why { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 16px; line-height: 1.55; }
 ul.why li { padding-left: 22px; position: relative; }
 ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; width: 8px; height: 8px; border: 1.5px solid var(--ink-2); transform: rotate(45deg); }
 
-.person { margin-top: 28px; padding: 18px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); }
 .person .head { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 16px; align-items: center; }
 .person .portrait { width: 92px; height: 112px; border-radius: 6px; overflow: hidden; background: var(--rule); display: grid; place-items: center; font: 400 30px var(--f-display); color: var(--ink-2); }
 .person .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block; }
-.person .label { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 4px; }
-.person .name { font: 400 26px/1.1 var(--f-display); margin: 0; }
+.person .name { font: 400 25px/1.1 var(--f-display); margin: 0; }
 .person .life { margin: 4px 0 0; font-size: 14px; color: var(--ink-2); }
 .field { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; border: 1.5px solid currentColor; }
 .field.Politics { color: var(--union); }
 .field.Economy { color: var(--gold); }
 .field.Science { color: var(--new); }
 .field.Everyone { color: var(--ink-2); }
-.person .did { margin-top: 14px; }
+.person .did { margin-top: 14px; font-size: 16px; line-height: 1.6; }
 .person .credit { margin-top: 10px; }
 
-.ppp { display: grid; gap: 18px; margin-top: 8px; }
-.ppp .p h3 { margin: 22px 0 6px; font: 400 21px/1.2 var(--f-display); display: flex; align-items: baseline; gap: 10px; }
-.ppp .p h3::after { content: ""; flex: 1; height: 1px; background: var(--rule); transform: translateY(-5px); }
-.ppp .progress h3 { color: var(--progress); }
-.ppp .promise h3 { color: var(--gold); }
-.ppp .cost h3 { color: var(--cost); }
-.also { margin-top: 26px !important; padding-top: 14px; border-top: 1px dashed var(--rule); font-size: 15px; color: var(--ink-2); }
-.also b { color: var(--ink); }
-
-.story-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px; }
-.story-nav button {
-  text-align: left; border: 1px solid var(--rule); background: var(--paper); border-radius: 10px; padding: 10px 14px; cursor: pointer; min-width: 0;
-}
-.story-nav button:hover:not(:disabled) { border-color: var(--ink-2); }
-.story-nav button:disabled { opacity: .4; cursor: default; }
-.story-nav .dir { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); display: block; }
-.story-nav .t { font: 400 15px/1.3 var(--f-serif); display: block; overflow: hidden; text-overflow: ellipsis; }
-.story-nav .next { text-align: right; }
+.yc-kicker { margin: 10px 0 0; display: flex; gap: 8px; flex-wrap: wrap; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+.yc-kicker .era { color: var(--new); font-weight: 700; }
+.yc-title { margin: 6px 0 0; font: 400 21px/1.15 var(--f-display); text-wrap: balance; }
+.ycs.land { display: flex; gap: 10px; align-items: center; font-size: 13.5px; }
+.ycs.land .sw { width: 14px; height: 14px; border-radius: 3px; flex: none; background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
+.ycs.land span { color: var(--ink-2); }
+.ycs.land b { font-weight: 600; color: var(--ink); }
 
 /* glossary terms */
 .term {
@@ -373,19 +377,22 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   html, body { height: auto; }
   .app { height: auto; display: block; }
   .stage { display: block; }
-  .mapwrap { overflow: visible; }
-  .mapcanvas { position: relative; inset: auto; aspect-ratio: 1000 / 720; max-width: 100%; overflow: hidden; }
+  .mapwrap { overflow: visible; display: flex; flex-direction: column; }
+  .mapcanvas { order: 1; position: relative; inset: auto; aspect-ratio: 17 / 10; max-width: 100%; overflow: hidden; }
+  .legend { order: 2; position: static; transform: none; width: auto; max-width: none; border-radius: 0; border-width: 0 0 1px; backdrop-filter: none; background: var(--sheet); justify-content: flex-start; padding: 8px 16px; font-size: 11.5px; }
   .yearcard {
-    position: static; width: auto; max-height: none; border-radius: 0; border-width: 0 0 1px;
+    order: 3; position: static; width: auto; max-height: none; border-radius: 0; border-width: 0 0 1px;
     box-shadow: none; backdrop-filter: none; background: var(--sheet);
   }
   .yc-year { padding: 12px 16px 12px; }
   .ycs, .ycs.compact { padding-left: 16px; padding-right: 16px; }
-  .story { border-left: 0; overflow: visible; }
+  .reader { order: 4; position: static; display: block; pointer-events: auto; }
+  .dock { width: auto; display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; background: var(--paper); border-bottom: 1px solid var(--rule); scrollbar-width: none; }
+  .dock .dock-h { display: none; }
+  .sec-btn { width: auto; flex: none; backdrop-filter: none; background: var(--sheet); }
+  .panels { width: auto; max-height: none; overflow: visible; padding: 12px 16px 24px; background: var(--paper); }
+  .panel { backdrop-filter: none; background: var(--sheet); box-shadow: none; }
   .timeline { position: sticky; bottom: 0; z-index: 20; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -6px 20px rgb(0 0 0 / .06); }
-  .legend { font-size: 11px; padding: 7px 9px; gap: 4px; top: auto; bottom: 46px; right: 8px; }
-  .legend .sw { width: 11px; height: 11px; }
-  .map-note { display: none; }
   .yc-year .yr { font-size: clamp(44px, 12vw, 64px); }
   .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .stats dd { font-size: 18px; }
@@ -405,12 +412,8 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .tick:not(.state) { width: 5px; height: 5px; margin-left: -2.5px; top: 4.5px; }
   .track { --thumb: 18px; }
   #slider::-webkit-slider-thumb { width: 18px; height: 18px; margin-top: 4px; }
-  .legend { display: none; }
-  .story { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .person .head { grid-template-columns: 72px minmax(0, 1fr); }
   .person .portrait { width: 72px; height: 88px; }
-  .story-nav { grid-template-columns: 1fr; }
-  .story-nav .next { text-align: left; }
   .sheet-panel dl { grid-template-columns: 1fr; gap: 2px 0; }
   .sheet-panel dd { margin-bottom: 10px; }
 }
@@ -441,20 +444,25 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   </header>
 
   <main class="stage">
-    <section class="mapwrap" aria-label="Map of North America showing the United States">
+    <section class="mapwrap" aria-label="Map of the United States">
       <div class="mapcanvas">
       %%SVG%%
-      <div class="legend" id="legend" aria-label="Map key"></div>
-      <p class="map-note">Map uses today’s state borders. Territory borders are approximate.</p>
-      <div class="map-actions"><button class="btn-quiet" id="btn-zoom" type="button" aria-pressed="false">Show whole continent</button></div>
       <div id="tip" role="tooltip" hidden></div>
       </div>
-      <aside class="yearcard" id="yearcard" aria-label="This milestone">
-        <div class="yc-year"><span class="yr" id="yr">1776</span></div>
+      <aside class="yearcard" id="yearcard" aria-label="This milestone" aria-live="polite">
+        <div class="yc-year">
+          <span class="yr" id="yr">1776</span>
+          <p class="yc-kicker" id="yc-kicker"></p>
+          <h2 class="yc-title" id="yc-title"></h2>
+        </div>
         <div class="yc-states" id="yc-states" hidden></div>
       </aside>
+      <div class="reader">
+        <nav class="dock" id="dock" aria-label="Story sections"></nav>
+        <div class="panels" id="panels"></div>
+      </div>
+      <div class="legend" id="legend" aria-label="Map key"></div>
     </section>
-    <article class="story" id="story" aria-live="polite"></article>
   </main>
 
   <footer class="timeline" aria-label="Timeline">
@@ -659,7 +667,6 @@ function mapState(s) {
     if (acqEdge[a]) acqEdge[a].classList.toggle('fresh', isNew);
     if (acqLbl[a]) acqLbl[a].classList.toggle('show', isNew);
   }
-  $('#inset').style.opacity = s.date >= '1898-01-01' ? 1 : 0;
   if (s.place && s.placeXY) {
     pin.removeAttribute('hidden'); pin.dataset.x = s.placeXY[0]; pin.dataset.y = s.placeXY[1];
     pinText.textContent = s.place.name;
@@ -669,46 +676,28 @@ function mapState(s) {
 
 function legend(s) {
   const rows = [];
-  rows.push(['new', s.states.length ? (s.id === '1776' ? 'The 13 states declaring independence' : (s.statesNote || 'Joined at this milestone')) : null]);
-  rows.push(['in', 'States in the Union']);
-  if (s.seceded) rows.push(['sec', 'Left the Union (Confederacy), 1861–65']);
-  if (s.date >= '1783-09-03') rows.push(['terr', 'U.S. land, not yet a state']);
+  rows.push(['new', s.states.length ? (s.id === '1776' ? 'Declaring independence' : (s.statesNote || 'Joined now')) : null]);
+  rows.push(['in', 'In the Union']);
+  if (s.seceded) rows.push(['sec', 'Left the Union, 1861–65']);
+  if (s.date >= '1783-09-03') rows.push(['terr', 'U.S. land, not a state yet']);
   if (s.acq) rows.push(['new acqsw', 'Newly added land']);
-  rows.push(['out', 'Other countries, or not yet U.S.']);
+  rows.push(['out', 'Not U.S.']);
   $('#legend').innerHTML = rows.filter(r => r[1]).map(([c, t]) =>
-    `<div class="row"><span class="sw ${c === 'new acqsw' ? 'terr" style="background:var(--terr-new);outline:1.5px dashed var(--new);outline-offset:1px' : c}"></span><span>${t}</span></div>`).join('');
+    `<div class="row"><span class="sw ${c === 'new acqsw' ? 'terr" style="background:var(--terr-new);outline:1.5px dashed var(--new);outline-offset:1px' : c}"></span><span>${t}</span></div>`).join('')
+    + '<span class="note">Today’s state borders; territory borders approximate</span>';
 }
 
-// zoom: frame everything that is U.S. at this milestone, plus the event's place
-let full = false;
+// The view is fixed on the continental United States (the lower 48 plus the Alaska, Hawaii and Puerto Rico insets)
 let vb = [0, 0, geo.W, geo.H];
-function targetBox(s) {
-  if (full) return [0, 0, geo.W, geo.H];
-  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-  const add = b => { x0 = Math.min(x0, b[0][0]); y0 = Math.min(y0, b[0][1]); x1 = Math.max(x1, b[1][0]); y1 = Math.max(y1, b[1][1]); };
-  for (const p in geo.states) if (inUnion(p, s.date) || s.states.includes(p)) {
-    add(geo.states[p].b);
-    const l = geo.states[p].lab; if (l) add([[l[0] - 14, l[1] - 8], [l[0] + 14, l[1] + 8]]);
-  }
-  for (const a in geo.acq) { const base = a.replace('hi', ''); if (acq[base] && acq[base].date <= s.date) add(geo.acq[a].b); }
-  if (s.placeXY) add([[s.placeXY[0] - 40, s.placeXY[1] - 30], [s.placeXY[0] + 40, s.placeXY[1] + 30]]);
-  let w = x1 - x0, h = y1 - y0;
-  const padX = Math.max(w * .06, 24), padY = Math.max(h * .07, 24);
-  x0 -= padX; x1 += padX; y0 -= padY * 1.4; y1 += padY;
-  // never frame beyond the map itself, so the whole map fits the panel's width
-  x0 = Math.max(x0, 0); x1 = Math.min(x1, geo.W); y0 = Math.max(y0, 0); y1 = Math.min(y1, geo.H);
-  w = x1 - x0; h = y1 - y0;
-  const minW = 300; if (w < minW) { x0 -= (minW - w) / 2; w = minW; }
-  return [x0, y0, w, h];
+function targetBox() {
+  const [x, y, w, h] = geo.frame;
+  return [x - 14, y - 16, w + 28, h + 50];
 }
 // Fit the frame to the panel, centered. The year card may cover a corner of the map (often Alaska).
 function fitAspect(b) {
   const r = svg.clientWidth / Math.max(1, svg.clientHeight);
   let [x, y, w, h] = b;
   if (w / h > r) { const nh = w / r; y -= (nh - h) / 2; h = nh; } else { const nw = h * r; x -= (nw - w) / 2; w = nw; }
-  // keep the frame on the map where possible
-  if (w <= geo.W) x = Math.min(Math.max(x, 0), geo.W - w); else x = (geo.W - w) / 2;
-  if (h <= geo.H) y = Math.min(Math.max(y, 0), geo.H - h); else y = (geo.H - h) / 2;
   return [x, y, w, h];
 }
 // show a state's abbreviation only where it fits at the current zoom
@@ -737,7 +726,7 @@ function applyVB(v) {
 }
 let anim = 0;
 function zoomTo(s, instant) {
-  const to = fitAspect(targetBox(s));
+  const to = fitAspect(targetBox());
   const from = vb.slice();
   fitLabels(to);
   cancelAnimationFrame(anim);
@@ -784,7 +773,7 @@ svg.addEventListener('click', e => {
 });
 
 // ---------- story ----------
-const story = $('#story');
+
 function credit(img, kind) {
   if (!img) return '';
   const who = img.artist ? ` by ${esc(img.artist)}` : '';
@@ -816,15 +805,19 @@ function stateEntry(p, compact) {
     <div><dt>Capital then</dt><dd>${info.cap ? esc(info.cap) : 'None fixed'}<small>${esc(capNote)}</small></dd></div>
   </dl></div>`;
 }
-function renderYearCard(s) {
+function renderYearCard(s, i) {
+  const era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to) || eras[eras.length - 1];
+  $('#yc-kicker').innerHTML = `<span class="era">${esc(era.name)}</span><span>Milestone ${i + 1} of ${N}</span>`;
+  $('#yc-title').textContent = s.title;
   const box = $('#yc-states');
   let html = '';
   if (s.id === '1776') html = '<div class="ycs note">The 13 original states declare independence together.</div>';
-  else if (s.states.length) html = s.states.map(p => stateEntry(p, s.states.length > 2)).join('');
+  else if (s.states.length) html = s.states.map(p => stateEntry(p, s.states.length > 1)).join('');
+  if (s.acq && acq[s.acq]) html += `<div class="ycs land"><span class="sw"></span><p><b>${esc(acq[s.acq].name)}</b> <span>· about ${acq[s.acq].approx} sq mi added</span></p></div>`;
   box.innerHTML = html;
   box.hidden = !html;
   box.scrollTop = 0;
-  $('#yearcard').classList.toggle('has-states', !!html && s.id !== '1776');
+  $('#yearcard').classList.toggle('has-states', !!s.states.length && s.id !== '1776');
   fadeMore();
 }
 // fade the bottom of the state list while more entries are hidden below
@@ -834,58 +827,88 @@ function fadeMore() {
 }
 $('#yc-states').addEventListener('scroll', fadeMore, { passive: true });
 
-function renderStory(i) {
-  const s = stops[i], era = eras.find(e => s.date.slice(0, 4) >= e.from && s.date.slice(0, 4) <= e.to) || eras[eras.length - 1];
+// ---------- story sections ----------
+// Each section of the story is a button in the dock. A button opens its panel; pressing it again (or ×) closes it.
+// Open panels stay open while you move between milestones, and show the new milestone's text.
+const ICONS = {
+  picture: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/>',
+  fun: '<path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6-4.5-4.1 6-.7z"/>',
+  what: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',
+  why: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1 .8-1 1.5v.6M12 17h.01"/>',
+  people: '<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/>',
+  progress: '<path d="M4 18l6-6 4 4 6-7"/><path d="M15 9h5v5"/>',
+  promise: '<path d="M5 21V4"/><path d="M5 4.5h11l-2 4 2 4H5"/>',
+  cost: '<path d="M12 4v16M5 20h14M6 8h12M6 8l-3 6a3 3 0 0 0 6 0zM18 8l-3 6a3 3 0 0 0 6 0z"/>',
+  also: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
+};
+const svgIcon = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
+const SECTIONS = [
+  { id: 'picture', label: 'Picture', title: () => 'Picture', has: s => !!(images[s.id] || {}).ill },
+  { id: 'fun', label: 'Fun fact', title: () => 'Fun fact', has: s => !!s.fun },
+  { id: 'what', label: 'What happened', title: () => 'What happened', has: () => true },
+  { id: 'why', label: 'Why', title: s => s.whyTitle || 'Why it happened', has: () => true },
+  { id: 'people', label: 'People', title: () => 'The people', has: () => true },
+  { id: 'progress', label: 'Progress', title: () => 'The progress', has: () => true },
+  { id: 'promise', label: 'Promise', title: () => 'The promise', has: () => true },
+  { id: 'cost', label: 'Cost', title: s => s.costTitle || 'The cost', has: () => true },
+  { id: 'also', label: 'Also', title: () => 'Also in this era', has: s => !!s.also }
+];
+let open = new Set();
+try { JSON.parse(localStorage.getItem('openSections') || '[]').forEach(k => open.add(k)); } catch (e) {}
+const saveOpen = () => { try { localStorage.setItem('openSections', JSON.stringify([...open])); } catch (e) {} };
+
+function sectionBody(id, s) {
   const im = images[s.id] || {};
-  let chips = '';
-  if (s.acq && acq[s.acq]) chips += `<li class="chip acqchip">${esc(acq[s.acq].name)} <span class="meta">about ${acq[s.acq].approx} sq mi added</span></li>`;
-  const ill = im.ill
-    ? `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}" loading="eager"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`
-    : '';
-  const p = s.person;
-  const initials = p.name.split(/\s+/).filter(w => /^[A-Z]/.test(w)).map(w => w[0]).slice(0, 2).join('');
-  const contain = im.person && im.person.w / im.person.h > 1.6;
-  const portrait = im.person ? `<img src="${esc(im.person.file)}" alt="${esc(im.person.title)}"${contain ? ' style="object-fit:contain;background:var(--sheet)"' : ''}>` : initials;
-  const prev = stops[i - 1], next = stops[i + 1];
-  story.innerHTML = `
-    <p class="kicker"><span class="era">${esc(era.name)}</span><span>Milestone ${i + 1} of ${N}</span></p>
-    <h2>${esc(s.title)}</h2>
-    <p class="when">${esc(s.when)}</p>
-    ${chips ? `<ul class="chips">${chips}</ul>` : ''}
-    ${ill}
-    ${s.fun ? `<aside class="fun" aria-label="Fun fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l2.9 6.6 7.2.6-5.5 4.7 1.7 7.1L12 17.1l-6.3 3.7 1.7-7.1L1.9 9l7.2-.6z"/></svg><p class="k">Fun fact</p><p>${gloss(s.fun)}</p></aside>` : ''}
-    <h3 class="sec">What happened</h3>
-    <p class="what">${gloss(s.what)}</p>
-    <h3 class="sec">${esc(s.whyTitle || 'Why it happened')}</h3>
-    <ul class="why">${s.why.map(w => `<li>${gloss(w)}</li>`).join('')}</ul>
-    <section class="person" aria-label="The people">
-      <div class="head">
-        <div class="portrait">${portrait}</div>
-        <div>
-          <p class="label">The people</p>
-          <p class="name">${esc(p.name)}</p>
-          <p class="life">${esc(p.life)} · ${gloss(p.role)}</p>
-          <span class="field ${esc(p.field)}">${esc(p.field)}</span>
-        </div>
-      </div>
+  if (id === 'picture') return im.ill
+    ? `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`
+    : '<p class="empty">No picture for this milestone yet.</p>';
+  if (id === 'fun') return s.fun ? `<p class="fun-text">${gloss(s.fun)}</p>` : '<p class="empty">No fun fact for this milestone.</p>';
+  if (id === 'what') return `<p class="when">${esc(s.when)}</p><p class="body">${gloss(s.what)}</p>`;
+  if (id === 'why') return `<ul class="why">${s.why.map(w => `<li>${gloss(w)}</li>`).join('')}</ul>`;
+  if (id === 'people') {
+    const p = s.person;
+    const initials = p.name.split(/\s+/).filter(w => /^[A-Z]/.test(w)).map(w => w[0]).slice(0, 2).join('');
+    const contain = im.person && im.person.w / im.person.h > 1.6;
+    const portrait = im.person ? `<img src="${esc(im.person.file)}" alt="${esc(im.person.title)}"${contain ? ' style="object-fit:contain;background:var(--sheet)"' : ''}>` : initials;
+    return `<div class="person"><div class="head"><div class="portrait">${portrait}</div><div>
+      <p class="name">${esc(p.name)}</p><p class="life">${esc(p.life)} · ${gloss(p.role)}</p>
+      <span class="field ${esc(p.field)}">${esc(p.field)}</span></div></div>
       <p class="did">${gloss(p.did)}</p>
-      ${im.person ? `<p class="credit">${credit(im.person, 'Image')}</p>` : ''}
-    </section>
-    <div class="ppp">
-      <div class="p progress"><h3>The progress</h3><p>${gloss(s.progress)}</p></div>
-      <div class="p promise"><h3>The promise</h3><p>${gloss(s.promise)}</p></div>
-      <div class="p cost"><h3>${esc(s.costTitle || 'The cost')}</h3><p>${gloss(s.cost)}</p></div>
-    </div>
-    ${s.also ? `<p class="also"><b>Also in this era:</b> ${gloss(s.also)}</p>` : ''}
-    <nav class="story-nav" aria-label="Milestones">
-      <button type="button" class="prev" ${prev ? '' : 'disabled'} data-go="${i - 1}"><span class="dir">← ${prev ? esc(prev.label) : 'Start'}</span><span class="t">${prev ? esc(prev.title) : 'This is the first milestone'}</span></button>
-      <button type="button" class="next" ${next ? '' : 'disabled'} data-go="${i + 1}"><span class="dir">${next ? esc(next.label) : 'End'} →</span><span class="t">${next ? esc(next.title) : 'This is the last milestone'}</span></button>
-    </nav>`;
-  story.scrollTop = 0;
+      ${im.person ? `<p class="credit">${credit(im.person, 'Image')}</p>` : ''}</div>`;
+  }
+  if (id === 'progress') return `<p class="body">${gloss(s.progress)}</p>`;
+  if (id === 'promise') return `<p class="body">${gloss(s.promise)}</p>`;
+  if (id === 'cost') return `<p class="body">${gloss(s.cost)}</p>`;
+  if (id === 'also') return s.also ? `<p class="body">${gloss(s.also)}</p>` : '<p class="empty">Nothing else listed for this milestone.</p>';
+  return '';
 }
-story.addEventListener('click', e => {
-  const b = e.target.closest('[data-go]'); if (b && !b.disabled) { go(+b.dataset.go); if (innerWidth <= 960) $('.mapwrap').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); }
-});
+function renderDock(s) {
+  $('#dock').innerHTML = '<p class="dock-h">Read the story</p>' + SECTIONS.map(sec => {
+    const has = sec.has(s), on = open.has(sec.id);
+    return `<button type="button" class="sec-btn" data-sec="${sec.id}" aria-pressed="${on}" aria-controls="panel-${sec.id}"${has ? '' : ' aria-disabled="true"'}>${svgIcon(sec.id)}<span>${sec.label}</span><i class="dot" aria-hidden="true"></i></button>`;
+  }).join('');
+}
+function renderPanels() {
+  const s = stops[cur];
+  renderDock(s);
+  const wrap = $('#panels');
+  wrap.innerHTML = SECTIONS.filter(sec => open.has(sec.id)).map(sec =>
+    `<section class="panel" id="panel-${sec.id}" data-sec="${sec.id}" aria-label="${esc(sec.title(s))}">
+      <div class="panel-h">${svgIcon(sec.id)}<h3>${esc(sec.title(s))}</h3>
+        <button type="button" class="x" data-close-sec="${sec.id}" aria-label="Close ${esc(sec.label)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      ${sectionBody(sec.id, s)}
+    </section>`).join('');
+  wrap.scrollTop = 0;
+}
+function toggleSection(id) {
+  if (open.has(id)) open.delete(id); else open.add(id);
+  saveOpen();
+  renderPanels();
+  const el = $('#panel-' + id);
+  if (el) el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'nearest' });
+}
+$('#dock').addEventListener('click', e => { const b = e.target.closest('.sec-btn'); if (b) toggleSection(b.dataset.sec); });
+$('#panels').addEventListener('click', e => { const b = e.target.closest('[data-close-sec]'); if (b) toggleSection(b.dataset.closeSec); });
 
 // glossary popover
 const popEl = $('#pop');
@@ -912,7 +935,7 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('mouseover', e => { const t = e.target.closest('.term'); if (t && matchMedia('(hover: hover)').matches) showPop(t); });
 document.addEventListener('mouseout', e => { const t = e.target.closest('.term'); if (t && matchMedia('(hover: hover)').matches && !t.contains(e.relatedTarget)) hidePop(); });
-story.addEventListener('scroll', hidePop, { passive: true });
+$('#panels').addEventListener('scroll', hidePop, { passive: true });
 
 // ---------- timeline ----------
 const slider = $('#slider');
@@ -953,7 +976,7 @@ function go(i, fromSlider) {
   document.querySelectorAll('.era-band').forEach(b => b.classList.toggle('cur', era && b.dataset.era === era.id));
   ylabels(i);
   $('#btn-prev').disabled = i === 0; $('#btn-next').disabled = i === N - 1;
-  stats(s); showFlag(s); mapState(s); renderYearCard(s); renderStory(i); zoomTo(s);
+  stats(s); showFlag(s); mapState(s); renderYearCard(s, i); renderPanels(); zoomTo(s);
   try { history.replaceState(null, '', '#' + s.id); } catch (e) {}
 }
 $('#btn-prev').addEventListener('click', () => { stopPlay(); go(cur - 1); });
@@ -975,12 +998,6 @@ $('#btn-play').addEventListener('click', () => {
   timer = setInterval(() => { if (cur >= N - 1) return stopPlay(); go(cur + 1); }, 6500);
 });
 
-$('#btn-zoom').addEventListener('click', e => {
-  full = !full;
-  e.currentTarget.setAttribute('aria-pressed', String(full));
-  e.currentTarget.textContent = full ? 'Follow the story' : 'Show whole continent';
-  zoomTo(stops[cur]);
-});
 new ResizeObserver(() => { if (cur >= 0) zoomTo(stops[cur], true); }).observe(svg);
 
 // ---------- overlays ----------

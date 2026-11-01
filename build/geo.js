@@ -61,18 +61,29 @@ proj.fitExtent([[10, 10], [W - 10, H - 10]], frame);
 const path = d3.geoPath(proj).digits(1);
 const projWide = proj.clipExtent([[-450, -320], [W + 450, H + 320]]);
 
-// Hawaii inset (bottom-left)
-const HI_BOX = { x: 18, y: H - 150, w: 230, h: 130 };
+// Insets, placed in the Pacific / northern Mexico below the lower 48, as on a classic U.S. map
+const AK_BOX = { x: 168, y: 618, w: 156, h: 94 };
+const HI_BOX = { x: 330, y: 664, w: 82, h: 48 };
+const PR_BOX = { x: 712, y: 640, w: 62, h: 36 };
+const inner = (B, m) => [[B.x + m, B.y + m], [B.x + B.w - m, B.y + B.h - m]];
+const akProj = d3.geoConicEqualArea().parallels([55, 65]).rotate([154, 0]);
+akProj.fitExtent(inner(AK_BOX, 6), { type: 'MultiPoint', coordinates: [[-168.5, 65.6], [-156.8, 71.4], [-141, 69.6], [-130, 55.5], [-163.5, 54.5]] });
+akProj.clipExtent(inner(AK_BOX, 1));
+const akPath = d3.geoPath(akProj).digits(1);
 const hiProj = d3.geoConicConformal().parallels([8, 18]).rotate([157, 0]);
-hiProj.fitExtent([[HI_BOX.x + 8, HI_BOX.y + 8], [HI_BOX.x + HI_BOX.w - 8, HI_BOX.y + HI_BOX.h - 8]], feat('HI'));
+hiProj.fitExtent(inner(HI_BOX, 5), feat('HI'));
 const hiPath = d3.geoPath(hiProj).digits(1);
+const prProj = d3.geoMercator();
+prProj.fitExtent(inner(PR_BOX, 5), feat('PR'));
+const prPath = d3.geoPath(prProj).digits(1);
+const insetLand = { AK: akPath(feat('AK')), HI: hiPath(feat('HI')), PR: prPath(feat('PR')) };
 
 // --- base land: other countries ---
 const countries = topo.feature(world, world.objects.countries).features
   .filter(f => f.properties.name !== 'United States of America' && f.properties.name !== 'Puerto Rico');
 const pathLand = d3.geoPath(proj).digits(0);
 const landD = countries.map(f => pathLand(f)).filter(Boolean).join('');
-const usLand = pathLand(topo.feature(us, us.objects.nation));
+const usLand = pathLand(merge(Object.keys(byPostal).filter(p => !['AK', 'HI', 'PR'].includes(p))));
 
 // graticule
 const grat = path(d3.geoGraticule().step([10, 10]).extentMajor([[-180, 10], [-40, 85]])());
@@ -81,8 +92,7 @@ const states = {};
 for (const [p, g] of Object.entries(byPostal)) {
   if (p === 'DC') continue;
   const f = topo.feature(us, g);
-  const P = p === 'HI' ? hiPath : path;
-  const pr = p === 'HI' ? hiProj : proj;
+  const P = p === 'HI' ? hiPath : p === 'AK' ? akPath : p === 'PR' ? prPath : path;
   let c = P.centroid(f);
   // use largest polygon centroid for multi-part states
   if (f.geometry.type === 'MultiPolygon') {
@@ -103,15 +113,30 @@ for (const [k, v] of Object.entries(acq)) {
   const c = path.centroid(v);
   acqPaths[k] = { d: pr, c: c.map(v => +v.toFixed(1)), b: path.bounds(v).map(pt => pt.map(v => +v.toFixed(1))) };
 }
-acqPaths.a1898hi = { d: hiPath(feat('HI')), c: hiPath.centroid(feat('HI')).map(v => +v.toFixed(1)), b: [[HI_BOX.x, HI_BOX.y], [HI_BOX.x + HI_BOX.w, HI_BOX.y + HI_BOX.h]] };
-states.HI.b = [[HI_BOX.x, HI_BOX.y], [HI_BOX.x + HI_BOX.w, HI_BOX.y + HI_BOX.h]];
+const boxB = B => [[B.x, B.y], [B.x + B.w, B.y + B.h]];
+const r1 = v => v.map(n => +n.toFixed(1));
+acqPaths.a1867 = { d: akPath(feat('AK')), c: r1(akPath.centroid(feat('AK'))), b: boxB(AK_BOX) };
+acqPaths.a1898 = { d: prPath(feat('PR')), c: r1(prPath.centroid(feat('PR'))), b: boxB(PR_BOX) };
+acqPaths.a1898hi = { d: hiPath(feat('HI')), c: r1(hiPath.centroid(feat('HI'))), b: boxB(HI_BOX) };
+states.HI.b = boxB(HI_BOX);
+states.AK.b = boxB(AK_BOX);
+// the fixed view: the lower 48 plus the insets
+const FRAME = (() => {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  const add = b => { x0 = Math.min(x0, b[0][0]); y0 = Math.min(y0, b[0][1]); x1 = Math.max(x1, b[1][0]); y1 = Math.max(y1, b[1][1]); };
+  for (const [p, v] of Object.entries(states)) if (!['AK', 'HI', 'PR'].includes(p)) add(v.b);
+  [AK_BOX, HI_BOX, PR_BOX].forEach(B => add(boxB(B)));
+  return [x0, y0, x1 - x0, y1 - y0].map(n => +n.toFixed(1));
+})();
 
 const project = (lon, lat) => {
   if (lon < -150 && lat < 25) return hiProj([lon, lat]).map(v => +v.toFixed(1));
+  if (lon < -129 && lat > 51) return akProj([lon, lat]).map(v => +v.toFixed(1));
+  if (lon > -68 && lon < -65 && lat < 19) return prProj([lon, lat]).map(v => +v.toFixed(1));
   return proj([lon, lat]).map(v => +v.toFixed(1));
 };
 
-module.exports = { W, H, HI_BOX, landD, usLand, grat, states, acqPaths, project };
+module.exports = { W, H, HI_BOX, AK_BOX, PR_BOX, FRAME, insetLand, landD, usLand, grat, states, acqPaths, project };
 
 if (require.main === module) {
   const out = { W, H, HI_BOX, landD, usLand, grat, states, acqPaths };
