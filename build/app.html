@@ -183,7 +183,7 @@ a { color: inherit; }
 
 .legend {
   position: absolute; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bot-h, 80px) + 12px); z-index: 2;
-  max-width: calc(100% - min(490px, 37vw) - 42px); width: max-content;
+  box-sizing: border-box; max-width: calc(100% - min(490px, 37vw) - 42px); width: max-content;
   background: color-mix(in srgb, var(--sheet) 55%, transparent); -webkit-backdrop-filter: blur(7px) saturate(1.6); backdrop-filter: blur(7px) saturate(1.6);
   border: 1px solid var(--rule); border-radius: 999px; padding: 6px 14px;
   display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 12.5px;
