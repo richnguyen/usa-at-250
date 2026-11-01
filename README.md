@@ -9,7 +9,7 @@ It is written for a general audience and for people learning English. Each miles
 ## Features
 
 - **47 milestones.** Every year a new state joined the Union, plus turning points such as the Treaty of Paris (1783), the end of slavery (1865), the transcontinental railroad (1869), women's suffrage (1920), the Moon landing (1969) and America at 250 (2026).
-- **A full-screen map of the United States that changes at each step.** The view is fixed on the continental U.S. Alaska, Hawaii and Puerto Rico appear in inset boxes, as on a classic U.S. map, once they become U.S. land. A short bar at the top names the milestone: the year and a one-line title. It shows:
+- **A full-screen map of the United States that changes at each step.** The view is fixed on the continental U.S. Alaska, Hawaii and Puerto Rico appear in inset boxes, as on a classic U.S. map, once they become U.S. land. It shows:
   - states already in the Union
   - states that join at that milestone
   - U.S. land that was not yet a state
@@ -22,7 +22,7 @@ It is written for a general audience and for people learning English. Each miles
 - **A fun fact for every milestone,** shown just below the picture, to make each moment easy to remember. For example: the Wright brothers tossed a coin to decide who would fly first.
 - **One key person per milestone,** tagged by field: politics, economy or science.
 - **Written for English learners.** Sentences are short and plain. 41 harder words, such as *ratify*, *annex* and *suffrage*, show a simple meaning when tapped. A word list collects them all.
-- **A timeline slider** with previous/next buttons, autoplay and keyboard navigation (← →). The header shows the number of states, land area and population at each date.
+- **A timeline slider** with previous/next buttons, autoplay and keyboard navigation (← →). Under the slider's handle, a caption shows the milestone's year and its one-line title, so the date and the headline are read in one place. The header shows the number of states, land area and population at each date.
 - **Pictures with credits.** Illustrations and portraits come from Wikimedia Commons. Each one shows its title, artist, date, license and a link to its source page.
 - **Easy to run and share.** It is a single static page with no server and no build step needed to view it. It has light and dark modes, with a switch in the top-right corner, and it works on phones. Each milestone has its own link, for example `index.html#1803`.
 
