@@ -118,9 +118,11 @@ a { color: inherit; }
 .map-foot {
   position: absolute; z-index: 6; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   max-width: calc(100% - min(490px, 37vw) - 42px);
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 10px;
+  display: flex; align-items: flex-end; justify-content: flex-end; gap: 10px;
 }
-.tools { display: flex; gap: 8px; flex: none; }
+.map-foot .legend { flex: 0 1 auto; min-width: 0; }
+.tools { display: flex; flex-direction: column; align-items: stretch; gap: 6px; flex: none; }
+.tools .btn-quiet { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .btn-quiet {
   border: 1px solid var(--rule); border-radius: 999px; padding: 7px 14px; font-size: 14px; cursor: pointer; color: var(--ink);
   background: color-mix(in srgb, var(--sheet) 82%, transparent); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
@@ -349,7 +351,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-.tl-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; }
+.tl-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 14px; }
 .tl-btns { display: flex; gap: 6px; }
 .round {
   width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--rule); background: var(--paper);
@@ -358,22 +360,22 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 .round:hover { border-color: var(--ink-2); }
 .round svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .round.play svg { fill: currentColor; stroke: none; }
-.track { position: relative; height: 122px; --thumb: 26px; min-width: 0; }
-.eras { position: absolute; left: 0; right: 0; top: 0; height: 18px; }
+.track { position: relative; height: 76px; --thumb: 26px; min-width: 0; }
+.eras { position: absolute; left: 0; right: 0; top: 56px; height: 18px; }
 .era-band { position: absolute; top: 0; height: 18px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 1px solid var(--rule); padding-left: 6px; line-height: 18px; }
 .era-band.cur { color: var(--new); font-weight: 700; }
-.ticks { position: absolute; left: 0; right: 0; top: 30px; height: 14px; pointer-events: none; }
-.rail { position: absolute; left: calc(var(--thumb) / 2); right: calc(var(--thumb) / 2); top: 36px; height: 2px; background: var(--rule); border-radius: 2px; }
+.ticks { position: absolute; left: 0; right: 0; top: 12px; height: 14px; pointer-events: none; }
+.rail { position: absolute; left: calc(var(--thumb) / 2); right: calc(var(--thumb) / 2); top: 18px; height: 2px; background: var(--rule); border-radius: 2px; }
 .rail .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--union); border-radius: 2px; transition: width .3s; }
 .tick { position: absolute; top: 2px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--sheet); border: 2px solid var(--rule); }
 .tick.state { border-color: var(--union); }
 .tick.past { background: var(--union); border-color: var(--union); }
 .tick.past:not(.state) { background: var(--ink-2); border-color: var(--ink-2); }
 .tick:not(.state) { width: 8px; height: 8px; margin-left: -4px; top: 3px; border-radius: 1px; transform: rotate(45deg); }
-.ylabels { position: absolute; left: 0; right: 0; top: 50px; height: 18px; pointer-events: none; }
+.ylabels { position: absolute; left: 0; right: 0; top: 34px; height: 18px; pointer-events: none; }
 .ylabel { position: absolute; transform: translateX(-50%); font: 400 13px var(--f-serif); color: var(--ink-2); font-variant-numeric: lining-nums tabular-nums; }
 #slider {
-  position: absolute; left: 0; right: 0; top: 24px; width: 100%; height: 26px; margin: 0;
+  position: absolute; left: 0; right: 0; top: 6px; width: 100%; height: 26px; margin: 0;
   -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer;
 }
 #slider::-webkit-slider-runnable-track { height: 26px; background: transparent; }
@@ -388,16 +390,17 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 #slider:focus-visible { outline: none; }
 #slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--focus); }
 #slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(--focus); }
+.cap-row { position: relative; height: 46px; margin: 2px 0 0; }
 .tl-cap {
-  position: absolute; top: 72px; left: 0; z-index: 1; max-width: 100%;
+  position: absolute; top: 0; left: 0; z-index: 1; max-width: 100%;
   display: inline-flex; align-items: center; gap: 12px; padding: 4px 20px 4px 4px;
   background: var(--sheet); border: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); border-radius: 999px;
   box-shadow: 0 2px 4px rgb(22 33 51 / .08), 0 10px 26px rgb(22 33 51 / .16);
   white-space: nowrap; transition: left .25s ease;
 }
 .tl-cap::before {
-  content: ""; position: absolute; top: -7px; left: var(--caret, 50%); width: 12px; height: 12px; margin-left: -6px;
-  background: var(--sheet); border-left: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); border-top: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); transform: rotate(45deg);
+  content: ""; position: absolute; bottom: -7px; left: var(--caret, 50%); width: 12px; height: 12px; margin-left: -6px;
+  background: var(--sheet); border-right: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); border-bottom: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); transform: rotate(45deg);
 }
 .cap-yr { flex: none; padding: 3px 14px 4px; border-radius: 999px; background: var(--new); color: #fff; font: 700 24px/1.1 var(--f-serif); letter-spacing: .01em; font-variant-numeric: lining-nums tabular-nums; }
 .cap-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; font: 400 21px/1.25 var(--f-display); color: var(--ink); }
@@ -429,7 +432,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .stage { position: static; order: 2; }
   .mapwrap { height: auto; }
   .map-foot { order: 3; position: static; max-width: none; display: block; }
-  .tools { padding: 10px 16px 12px; background: var(--sheet); border-bottom: 1px solid var(--rule); }
+  .tools { flex-direction: row; padding: 10px 16px 12px; background: var(--sheet); border-bottom: 1px solid var(--rule); }
   .btn-quiet { backdrop-filter: none; box-shadow: none; background: var(--paper); }
   .titlebar { gap: 10px; padding-bottom: 4px; }
   .titlebar h1 { font-size: 18px; }
@@ -452,13 +455,13 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .ylabel:not(.edge) { display: none; }
   .tick { width: 6px; height: 6px; margin-left: -3px; top: 4px; border-width: 1.5px; }
   .tick:not(.state) { width: 5px; height: 5px; margin-left: -2.5px; top: 4.5px; }
-  .track { --thumb: 22px; height: 150px; }
+  .track { --thumb: 22px; height: 76px; }
   .cap-yr { font-size: 20px; }
   .tl-cap { white-space: normal; border-radius: 16px; align-items: flex-start; flex-wrap: wrap; padding: 4px 12px 6px 4px; }
   .cap-stats { flex-basis: 100%; margin: 2px 0 0 4px; padding-left: 0; border-left: 0; gap: 10px; flex-wrap: wrap; font-size: 12.5px; }
   .cap-stats .cs b.n { font-size: 16px; }
-  .track { height: auto; }
-  .tl-cap { position: relative; top: auto; left: 0 !important; margin: 72px 0 6px; max-width: 100%; }
+  .cap-row { height: auto; margin: 2px 0 10px; }
+  .tl-cap { position: relative; left: 0 !important; max-width: 100%; }
   .cap-t { font-size: 16.5px; padding-top: 3px; flex: 1 1 0; }
   .cap-stats { gap: 4px 12px; }
   #slider::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: 2px; }
@@ -483,6 +486,9 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       </div>
       <h1>How the United States evolved through 1776–2026</h1>
     </div>
+    <div class="cap-row" id="cap-row">
+      <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span><span class="cap-stats" id="cap-stats"></span></div>
+    </div>
     <nav class="tl-row" aria-label="Timeline">
     <div class="tl-btns">
       <button class="round" id="btn-prev" type="button" aria-label="Previous milestone"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -494,7 +500,6 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       <div class="ticks" id="ticks"></div>
       <div class="ylabels" id="ylabels"></div>
       <input type="range" id="slider" min="0" max="1" step="1" value="0" aria-label="Choose a milestone">
-      <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span><span class="cap-stats" id="cap-stats"></span></div>
     </div>
     <div class="tl-btns">
       <button class="round" id="btn-next" type="button" aria-label="Next milestone"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -930,9 +935,9 @@ function targetBox() {
 }
 // Space taken at the top and bottom by the glass bars (desktop, where they float over the map)
 function barInsets() {
-  const tl = $('.timeline'), ft = $('#map-foot');
+  const tl = $('.timeline'), lg = $('#legend');
   if (getComputedStyle(tl).position !== 'absolute') return [0, 0];
-  return [tl.offsetHeight + 4, ft.offsetHeight + 26];
+  return [tl.offsetHeight + 4, lg.offsetHeight + 34];
 }
 // Fit the frame, centered, into the map area between the bars
 function storyInset() {
@@ -1140,6 +1145,7 @@ function placeEach(A, F) {
   const placed = [], dots = A.map(a => [a.ax, a.ay]);
   const pinBox = !pin.hasAttribute('hidden') ? pin.getBoundingClientRect() : null, base = svg.getBoundingClientRect();
   const pinR = pinBox ? { x: pinBox.left - base.left, y: pinBox.top - base.top, w: pinBox.width, h: pinBox.height } : null;
+  const tb = $('.tools').getBoundingClientRect(), toolsR = { x: tb.left - base.left - 8, y: tb.top - base.top - 8, w: tb.width + 16, h: tb.height + 16 };
   for (const a of A.slice().sort((p, q) => p.ay - q.ay)) {
     const { w, h, ax, ay } = a, cands = [];
     for (const G of [28, 64]) cands.push(
@@ -1152,6 +1158,7 @@ function placeEach(A, F) {
       placed.forEach(o => cost += overlap(r, o) * 60);
       dots.forEach(d => { if (inside(d, r, 10)) cost += 4000; });
       if (pinR) cost += overlap(r, pinR) * 8;
+      cost += overlap(r, toolsR) * 60;
       if (!best || cost < best.cost) best = { ...r, cost };
     });
     a.x = best.x; a.y = best.y; a.side = null;
@@ -1216,14 +1223,14 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => layo
 function renderMilestone(s) {
   $('#cap-t').textContent = s.title;
 }
-// keep the caption under the slider thumb, inside the track, with its caret pointing at the thumb
+// keep the caption above the slider handle, inside the bar, with its caret pointing down at the handle
 function placeCaption() {
-  const track = $('#track'), cap = $('#tl-cap');
+  const track = $('#track'), cap = $('#tl-cap'), row = $('#cap-row');
   const tw = track.clientWidth, thumb = parseFloat(getComputedStyle(track).getPropertyValue('--thumb')) || 22;
-  const x = thumb / 2 + (tw - thumb) * cur / (N - 1);
-  const w = cap.offsetWidth;
+  const x = track.getBoundingClientRect().left - row.getBoundingClientRect().left + thumb / 2 + (tw - thumb) * cur / (N - 1);
+  const w = cap.offsetWidth, rw = row.clientWidth;
   const inFlow = getComputedStyle(cap).position === 'relative';
-  const left = inFlow ? 0 : Math.max(0, Math.min(tw - w, x - w / 2));
+  const left = inFlow ? 0 : Math.max(0, Math.min(rw - w, x - w / 2));
   cap.style.left = left + 'px';
   cap.style.setProperty('--caret', Math.max(14, Math.min(w - 14, x - left)) + 'px');
 }
