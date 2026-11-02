@@ -390,16 +390,20 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 #slider:focus-visible { outline: none; }
 #slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--focus); }
 #slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(--focus); }
-.cap-row { position: relative; height: 46px; margin: 2px 0 0; }
+.cap-row { position: relative; height: 46px; margin: 2px 0 0; display: flex; justify-content: center; }
 .tl-cap {
-  position: absolute; top: 0; left: 0; z-index: 1; max-width: 100%;
+  position: relative; z-index: 1; max-width: 100%;
   display: inline-flex; align-items: center; gap: 12px; padding: 4px 20px 4px 4px;
   background: var(--sheet); border: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); border-radius: 999px;
   box-shadow: 0 2px 4px rgb(22 33 51 / .08), 0 10px 26px rgb(22 33 51 / .16);
-  white-space: nowrap; transition: left .25s ease;
+  white-space: nowrap;
 }
+.cap-pointer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; }
+.cap-pointer path { fill: none; stroke: color-mix(in srgb, var(--new) 65%, var(--rule)); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; transition: d .3s ease; }
+.cap-pointer circle { fill: color-mix(in srgb, var(--new) 65%, var(--rule)); transition: cx .3s ease; }
+.tl-cap.far::before { display: none; }
 .tl-cap::before {
-  content: ""; position: absolute; bottom: -7px; left: var(--caret, 50%); width: 12px; height: 12px; margin-left: -6px;
+  content: ""; position: absolute; bottom: -7px; left: var(--caret, 50%); width: 12px; height: 12px; margin-left: -6px; transition: left .3s ease;
   background: var(--sheet); border-right: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); border-bottom: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); transform: rotate(45deg);
 }
 .cap-yr { flex: none; padding: 3px 14px 4px; border-radius: 999px; background: var(--new); color: #fff; font: 700 24px/1.1 var(--f-serif); letter-spacing: .01em; font-variant-numeric: lining-nums tabular-nums; }
@@ -461,7 +465,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .cap-stats { flex-basis: 100%; margin: 2px 0 0 4px; padding-left: 0; border-left: 0; gap: 10px; flex-wrap: wrap; font-size: 12.5px; }
   .cap-stats .cs b.n { font-size: 16px; }
   .cap-row { height: auto; margin: 2px 0 10px; }
-  .tl-cap { position: relative; left: 0 !important; max-width: 100%; }
+  .tl-cap { max-width: 100%; }
   .cap-t { font-size: 16.5px; padding-top: 3px; flex: 1 1 0; }
   .cap-stats { gap: 4px 12px; }
   #slider::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: 2px; }
@@ -484,9 +488,10 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
         <div class="flag" id="flag" role="img" tabindex="0" aria-describedby="flag-cap" aria-label="The U.S. flag at this milestone"></div>
         <p class="flag-cap" id="flag-cap" role="tooltip"></p>
       </div>
-      <h1>How the United States evolved through 1776–2026</h1>
+      <h1>250 years of USA: How the United States evolved during 1776–2026</h1>
     </div>
     <div class="cap-row" id="cap-row">
+      <svg class="cap-pointer" id="cap-pointer" aria-hidden="true"></svg>
       <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span><span class="cap-stats" id="cap-stats"></span></div>
     </div>
     <nav class="tl-row" aria-label="Timeline">
@@ -1223,16 +1228,25 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => layo
 function renderMilestone(s) {
   $('#cap-t').textContent = s.title;
 }
-// keep the caption above the slider handle, inside the bar, with its caret pointing down at the handle
+// the caption stays centered under the title; only its pointer moves to follow the slider handle
 function placeCaption() {
-  const track = $('#track'), cap = $('#tl-cap'), row = $('#cap-row');
+  const track = $('#track'), cap = $('#tl-cap'), row = $('#cap-row'), ptr = $('#cap-pointer');
   const tw = track.clientWidth, thumb = parseFloat(getComputedStyle(track).getPropertyValue('--thumb')) || 22;
-  const x = track.getBoundingClientRect().left - row.getBoundingClientRect().left + thumb / 2 + (tw - thumb) * cur / (N - 1);
-  const w = cap.offsetWidth, rw = row.clientWidth;
-  const inFlow = getComputedStyle(cap).position === 'relative';
-  const left = inFlow ? 0 : Math.max(0, Math.min(rw - w, x - w / 2));
-  cap.style.left = left + 'px';
-  cap.style.setProperty('--caret', Math.max(14, Math.min(w - 14, x - left)) + 'px');
+  const rr = row.getBoundingClientRect(), cr = cap.getBoundingClientRect();
+  // the handle's x in the caption row
+  const x = track.getBoundingClientRect().left - rr.left + thumb / 2 + (tw - thumb) * cur / (N - 1);
+  const cl = cr.left - rr.left, cw = cr.width;
+  if (x >= cl + 16 && x <= cl + cw - 16) {
+    // the handle is under the caption: a small notch on the caption's bottom edge
+    cap.style.setProperty('--caret', (x - cl) + 'px');
+    cap.classList.remove('far');
+    ptr.innerHTML = '';
+  } else {
+    // the handle is off to the side: a thin pointer runs from the caption's lower corner to the handle
+    cap.classList.add('far');
+    const ex = x < cl ? cl + 22 : cl + cw - 22, by = cr.bottom - rr.top, ty = rr.height + 8;
+    ptr.innerHTML = `<path d="M${ex.toFixed(1)} ${by.toFixed(1)}V${(by + 5).toFixed(1)}H${x.toFixed(1)}V${ty.toFixed(1)}"/><circle cx="${x.toFixed(1)}" cy="${ty.toFixed(1)}" r="2.5"/>`;
+  }
 }
 // Land added at this milestone, for the reading page
 function landBody(s) {
