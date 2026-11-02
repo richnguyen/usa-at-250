@@ -691,6 +691,16 @@
    "page": "https://commons.wikimedia.org/wiki/File:Great_Northern_Railway_switchback,_ca_1892_(MOHAI_6436).jpg",
    "w": 500,
    "h": 374
+  },
+  "person": {
+   "file": "img/p1889.jpg",
+   "title": "James J. Hill",
+   "artist": "Adolfo Müller-Ury",
+   "date": "before 1947",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Muller-Ury_-_James_J._Hill.jpg",
+   "w": 250,
+   "h": 320
   }
  },
  "1890": {
@@ -725,6 +735,16 @@
    "page": "https://commons.wikimedia.org/wiki/File:Statehood_celebration.jpg",
    "w": 679,
    "h": 900
+  },
+  "person": {
+   "file": "img/p1896.jpg",
+   "title": "Martha Hughes Cannon",
+   "artist": "The Relief Society Magazine",
+   "date": "1932",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Martha_Hughes_Cannon.jpg",
+   "w": 250,
+   "h": 373
   }
  },
  "1898": {
@@ -759,6 +779,16 @@
    "page": "https://commons.wikimedia.org/wiki/File:Wright_Brothers%27_1903_Aeroplane_Kitty_Hawk_in_First_Flight_-_NARA_-_7580929.jpg",
    "w": 1100,
    "h": 761
+  },
+  "person": {
+   "file": "img/p1903.jpg",
+   "title": "Orville and Wilbur Wright",
+   "artist": "",
+   "date": "1908",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Orville_%26_Wilbur_Wright_1908.jpg",
+   "w": 290,
+   "h": 350
   }
  },
  "1907": {
@@ -837,6 +867,16 @@
    "page": "https://commons.wikimedia.org/wiki/File:Lange-MigrantMother02.jpg",
    "w": 692,
    "h": 900
+  },
+  "person": {
+   "file": "img/p1935.jpg",
+   "title": "Frances Perkins",
+   "artist": "Western Newspaper Union",
+   "date": "1919-02-21",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Frances_Perkins.jpg",
+   "w": 250,
+   "h": 427
   }
  },
  "1941": {
@@ -871,6 +911,16 @@
    "page": "https://commons.wikimedia.org/wiki/File:President_Eisenhower_Formally_Admits_Hawaii_into_the_United_States.jpg",
    "w": 960,
    "h": 721
+  },
+  "person": {
+   "file": "img/p1959.jpg",
+   "title": "Daniel K. Inouye",
+   "artist": "United States Senate",
+   "date": "2009-09-28",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Daniel_Inouye_official_portrait.jpg",
+   "w": 330,
+   "h": 418
   }
  },
  "1964": {
@@ -949,6 +999,16 @@
    "page": "https://commons.wikimedia.org/wiki/File:Pfizer-BioNTech_COVID-19_vaccine_(2020)_F.jpg",
    "w": 1100,
    "h": 733
+  },
+  "person": {
+   "file": "img/p2020.jpg",
+   "title": "Katalin Karikó",
+   "artist": "Krdobyns",
+   "date": "2020-05-04",
+   "license": "CC BY-SA 4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Katalin_Kariko.jpg",
+   "w": 330,
+   "h": 330
   }
  },
  "2026": {
@@ -965,7 +1025,7 @@
   "person": {
    "file": "img/p2026.jpg",
    "title": "“We the People,” the opening words of the U.S. Constitution",
-   "artist": "Constitution_Pg1of4_AC.jpg: Constitutional Convention derivative work:",
+   "artist": "Constitution_Pg1of4_AC.jpg: Constitutional Convention derivative work: Bluszczokrzew (talk)",
    "date": "1787",
    "license": "Public domain",
    "page": "https://commons.wikimedia.org/wiki/File:Constitution_We_the_People.jpg",

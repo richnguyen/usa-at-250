@@ -40,9 +40,11 @@ for key, title in missing:
 def clean_artist(a):
     a = re.sub(r'^\w+:', '', a or '')
     a = re.sub(r'(Unknown author)+', '', a, flags=re.I).strip(' ,;')
-    return a[:70]
+    if a.lower() in ('unattributed', 'unknown', 'anonymous'): a = ''
+    return a[:100]
 def clean_date(d):
     d = re.split(r'date QS|\bQS:', d or '')[0].strip()
+    d = re.sub(r'\s+\d{1,2}:\d{2}(:\d{2})?$', '', d)
     return d[:30]
 
 STD = [1280, 960, 500, 330, 250]
