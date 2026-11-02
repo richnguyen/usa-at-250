@@ -398,14 +398,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   box-shadow: 0 2px 4px rgb(22 33 51 / .08), 0 10px 26px rgb(22 33 51 / .16);
   white-space: nowrap;
 }
-.cap-pointer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; }
-.cap-pointer path { fill: none; stroke: color-mix(in srgb, var(--new) 65%, var(--rule)); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; transition: d .3s ease; }
-.cap-pointer circle { fill: color-mix(in srgb, var(--new) 65%, var(--rule)); transition: cx .3s ease; }
-.tl-cap.far::before { display: none; }
-.tl-cap::before {
-  content: ""; position: absolute; bottom: -7px; left: var(--caret, 50%); width: 12px; height: 12px; margin-left: -6px; transition: left .3s ease;
-  background: var(--sheet); border-right: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); border-bottom: 1.5px solid color-mix(in srgb, var(--new) 55%, var(--rule)); transform: rotate(45deg);
-}
+
 .cap-yr { flex: none; padding: 3px 14px 4px; border-radius: 999px; background: var(--new); color: #fff; font: 700 24px/1.1 var(--f-serif); letter-spacing: .01em; font-variant-numeric: lining-nums tabular-nums; }
 .cap-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; font: 400 21px/1.25 var(--f-display); color: var(--ink); }
 .cap-stats { flex: none; display: flex; align-items: center; gap: 12px; margin-left: 4px; padding-left: 14px; border-left: 1px solid var(--rule); font-size: 13.5px; color: var(--ink-2); }
@@ -491,7 +484,6 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       <h1>250 years of USA: How the United States evolved during 1776–2026</h1>
     </div>
     <div class="cap-row" id="cap-row">
-      <svg class="cap-pointer" id="cap-pointer" aria-hidden="true"></svg>
       <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span><span class="cap-stats" id="cap-stats"></span></div>
     </div>
     <nav class="tl-row" aria-label="Timeline">
@@ -1228,26 +1220,6 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => layo
 function renderMilestone(s) {
   $('#cap-t').textContent = s.title;
 }
-// the caption stays centered under the title; only its pointer moves to follow the slider handle
-function placeCaption() {
-  const track = $('#track'), cap = $('#tl-cap'), row = $('#cap-row'), ptr = $('#cap-pointer');
-  const tw = track.clientWidth, thumb = parseFloat(getComputedStyle(track).getPropertyValue('--thumb')) || 22;
-  const rr = row.getBoundingClientRect(), cr = cap.getBoundingClientRect();
-  // the handle's x in the caption row
-  const x = track.getBoundingClientRect().left - rr.left + thumb / 2 + (tw - thumb) * cur / (N - 1);
-  const cl = cr.left - rr.left, cw = cr.width;
-  if (x >= cl + 16 && x <= cl + cw - 16) {
-    // the handle is under the caption: a small notch on the caption's bottom edge
-    cap.style.setProperty('--caret', (x - cl) + 'px');
-    cap.classList.remove('far');
-    ptr.innerHTML = '';
-  } else {
-    // the handle is off to the side: a thin pointer runs from the caption's lower corner to the handle
-    cap.classList.add('far');
-    const ex = x < cl ? cl + 22 : cl + cw - 22, by = cr.bottom - rr.top, ty = rr.height + 8;
-    ptr.innerHTML = `<path d="M${ex.toFixed(1)} ${by.toFixed(1)}V${(by + 5).toFixed(1)}H${x.toFixed(1)}V${ty.toFixed(1)}"/><circle cx="${x.toFixed(1)}" cy="${ty.toFixed(1)}" r="2.5"/>`;
-  }
-}
 // Land added at this milestone, for the reading page
 function landBody(s) {
   return `<div class="ycs land"><span class="sw"></span><p><b>${esc(acq[s.acq].name)}</b> <span>· about ${acq[s.acq].approx} sq mi of land added</span></p></div>`;
@@ -1416,7 +1388,7 @@ function go(i, fromSlider) {
   document.querySelectorAll('.era-band').forEach(b => b.classList.toggle('cur', era && b.dataset.era === era.id));
   ylabels(i);
   $('#btn-prev').disabled = i === 0; $('#btn-next').disabled = i === N - 1;
-  stats(s); showFlag(s); mapState(s); renderMilestone(s); placeCaption(); renderPanels(); zoomTo(s);
+  stats(s); showFlag(s); mapState(s); renderMilestone(s); renderPanels(); zoomTo(s);
   try { history.replaceState(null, '', '#' + s.id); } catch (e) {}
 }
 $('#btn-prev').addEventListener('click', () => { stopPlay(); go(cur - 1); });
@@ -1439,7 +1411,6 @@ $('#btn-play').addEventListener('click', () => {
 });
 
 new ResizeObserver(() => { if (cur >= 0) zoomTo(stops[cur], true); }).observe(svg);
-new ResizeObserver(() => { if (cur >= 0) placeCaption(); }).observe($('#track'));
 const barsRO = new ResizeObserver(() => { syncBars(); if (cur >= 0) zoomTo(stops[cur], true); });
 barsRO.observe($('.timeline')); barsRO.observe($('#map-foot'));
 
