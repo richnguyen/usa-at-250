@@ -75,7 +75,7 @@ P.push('</svg>');
 
 const stops = C.STOPS.map(s => Object.assign({}, s, { placeXY: s.place ? G.project(s.place.lon, s.place.lat) : null }));
 const geoRuntime = { W: G.W, H: G.H, frame: G.FRAME, states: {}, acq: {} };
-for (const [p, v] of Object.entries(G.states)) if (C.STATES[p]) geoRuntime.states[p] = { b: v.b, lab: CALL[p] || null };
+for (const [p, v] of Object.entries(G.states)) if (C.STATES[p]) geoRuntime.states[p] = { b: v.b, c: v.c, lab: CALL[p] || null };
 for (const [k, v] of Object.entries(G.acqPaths)) geoRuntime.acq[k] = { b: v.b };
 
 // About panel: sources and full image credits
@@ -87,7 +87,7 @@ const credits = C.STOPS.map(s => {
   return li.join('');
 }).join('');
 const about = `
-<p>Move the slider, use the arrow buttons, or press ← and → on your keyboard to travel through ${stops.length} milestones, from the Declaration of Independence in 1776 to the 250th anniversary in 2026. The story of each milestone is in the reading column on the left of the map. Click a section’s heading to hide or show it, or use “Show all sections” and “Hide all sections”; your choices stay the same as you move to other milestones. “Hide” folds the whole column away so you can see the full map. Tap any underlined word for a simple meaning. Tap a state on the map to jump to the moment it joined.</p>
+<p>Move the slider, use the arrow buttons, or press ← and → on your keyboard to travel through ${stops.length} milestones, from the Declaration of Independence in 1776 to the 250th anniversary in 2026. The story of each milestone is in the reading column on the left of the map. Click a section’s heading to hide or show it, or use “Show all sections” and “Hide all sections”; your choices stay the same as you move to other milestones. “Hide” folds the whole column away so you can see the full map. Each new state has a bubble on the map with its flag, order, date, area and capital; close one with ×, or click the state to bring it back. Tap any underlined word for a simple meaning. Tap a state on the map to jump to the moment it joined.</p>
 <h3>How to read the map</h3>
 <p>Blue states are part of the Union at that moment. Red marks what is new. Light blue is land the United States owned that was not yet a state. In 1861–65, gray shows the 11 states that left the Union. The map uses today’s state borders for clarity. The borders of territorial acquisitions are approximate and follow the usual U.S. history maps (for example, the 1818 Red River Basin is shown as part of the Louisiana Purchase). Alaska, Hawaii and Puerto Rico are shown in boxes below the lower 48, not to scale with it, from the time each became U.S. land.</p>
 <h3>The flag</h3>

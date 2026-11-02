@@ -159,27 +159,49 @@ a { color: inherit; }
 
 .mapcanvas { position: absolute; inset: 0; }
 
-/* new-state entries inside the States panel */
-.ycs { padding: 14px 0; }
-.ycs:first-child { padding-top: 2px; }
-.ycs:last-child { padding-bottom: 0; }
-.ycs + .ycs { border-top: 1px dashed var(--rule); }
-.ycs.note { font: italic 400 16px/1.45 var(--f-serif); color: var(--ink-2); }
-.ycs-head { display: flex; align-items: center; gap: 13px; }
-.ycs-flag { flex: none; width: 60px; height: 40px; object-fit: contain; filter: drop-shadow(0 1px 1px rgb(0 0 0 / .25)) drop-shadow(0 0 .6px rgb(0 0 0 / .5)); }
-.ycs-name { margin: 0; font: 400 24px/1.1 var(--f-display); }
-.ycs-ord { margin: 5px 0 0; font: 700 10.5px/1 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--new); }
-.ycs dl { margin: 12px 0 0; display: grid; gap: 8px; }
-.ycs dl div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; align-items: baseline; }
-.ycs dt { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
-.ycs dd { margin: 0; font-size: 15px; line-height: 1.35; font-variant-numeric: tabular-nums; }
-.ycs dd small { display: block; margin-top: 1px; font-size: 12.5px; color: var(--ink-2); }
-.ycs.compact { padding: 11px 0; }
-.ycs.compact .ycs-flag { width: 44px; height: 30px; }
-.ycs.compact .ycs-name { font-size: 19px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-.ycs.compact .ycs-ord { margin: 0; }
-.ycs-facts { margin: 3px 0 0; font-size: 13px; line-height: 1.45; color: var(--ink-2); font-variant-numeric: tabular-nums; }
-.ycs-facts b { font-weight: 600; color: var(--ink); }
+/* ---------- state bubbles on the map ---------- */
+.callouts { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.co-lines { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; overflow: visible; }
+.co-lines path { fill: none; stroke: var(--ink); stroke-width: 1.3; stroke-linejoin: round; opacity: .6; }
+.co-lines .halo { fill: color-mix(in srgb, var(--sheet) 55%, transparent); stroke: none; }
+.co-lines .dot { fill: var(--ink); stroke: var(--sheet); stroke-width: 2; }
+#pin.quiet { visibility: hidden; }
+.co {
+  position: absolute; left: 0; top: 0; pointer-events: auto; box-sizing: border-box;
+  background: color-mix(in srgb, var(--sheet) 90%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4); backdrop-filter: blur(8px) saturate(1.4);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); border-radius: 12px;
+  box-shadow: 0 1px 2px rgb(22 33 51 / .08), 0 10px 26px rgb(22 33 51 / .16);
+  animation: coin .35s ease-out both;
+}
+.co.noanim { animation: none; }
+@keyframes coin { from { opacity: 0; transform: translateY(6px) scale(.97); } to { opacity: 1; transform: none; } }
+.co.full { width: 276px; padding: 12px 14px 13px; }
+.co.compact { display: flex; align-items: center; gap: 10px; box-sizing: border-box; width: 292px; padding: 6px 30px 7px 9px; }
+.co-head { display: flex; align-items: center; gap: 11px; padding-right: 20px; }
+.co-flag { flex: none; width: 54px; height: 36px; object-fit: contain; filter: drop-shadow(0 1px 1px rgb(0 0 0 / .25)) drop-shadow(0 0 .6px rgb(0 0 0 / .5)); }
+.co.compact .co-flag { width: 40px; height: 27px; }
+.co-name { margin: 0; font: 400 22px/1.1 var(--f-display); color: var(--ink); }
+.co.compact .co-name { font-size: 17.5px; white-space: nowrap; }
+.co-ord { margin: 5px 0 0; font: 700 10.5px/1 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--new); }
+.co.compact .co-ord { display: inline; margin: 0 0 0 7px; vertical-align: 2px; }
+.co-facts { margin: 11px 0 0; padding-top: 10px; border-top: 1px solid var(--rule); display: grid; gap: 7px; }
+.co-facts div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.co-facts dt { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+.co-facts dd { margin: 0; font-size: 14.5px; line-height: 1.35; color: var(--ink); font-variant-numeric: tabular-nums; }
+.co-facts dd span { font-size: 12.5px; color: var(--ink-2); }
+.co-facts dd small { display: block; font-size: 12.5px; color: var(--ink-2); }
+.co-line { margin: 1px 0 0; font-size: 12.5px; line-height: 1.3; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.co-line b { font-weight: 600; color: var(--ink); }
+.co.note .co-text { margin: 10px 0 0; padding-top: 9px; border-top: 1px solid var(--rule); font-size: 14px; line-height: 1.45; color: var(--ink-2); }
+.co-x {
+  position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%;
+  display: grid; place-items: center; background: transparent; color: var(--ink-2); cursor: pointer;
+}
+.co.compact .co-x { top: 50%; margin-top: -11px; }
+.co-x:hover { background: var(--rule); color: var(--ink); }
+.co-x svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.mapwrap.co-on #map .lbl.isnew, .mapwrap.co-on #map .leader.isnew { visibility: hidden; }
 
 .legend {
   position: absolute; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bot-h, 80px) + 12px); z-index: 2;
@@ -286,7 +308,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 .person .did { margin-top: 14px; font-size: 16px; line-height: 1.6; }
 .person .credit { margin-top: 10px; }
 
-.ycs.land { display: flex; gap: 12px; align-items: center; font-size: 14.5px; }
+.ycs.land { display: flex; gap: 12px; align-items: center; font-size: 15px; }
 .ycs.land .sw { width: 14px; height: 14px; border-radius: 3px; flex: none; background: var(--terr-new); outline: 1.5px dashed var(--new); outline-offset: 1px; }
 .ycs.land span { color: var(--ink-2); }
 .ycs.land b { font-weight: 600; color: var(--ink); }
@@ -393,6 +415,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .mapwrap { overflow: visible; display: flex; flex-direction: column; }
   .mapcanvas { order: 1; position: relative; inset: auto; aspect-ratio: 17 / 10; max-width: 100%; overflow: hidden; }
   .legend { order: 2; position: static; transform: none; width: auto; max-width: none; border-radius: 0; border-width: 0 0 1px; backdrop-filter: none; background: var(--sheet); justify-content: flex-start; padding: 8px 16px; font-size: 11.5px; }
+  .callouts.static { position: static; order: 2; display: grid; gap: 8px; padding: 12px 16px; background: var(--paper); border-bottom: 1px solid var(--rule); pointer-events: auto; }
+  .callouts.static:empty { display: none; }
+  .callouts.static .co { position: relative; left: auto; top: auto; width: auto; backdrop-filter: none; box-shadow: none; background: var(--sheet); }
+  .callouts.static .co-line { white-space: normal; }
+  .legend { order: 3; }
   .story { order: 4; position: static; width: auto; overflow: visible; border-radius: 0; border-width: 0 0 1px; box-shadow: none; backdrop-filter: none; background: var(--sheet); padding: 16px 16px 24px; }
   .story-hide, .story-show { display: none !important; }
   .legend { max-width: none; }
@@ -451,8 +478,10 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
     <section class="mapwrap" aria-label="Map of the United States">
       <div class="mapcanvas">
       %%SVG%%
+      <svg class="co-lines" id="co-lines" aria-hidden="true"></svg>
       <div id="tip" role="tooltip" hidden></div>
       </div>
+      <div class="callouts" id="callouts" aria-live="polite" aria-label="New states at this milestone"></div>
       <article class="story" id="story" aria-label="The story of this milestone">
         <div class="story-top">
           <p class="story-kicker" id="story-kicker"></p>
@@ -660,8 +689,10 @@ function mapState(s) {
       const named = fresh.has(p) && s.states.length <= 4 && !l.classList.contains('call');
       l.dataset.on = on ? '1' : '';
       l.classList.toggle('newname', named);
+      l.classList.toggle('isnew', fresh.has(p) && s.id !== '1776');
       l.textContent = named ? states[p][0] : p;
     }
+    if (leadEls[p]) leadEls[p].classList.toggle('isnew', fresh.has(p) && s.id !== '1776');
   }
   for (const a in acqEls) {
     const base = a.replace('hi', '');
@@ -759,6 +790,8 @@ function zoomTo(s, instant) {
   const to = fitAspect(targetBox());
   const from = vb.slice();
   fitLabels(to);
+  coTarget = to;
+  layoutCallouts(instant);
   cancelAnimationFrame(anim);
   if (instant || reduced) return applyVB(to);
   const t0 = performance.now(), dur = 1100;
@@ -798,6 +831,7 @@ svg.addEventListener('pointerleave', () => tip.hidden = true);
 svg.addEventListener('click', e => {
   const el = e.target.closest('.st'); if (!el) return;
   const p = el.dataset.p;
+  if (stops[cur].states.includes(p) && stops[cur].id !== '1776') { coHidden.delete(p); return layoutCallouts(); }
   const i = stops.findIndex(s => s.states.includes(p) && s.id !== '1776');
   if (i >= 0) go(i);
 });
@@ -810,31 +844,180 @@ function credit(img, kind) {
   const when = img.date ? ` (${esc(img.date)})` : '';
   return `${kind}: <i>${esc(img.title)}</i>${who}${when}. <a href="${esc(img.page)}" target="_blank" rel="noopener">Wikimedia Commons</a>, ${esc(img.license)}.`;
 }
-// The year card on the map: the year, and a fact entry for each state that joins at this milestone
-// (flag, order, date, today's area with rank, capital then and now). Three or more states use a compact entry.
+// ---------- state bubbles ----------
+// Each state that joins at a milestone gets a bubble on the map, tied to the state by a line and a dot.
+// One state, or states far apart: a bubble beside each state, placed to avoid the others.
+// Several states close together: a neat column of compact bubbles beside the group, ordered top to bottom.
 const areaRank = Object.keys(DATA.stateInfo).sort((a, b) => DATA.stateInfo[b].area - DATA.stateInfo[a].area);
-function stateEntry(p, compact) {
+const coLayer = $('#callouts'), coLines = $('#co-lines');
+const X_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+let coHidden = new Set(), coTarget = null;
+
+function capNoteOf(info) {
+  if (info.note) return info.note + (info.cap === info.now || info.note.includes(info.now) ? '' : `; today ${info.now}`);
+  return info.cap === info.now ? 'still the capital today' : `today ${info.now}`;
+}
+function coCard(p, level) {
+  if (p === '_13') return `<aside class="co full note" data-p="_13" aria-label="The 13 original states">
+    <button type="button" class="co-x" data-hide="_13" aria-label="Hide">${X_ICON}</button>
+    <div class="co-head"><div><p class="co-name">The 13 original states</p><p class="co-ord">Declare independence together</p></div></div>
+    <p class="co-text">Each one joins the Union under the Constitution when it ratifies it, from 1787 to 1790.</p></aside>`;
   const [name, d] = states[p], info = DATA.stateInfo[p] || {};
   const orig = original13.includes(p);
   const label = orig ? `${ORD(ordinal[p])} to ratify` : `${ORD(ordinal[p])} state`;
-  const rank = areaRank.indexOf(p) + 1;
-  let capNote;
-  if (info.note) capNote = info.note + (info.cap === info.now || info.note.includes(info.now) ? '' : `; today ${info.now}`);
-  else capNote = info.cap === info.now ? 'still the capital today' : `today ${info.now}`;
+  const rank = areaRank.indexOf(p) + 1, area = `${info.area.toLocaleString('en-US')} sq mi`;
   const fl = DATA.stateFlags[p];
-  const flag = fl ? `<img class="ycs-flag" src="${esc(fl.file)}" alt="Flag of ${esc(name)}" width="${fl.w}" height="${fl.h}" title="Today’s official flag of ${esc(name)}">` : '';
-  const area = `${info.area.toLocaleString('en-US')} sq mi`;
-  const cap = info.cap ? esc(info.cap) : 'none fixed';
-  if (compact) return `<div class="ycs compact"><div class="ycs-head">${flag}<div>
-      <p class="ycs-name">${esc(name)}<span class="ycs-ord">${label}</span></p>
-      <p class="ycs-facts">${fmtDate(d)} · ${area} (${ORD(rank)}/50) · capital <b title="${esc(capNote)}">${cap}</b></p>
-    </div></div></div>`;
-  return `<div class="ycs"><div class="ycs-head">${flag}<div><p class="ycs-name">${esc(name)}</p><p class="ycs-ord">${label}</p></div></div><dl>
-    <div><dt>${orig ? 'Ratified' : 'Joined'}</dt><dd>${fmtDate(d)}</dd></div>
-    <div><dt>Area today</dt><dd>${area}<small>rank ${ORD(rank)}/50</small></dd></div>
-    <div><dt>Capital then</dt><dd>${info.cap ? esc(info.cap) : 'None fixed'}<small>${esc(capNote)}</small></dd></div>
-  </dl></div>`;
+  const flag = fl ? `<img class="co-flag" src="${esc(fl.file)}" alt="Flag of ${esc(name)}" width="${fl.w}" height="${fl.h}" title="Today’s official flag of ${esc(name)}">` : '';
+  const x = `<button type="button" class="co-x" data-hide="${p}" aria-label="Hide ${esc(name)}">${X_ICON}</button>`;
+  if (level === 'full') return `<aside class="co full" data-p="${p}" aria-label="${esc(name)}">${x}
+    <div class="co-head">${flag}<div><p class="co-name">${esc(name)}</p><p class="co-ord">${label}</p></div></div>
+    <dl class="co-facts">
+      <div><dt>${orig ? 'Ratified' : 'Joined'}</dt><dd>${fmtDate(d)}</dd></div>
+      <div><dt>Area today</dt><dd>${area} <span>· rank ${ORD(rank)}/50</span></dd></div>
+      <div><dt>Capital then</dt><dd>${info.cap ? esc(info.cap) : 'None fixed'}<small>${esc(capNoteOf(info))}</small></dd></div>
+    </dl></aside>`;
+  const line = level === 'mini' ? '' : `<p class="co-line">${fmtDate(d)} · ${area} (${ORD(rank)}/50) · <span title="${esc(capNoteOf(info))}">capital <b>${info.cap ? esc(info.cap) : 'none fixed'}</b></span></p>`;
+  const tipText = level === 'mini' ? ` title="${esc(`${fmtDate(d)} · ${area} (${ORD(rank)}/50) · capital ${info.cap || 'none fixed'}`)}"` : '';
+  return `<aside class="co compact" data-p="${p}" aria-label="${esc(name)}"${tipText}>${x}${flag}
+    <div><p class="co-name">${esc(name)}<span class="co-ord">${label}</span></p>${line}</div></aside>`;
 }
+function coItems(s) {
+  if (s.id === '1776') {
+    const c = original13.map(p => geo.states[p].c);
+    return [{ p: '_13', c: [c.reduce((a, v) => a + v[0], 0) / c.length, c.reduce((a, v) => a + v[1], 0) / c.length] }];
+  }
+  return s.states.filter(p => !coHidden.has(p)).map(p => ({ p, c: geo.states[p].c }));
+}
+// the part of the map not covered by the bars, the story column or the key
+function freeArea() {
+  const W = svg.clientWidth, H = svg.clientHeight, [it, ib] = barInsets(), il = storyInset();
+  return { l: Math.max(14, il + 4), r: W - 14, t: it + 8, b: H - ib + 6 };
+}
+const overlap = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+const inside = (pt, r, m = 0) => pt[0] > r.x - m && pt[0] < r.x + r.w + m && pt[1] > r.y - m && pt[1] < r.y + r.h + m;
+const clampTo = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+// several states close together: one evenly spaced column beside the group.
+// Each state is matched to a slot so that no two leader lines cross.
+function segCross(p1, p2, p3, p4) {
+  const d = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+  const d1 = d(p3, p4, p1), d2 = d(p3, p4, p2), d3 = d(p1, p2, p3), d4 = d(p1, p2, p4);
+  return ((d1 > 0) !== (d2 > 0)) && ((d3 > 0) !== (d4 > 0));
+}
+function placeColumn(A, F) {
+  const gap = 6, n = A.length, w = Math.max(...A.map(a => a.w));
+  const total = A.reduce((t, a) => t + a.h, 0) + gap * (n - 1);
+  if (total > F.b - F.t) return false;
+  const xs = A.map(a => a.ax), minX = Math.min(...xs), maxX = Math.max(...xs);
+  const roomR = F.r - (maxX + 44), roomL = (minX - 44) - F.l;
+  let side;
+  if (roomR >= w) side = 'R'; else if (roomL >= w) side = 'L'; else return false;
+  const x = side === 'R' ? maxX + 44 : minX - 44 - w, ex = side === 'R' ? x : x + w, kx = side === 'R' ? ex - 18 : ex + 18;
+  const meanY = A.reduce((t, a) => t + a.ay, 0) / n;
+  const top = clampTo(meanY - total / 2, F.t, F.b - total);
+  // fill the slots top to bottom, trying every order of states (at most 8! = 40,320);
+  // keep the order with no crossing lines and no long lines (squared lengths)
+  let best = null;
+  const used = new Array(n).fill(false), order = [], tops = [];
+  (function search(k, y) {
+    if (k === n) {
+      let cost = 0;
+      const cy = order.map((i, s) => tops[s] + A[i].h / 2);
+      order.forEach((i, s) => cost += (cy[s] - A[i].ay) ** 2 / 100);
+      for (let s1 = 0; s1 < n; s1++) for (let s2 = s1 + 1; s2 < n; s2++) {
+        const a = A[order[s1]], b = A[order[s2]];
+        if (segCross([a.ax, a.ay], [kx, cy[s1]], [b.ax, b.ay], [kx, cy[s2]])) cost += 1e7;
+      }
+      if (!best || cost < best.cost) best = { cost, order: order.slice(), tops: tops.slice() };
+      return;
+    }
+    for (let i = 0; i < n; i++) if (!used[i]) {
+      used[i] = true; order[k] = i; tops[k] = y;
+      search(k + 1, y + A[i].h + gap);
+      used[i] = false;
+    }
+  })(0, top);
+  best.order.forEach((i, s) => { const a = A[i]; a.x = x; a.w = w; a.y = best.tops[s]; a.side = side; });
+  return true;
+}
+// one state, or states far apart: a bubble beside each state, avoiding the other bubbles and dots
+function placeEach(A, F) {
+  const placed = [], dots = A.map(a => [a.ax, a.ay]);
+  const pinBox = !pin.hasAttribute('hidden') ? pin.getBoundingClientRect() : null, base = svg.getBoundingClientRect();
+  const pinR = pinBox ? { x: pinBox.left - base.left, y: pinBox.top - base.top, w: pinBox.width, h: pinBox.height } : null;
+  for (const a of A.slice().sort((p, q) => p.ay - q.ay)) {
+    const { w, h, ax, ay } = a, cands = [];
+    for (const G of [28, 64]) cands.push(
+      [ax + G, ay - h / 2], [ax - G - w, ay - h / 2], [ax - w / 2, ay - G - h], [ax - w / 2, ay + G],
+      [ax + 14, ay - G - h], [ax - w - 14, ay - G - h], [ax + 14, ay + G], [ax - w - 14, ay + G]);
+    let best = null;
+    cands.forEach(([cx, cy], k) => {
+      const r = { x: clampTo(cx, F.l, F.r - w), y: clampTo(cy, F.t, F.b - h), w, h };
+      let cost = k * 3 + Math.hypot(r.x + w / 2 - ax, r.y + h / 2 - ay) * .15;
+      placed.forEach(o => cost += overlap(r, o) * 60);
+      dots.forEach(d => { if (inside(d, r, 10)) cost += 4000; });
+      if (pinR) cost += overlap(r, pinR) * 8;
+      if (!best || cost < best.cost) best = { ...r, cost };
+    });
+    a.x = best.x; a.y = best.y; a.side = null;
+    placed.push(best);
+  }
+}
+function layoutCallouts(instant) {
+  const s = stops[cur];
+  if (!s) return;
+  const desktop = getComputedStyle($('.mapcanvas')).position === 'absolute';
+  const items = coItems(s);
+  $('.mapwrap').classList.toggle('co-on', desktop && s.states.length > 0 && s.id !== '1776');
+  coLayer.classList.toggle('static', !desktop);
+  coLines.innerHTML = '';
+  pin.classList.remove('quiet');
+  if (!items.length) { coLayer.innerHTML = ''; return; }
+  if (!desktop) { coLayer.innerHTML = items.map(it => coCard(it.p, items.length === 1 ? 'full' : 'compact')).join(''); return; }
+
+  const v = coTarget || vb, W = svg.clientWidth, H = svg.clientHeight, sc = W / v[2], F = freeArea();
+  const A = items.map(it => ({ p: it.p, ax: (it.c[0] - v[0]) * sc, ay: (it.c[1] - v[1]) * sc }));
+  // "apart" when some state is far from every other new state (e.g., Maine and Missouri)
+  const nearest = A.map(a => Math.min(...A.filter(o => o !== a).map(o => Math.hypot(o.ax - a.ax, o.ay - a.ay))));
+  const apart = A.length === 1 || Math.max(...nearest) > 230;
+  const levels = apart ? (A.length <= 2 ? ['full', 'compact'] : ['compact', 'mini']) : ['compact', 'mini'];
+  let ok = false;
+  for (const level of levels) {
+    coLayer.innerHTML = A.map(a => coCard(a.p, level)).join('');
+    const els = [...coLayer.children];
+    if (!apart) { const mw = Math.max(...els.map(e => e.offsetWidth)); els.forEach(e => e.style.width = mw + 'px'); }
+    A.forEach((a, i) => { a.el = els[i]; a.w = els[i].offsetWidth; a.h = els[i].offsetHeight; });
+    if (apart) { placeEach(A, F); ok = true; break; }
+    if (placeColumn(A, F)) { ok = true; break; }
+  }
+  if (!ok) placeEach(A, F);
+  if (!pin.hasAttribute('hidden')) {
+    const px = (+pin.dataset.x - v[0]) * sc, py = (+pin.dataset.y - v[1]) * sc;
+    pin.classList.toggle('quiet', A.some(a => Math.hypot(a.ax - px, a.ay - py) < 70));
+  }
+  A.forEach(a => { a.el.style.left = Math.round(a.x) + 'px'; a.el.style.top = Math.round(a.y) + 'px'; a.el.classList.toggle('noanim', !!instant); });
+
+  // leader lines and anchor dots
+  coLines.setAttribute('width', W); coLines.setAttribute('height', H); coLines.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  coLines.innerHTML = A.map(a => {
+    let d;
+    if (a.side) {
+      const ex = a.side === 'R' ? a.x : a.x + a.w, ey = a.y + a.h / 2, kx = a.side === 'R' ? ex - 18 : ex + 18;
+      d = `M${a.ax.toFixed(1)} ${a.ay.toFixed(1)}L${kx.toFixed(1)} ${ey.toFixed(1)}L${ex.toFixed(1)} ${ey.toFixed(1)}`;
+    } else {
+      const ex = clampTo(a.ax, a.x + 12, a.x + a.w - 12), ey = clampTo(a.ay, a.y + 10, a.y + a.h - 10);
+      const px = a.ax < a.x ? a.x : a.ax > a.x + a.w ? a.x + a.w : ex, py = a.ay < a.y ? a.y : a.ay > a.y + a.h ? a.y + a.h : ey;
+      d = `M${a.ax.toFixed(1)} ${a.ay.toFixed(1)}L${px.toFixed(1)} ${py.toFixed(1)}`;
+    }
+    return `<path d="${d}"/><circle class="halo" cx="${a.ax.toFixed(1)}" cy="${a.ay.toFixed(1)}" r="9"/><circle class="dot" cx="${a.ax.toFixed(1)}" cy="${a.ay.toFixed(1)}" r="4.5"/>`;
+  }).join('');
+}
+coLayer.addEventListener('click', e => {
+  const b = e.target.closest('[data-hide]'); if (!b) return;
+  coHidden.add(b.dataset.hide); layoutCallouts(true);
+});
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => layoutCallouts(true));
+
 function renderMilestone(s) {
   $('#cap-t').textContent = s.title;
 }
@@ -848,20 +1031,16 @@ function placeCaption() {
   cap.style.left = left + 'px';
   cap.style.setProperty('--caret', Math.max(14, Math.min(w - 14, x - left)) + 'px');
 }
-// New states (with flags and facts) and any land added, for the States panel
-function statesBody(s) {
-  let html = '';
-  if (s.id === '1776') html = '<div class="ycs note">The 13 original states declare independence together. Each one joins the Union under the Constitution when it ratifies, from 1787 to 1790.</div>';
-  else if (s.states.length) html = s.states.map(p => stateEntry(p, s.states.length > 3)).join('');
-  if (s.acq && acq[s.acq]) html += `<div class="ycs land"><span class="sw"></span><p><b>${esc(acq[s.acq].name)}</b> <span>· about ${acq[s.acq].approx} sq mi of land added</span></p></div>`;
-  return html || '<p class="empty">No new state at this milestone.</p>';
+// Land added at this milestone, for the reading page
+function landBody(s) {
+  return `<div class="ycs land"><span class="sw"></span><p><b>${esc(acq[s.acq].name)}</b> <span>· about ${acq[s.acq].approx} sq mi of land added</span></p></div>`;
 }
 
 // ---------- story sections ----------
 // Each section of the story is a button in the dock. A button opens its panel; pressing it again (or ×) closes it.
 // Open panels stay open while you move between milestones, and show the new milestone's text.
 const ICONS = {
-  states: '<path d="M9 4L3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/>',
+  land: '<path d="M9 4L3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/>',
   picture: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/>',
   fun: '<path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6-4.5-4.1 6-.7z"/>',
   what: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',
@@ -878,7 +1057,7 @@ const svgIcon = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</s
 const SECTIONS = [
   { id: 'picture', title: () => 'Picture', has: s => !!(images[s.id] || {}).ill },
   { id: 'fun', title: () => 'Fun fact', has: s => !!s.fun },
-  { id: 'states', title: s => s.id === '1776' ? 'The 13 original states' : s.states.length > 1 ? 'New states' : s.states.length ? 'New state' : 'New land', has: s => !!(s.states.length || s.acq), count: s => s.id === '1776' ? 13 : s.states.length },
+  { id: 'land', title: () => 'New land', has: s => !!s.acq },
   { id: 'what', title: () => 'What happened', has: () => true },
   { id: 'why', title: s => s.whyTitle || 'Why it happened', has: () => true },
   { id: 'people', title: () => 'The people', has: () => true },
@@ -894,7 +1073,7 @@ const CHEV = '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="
 
 function sectionBody(id, s) {
   const im = images[s.id] || {};
-  if (id === 'states') return statesBody(s);
+  if (id === 'land') return landBody(s);
   if (id === 'picture') return `<figure class="ill"><div class="frame"><img src="${esc(im.ill.file)}" alt="${esc(im.ill.alt || im.ill.title)}" width="${im.ill.w}" height="${im.ill.h}"></div><figcaption>${credit(im.ill, 'Illustration')}</figcaption></figure>`;
   if (id === 'fun') return `<div class="fun-box"><p class="body">${gloss(s.fun)}</p></div>`;
   if (id === 'what') return `<p class="body">${gloss(s.what)}</p>`;
@@ -1008,6 +1187,7 @@ function go(i, fromSlider) {
   i = Math.max(0, Math.min(N - 1, i));
   if (i === cur) return;
   cur = i;
+  coHidden.clear();
   const s = stops[i];
   hidePop();
   $('#yr').textContent = s.label;
