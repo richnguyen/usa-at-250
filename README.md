@@ -9,7 +9,7 @@ It is written for a general audience and for people learning English. Each miles
 ## Features
 
 - **47 milestones.** Every year a new state joined the Union, plus turning points such as the Treaty of Paris (1783), the end of slavery (1865), the transcontinental railroad (1869), women's suffrage (1920), the Moon landing (1969) and America at 250 (2026).
-- **A full-screen map of the United States that changes at each step.** The view is fixed on the continental U.S. Alaska, Hawaii and Puerto Rico appear in inset boxes, as on a classic U.S. map, once they become U.S. land. It shows:
+- **A full-screen map of the United States that changes at each step.** At each milestone the map flies in to the states that join or the land that is added (pulling back first when the jump is far), and shows the whole country for milestones without new states or land. Alaska, Hawaii and Puerto Rico appear in inset boxes, as on a classic U.S. map, once they become U.S. land. It shows:
   - states already in the Union
   - states that join at that milestone
   - U.S. land that was not yet a state

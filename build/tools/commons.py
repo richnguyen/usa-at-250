@@ -5,7 +5,7 @@ Usage:
 """
 import json, sys, time, urllib.parse, urllib.request, re, html
 
-UA = "USA250HistoryExplorer/1.0 (https://claude.ai; educational non-commercial) python-urllib"
+UA = "USA-at-250/1.0 (https://github.com/richnguyen/usa-from-13-to-50; educational history map) python-urllib"
 API = "https://commons.wikimedia.org/w/api.php"
 
 def get(params, tries=8):

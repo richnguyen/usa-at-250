@@ -202,8 +202,10 @@ a { color: inherit; }
 .mapcanvas { position: absolute; inset: 0; }
 
 /* ---------- state bubbles on the map ---------- */
-.callouts { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
-.co-lines { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; overflow: visible; }
+.callouts { position: absolute; inset: 0; z-index: 3; pointer-events: none; transition: opacity .35s ease; }
+.co-lines { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; overflow: visible; transition: opacity .35s ease; }
+.callouts.wait, .co-lines.wait { opacity: 0; transition: none; }
+.callouts.wait .co { pointer-events: none; }
 .co-lines path { fill: none; stroke: var(--ink); stroke-width: 1.3; stroke-linejoin: round; opacity: .6; }
 .co-lines .halo { fill: color-mix(in srgb, var(--sheet) 55%, transparent); stroke: none; }
 .co-lines .dot { fill: var(--ink); stroke: var(--sheet); stroke-width: 2; }
@@ -787,11 +789,36 @@ function legend(s) {
     + '<span class="note">Today’s state borders; territory borders approximate</span>';
 }
 
-// The view is fixed on the continental United States (the lower 48 plus the Alaska, Hawaii and Puerto Rico insets)
+// The view: zoom in on what is new at a milestone (states that join, land that is added, plus the event's place);
+// milestones with neither show the whole country (the lower 48 plus the Alaska, Hawaii and Puerto Rico insets).
 let vb = [0, 0, geo.W, geo.H];
-function targetBox() {
+function fullBox() {
   const [x, y, w, h] = geo.frame;
   return [x - 14, y - 16, w + 28, h + 50];
+}
+function targetBox(s) {
+  const full = fullBox();
+  if (!s || zoomOff) return full;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  const add = b => { x0 = Math.min(x0, b[0][0]); y0 = Math.min(y0, b[0][1]); x1 = Math.max(x1, b[1][0]); y1 = Math.max(y1, b[1][1]); };
+  const list = s.id === '1776' ? original13 : s.states;
+  list.forEach(p => {
+    add(geo.states[p].b);
+    const l = geo.states[p].lab; if (l) add([[l[0] - 16, l[1] - 9], [l[0] + 16, l[1] + 9]]);
+  });
+  if (s.acq) [s.acq, s.acq + 'hi'].forEach(a => { if (geo.acq[a]) add(geo.acq[a].b); });
+  if (!isFinite(x0)) return full;
+  // three or more neighboring states: leave room beside them for the column of bubbles
+  if (list.length >= 3 && s.id !== '1776') {
+    const room = (x1 - x0) * .9;
+    if (x1 + room <= full[0] + full[2] + 40) x1 += room; else x0 -= room;
+  }
+  if (s.placeXY) add([[s.placeXY[0] - 24, s.placeXY[1] - 18], [s.placeXY[0] + 24, s.placeXY[1] + 18]]);
+  // padding for context, a closest zoom of about 2x, and never wider than the whole view
+  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  const w = Math.min(full[2], Math.max((x1 - x0) * 1.4, full[2] * .5));
+  const h = Math.min(full[3], Math.max((y1 - y0) * 1.4, full[3] * .5));
+  return [cx - w / 2, cy - h / 2, w, h];
 }
 // Space taken at the top and bottom by the glass bars (desktop, where they float over the map)
 function barInsets() {
@@ -846,20 +873,39 @@ function applyVB(v) {
   }
 }
 let anim = 0;
+let lastBox = null, zoomOff = false, flying = false, refit = false;
 function zoomTo(s, instant) {
-  const to = fitAspect(targetBox());
-  const from = vb.slice();
+  const box = targetBox(s), to = fitAspect(box);
+  const from = vb.slice(), fromBox = lastBox || box;
+  lastBox = box;
   fitLabels(to);
   coTarget = to;
   layoutCallouts(instant);
   cancelAnimationFrame(anim);
-  if (instant || reduced) return applyVB(to);
-  const t0 = performance.now(), dur = 1100;
+  const shows = [coLayer, coLines];
+  if (instant || reduced) { flying = false; shows.forEach(e => e.classList.remove('wait')); return applyVB(to); }
+  flying = true;
+  // the bubbles wait until the map has arrived, so their lines meet the states
+  shows.forEach(e => e.classList.add('wait'));
+  // flying between two places far apart: pull back to show both on the way, then zoom in
+  const ux0 = Math.min(fromBox[0], box[0]), uy0 = Math.min(fromBox[1], box[1]);
+  const ux1 = Math.max(fromBox[0] + fromBox[2], box[0] + box[2]), uy1 = Math.max(fromBox[1] + fromBox[3], box[1] + box[3]);
+  const mid = fitAspect([ux0, uy0, ux1 - ux0, uy1 - uy0]);
+  const fly = mid[2] > Math.max(from[2], to[2]) * 1.2;
+  const dur = fly ? 1900 : 1200, t0 = performance.now();
   const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const lerp = (a, b, e) => a.map((v, i) => v + (b[i] - v) * e);
   const step = now => {
-    const t = Math.min(1, (now - t0) / dur), e = ease(t);
-    applyVB(from.map((f, i) => f + (to[i] - f) * e));
-    if (t < 1) anim = requestAnimationFrame(step);
+    const t = Math.min(1, (now - t0) / dur);
+    let v;
+    if (!fly) v = lerp(from, to, ease(t));
+    else if (t < .45) v = lerp(from, mid, ease(t / .45));
+    else v = lerp(mid, to, ease((t - .45) / .55));
+    applyVB(v);
+    if (t < 1) { anim = requestAnimationFrame(step); return; }
+    flying = false;
+    shows.forEach(e => e.classList.remove('wait'));
+    if (refit) { refit = false; zoomTo(stops[cur], true); }
   };
   anim = requestAnimationFrame(step);
 }
@@ -1039,7 +1085,7 @@ function layoutCallouts(instant) {
   const A = items.map(it => ({ p: it.p, ax: (it.c[0] - v[0]) * sc, ay: (it.c[1] - v[1]) * sc }));
   // "apart" when some state is far from every other new state (e.g., Maine and Missouri)
   const nearest = A.map(a => Math.min(...A.filter(o => o !== a).map(o => Math.hypot(o.ax - a.ax, o.ay - a.ay))));
-  const apart = A.length === 1 || Math.max(...nearest) > 230;
+  const apart = A.length === 1 || Math.max(...nearest) > Math.max(230, .34 * (F.r - F.l));
   const levels = apart ? (A.length <= 2 ? ['full', 'compact'] : ['compact', 'mini']) : ['compact', 'mini'];
   let ok = false;
   for (const level of levels) {
@@ -1267,8 +1313,10 @@ $('#btn-play').addEventListener('click', () => {
   timer = setInterval(() => { if (cur >= N - 1) return stopPlay(); go(cur + 1); }, 6500);
 });
 
-new ResizeObserver(() => { if (cur >= 0) zoomTo(stops[cur], true); }).observe(svg);
-const barsRO = new ResizeObserver(() => { syncBars(); if (cur >= 0) zoomTo(stops[cur], true); });
+// refit after a size change; during a zoom, wait for it to land
+const refitNow = () => { if (cur < 0) return; if (flying) refit = true; else zoomTo(stops[cur], true); };
+new ResizeObserver(refitNow).observe(svg);
+const barsRO = new ResizeObserver(() => { syncBars(); refitNow(); });
 barsRO.observe($('.timeline')); barsRO.observe($('#map-foot'));
 
 // ---------- overlays ----------

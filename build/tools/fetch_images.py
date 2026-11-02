@@ -1,5 +1,5 @@
 """Resolve chosen Commons files, download resized copies, and write images.json with credits."""
-import json, sys, os, re, io, time, glob, urllib.request
+import json, sys, os, re, io, time, glob, urllib.request, urllib.parse
 sys.path.insert(0, os.path.dirname(__file__))
 from commons import info, UA
 from PIL import Image
@@ -45,6 +45,18 @@ def clean_date(d):
     d = re.split(r'date QS|\bQS:', d or '')[0].strip()
     return d[:30]
 
+STD = [1280, 960, 500, 330, 250]
+def std_thumbs(m, key):
+    page = m['page'].split('/wiki/File:')[-1]
+    name = urllib.parse.unquote(page)
+    import hashlib
+    h = hashlib.md5(name.encode()).hexdigest()
+    q = urllib.parse.quote(name)
+    ext = '.jpg' if name.lower().endswith(('.tif', '.tiff')) else ''
+    want = 960 if key[0] == 'i' else 330
+    sizes = [s for s in STD if s <= want and s < (m.get('w') or 1e9)] or [250]
+    return [f'https://upload.wikimedia.org/wikipedia/commons/thumb/{h[0]}/{h[:2]}/{q}/{s}px-{q}{ext}' for s in sizes]
+
 manifest = {}
 for key, title, disp, artist, date in sel:
     m = meta.get('File:' + title)
@@ -53,18 +65,18 @@ for key, title, disp, artist, date in sel:
     url = re.sub(r'\?.*$', '', url)
     out = f"{IMG}/{key}.jpg"
     if not os.path.exists(out):
-        urls = [url]
-        orig = re.sub(r'/thumb(/.+?)/[^/]+$', r'\1', url) if '/thumb/' in url else url
-        if orig != url and (m.get('w') or 9e9) * (m.get('h') or 9e9) <= 16e6: urls.append(orig)
+        # Wikimedia only serves this client standard thumbnail sizes (https://w.wiki/GHai), never originals,
+        # and a thumbnail must be narrower than the original
+        urls = std_thumbs(m, key)
         data = None
-        for i in range(10):
+        for i in range(8):
             u = urls[i % len(urls)]
             try:
                 with urllib.request.urlopen(urllib.request.Request(u, headers={'User-Agent': UA}), timeout=90) as r: data = r.read()
                 break
             except Exception as e:
-                print('retry', key, getattr(e, 'code', e), 'orig' if u != url else 'thumb', flush=True)
-                time.sleep(6 * (i + 1))
+                print('retry', key, getattr(e, 'code', e), re.search(r'/(\d+)px-', u).group(1) + 'px', flush=True)
+                time.sleep(20 * (i + 1))
         if not data: print('FAILED', key, url); continue
         im = Image.open(io.BytesIO(data))
         if im.mode in ('RGBA', 'LA', 'P'):
