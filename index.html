@@ -75,55 +75,56 @@ button { font: inherit; color: inherit; }
 a { color: inherit; }
 
 .app { height: 100%; position: relative; overflow: hidden; }
-/* frosted glass for the two bars that float over the map */
-.timeline, .top {
+/* frosted glass for the bar that floats over the top of the map */
+.timeline {
   background: linear-gradient(180deg, color-mix(in srgb, var(--sheet) 34%, transparent), color-mix(in srgb, var(--sheet) 24%, transparent));
   -webkit-backdrop-filter: blur(7px) saturate(1.8); backdrop-filter: blur(7px) saturate(1.8);
   text-shadow: 0 0 10px var(--sheet), 0 0 2px var(--sheet);
 }
-.timeline .round, .top .btn-quiet { background: color-mix(in srgb, var(--sheet) 70%, transparent); }
+.timeline .round { background: color-mix(in srgb, var(--sheet) 70%, transparent); }
 
-/* ---------- header ---------- */
-.top {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 10;
-  display: flex; align-items: center; gap: 10px 28px; flex-wrap: wrap;
-  padding-block: 10px calc(10px + env(safe-area-inset-bottom, 0px));
-  padding-left: max(20px, env(safe-area-inset-left, 0px));
-  padding-right: max(20px, env(safe-area-inset-right, 0px));
-  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
-  box-shadow: 0 -8px 28px rgb(22 33 51 / .08);
-}
-.brand { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 420px; }
+/* ---------- title row: the flag of the day and the title, centered ---------- */
+.titlebar { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 0 0 6px; min-width: 0; }
+.titlebar h1 { margin: 0; font: 400 26px/1.15 var(--f-display); letter-spacing: .005em; text-wrap: balance; text-align: center; }
+.flag-wrap { position: relative; flex: none; }
 .flag {
-  flex: none; width: 80px; aspect-ratio: 19 / 10; border-radius: 2px; overflow: hidden;
+  width: 58px; aspect-ratio: 19 / 10; border-radius: 2px; overflow: hidden; cursor: help;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 22%, transparent), 0 2px 6px rgb(0 0 0 / .12);
 }
 .flag svg { display: block; width: 100%; height: 100%; }
 .flag.changed { animation: flagin .9s ease-out 1; }
 @keyframes flagin { 0% { transform: scale(.82); opacity: .2; } 100% { transform: none; opacity: 1; } }
-.brand-text { display: grid; gap: 4px; min-width: 0; }
-.brand h1 {
-  margin: 0; font: 400 26px/1.1 var(--f-display); letter-spacing: .005em; text-wrap: balance;
+.flag-cap {
+  position: absolute; left: 50%; top: calc(100% + 10px); transform: translate(-50%, -4px); z-index: 30;
+  margin: 0; width: max-content; max-width: 280px; padding: 8px 12px; border-radius: 8px;
+  background: var(--ink); color: var(--paper); font-size: 13.5px; line-height: 1.4; text-shadow: none; text-align: center;
+  box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s;
 }
-.brand p { margin: 0; color: var(--ink-2); font-size: 13.5px; letter-spacing: .01em; }
-.brand p b { color: var(--ink); font-weight: 600; }
-.stats { display: flex; gap: 6px 26px; margin: 0 0 0 auto; flex-wrap: wrap; }
-.stats div { display: grid; gap: 0; min-width: 0; }
-.stats dt { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-2); }
-.stats dd { margin: 0; font: 400 21px/1.2 var(--f-serif); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
-.stats dd small { font: 400 12px var(--f-body); color: var(--ink-2); margin-left: 4px; }
+.flag-cap::before { content: ""; position: absolute; left: 50%; top: -5px; width: 10px; height: 10px; margin-left: -5px; background: var(--ink); transform: rotate(45deg); }
+.flag-cap b { font-weight: 700; }
+.flag-wrap:hover .flag-cap, .flag-wrap:focus-within .flag-cap { opacity: 1; transform: translate(-50%, 0); }
+
+/* growth since the previous milestone, as a green + badge */
 .delta {
-  display: inline-block; margin-left: 7px; padding: 1px 8px 2px; border-radius: 999px; vertical-align: 3px;
+  display: inline-block; margin-left: 5px; padding: 0 6px 1px; border-radius: 999px; vertical-align: 1px;
   background: color-mix(in srgb, var(--grow) 15%, transparent); color: var(--grow);
   border: 1px solid color-mix(in srgb, var(--grow) 35%, transparent);
-  font: 700 13px/1.35 var(--f-body); font-variant-numeric: tabular-nums; text-shadow: none;
+  font: 700 11.5px/1.4 var(--f-body); font-variant-numeric: tabular-nums; text-shadow: none;
   animation: deltain .5s ease-out both;
 }
 @keyframes deltain { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-.tools { display: flex; gap: 8px; }
+
+/* ---------- bottom right of the map: key and tools ---------- */
+.map-foot {
+  position: absolute; z-index: 6; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  max-width: calc(100% - min(490px, 37vw) - 42px);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 10px;
+}
+.tools { display: flex; gap: 8px; flex: none; }
 .btn-quiet {
-  border: 1px solid var(--rule); background: var(--sheet); border-radius: 999px;
-  padding: 6px 14px; font-size: 14px; cursor: pointer;
+  border: 1px solid var(--rule); border-radius: 999px; padding: 7px 14px; font-size: 14px; cursor: pointer; color: var(--ink);
+  background: color-mix(in srgb, var(--sheet) 82%, transparent); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+  box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 4px 14px rgb(22 33 51 / .08);
 }
 .btn-quiet:hover { border-color: var(--ink-2); }
 .theme-btn { display: inline-flex; align-items: center; gap: 6px; padding-left: 11px; }
@@ -219,8 +220,7 @@ a { color: inherit; }
 .mapwrap.co-on #map .lbl.isnew, .mapwrap.co-on #map .leader.isnew { visibility: hidden; }
 
 .legend {
-  position: absolute; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bot-h, 80px) + 12px); z-index: 2;
-  box-sizing: border-box; max-width: calc(100% - min(490px, 37vw) - 42px); width: max-content;
+  box-sizing: border-box; max-width: 100%; width: max-content;
   background: color-mix(in srgb, var(--sheet) 55%, transparent); -webkit-backdrop-filter: blur(7px) saturate(1.6); backdrop-filter: blur(7px) saturate(1.6);
   border: 1px solid var(--rule); border-radius: 999px; padding: 6px 14px;
   display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 12.5px;
@@ -345,11 +345,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   position: absolute; left: 0; right: 0; top: 0; z-index: 10;
   border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
   box-shadow: 0 8px 28px rgb(22 33 51 / .08);
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px;
   padding-block: calc(10px + env(safe-area-inset-top, 0px)) 4px;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
+.tl-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; }
 .tl-btns { display: flex; gap: 6px; }
 .round {
   width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--rule); background: var(--paper);
@@ -401,6 +401,9 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 }
 .cap-yr { flex: none; padding: 3px 14px 4px; border-radius: 999px; background: var(--new); color: #fff; font: 700 24px/1.1 var(--f-serif); letter-spacing: .01em; font-variant-numeric: lining-nums tabular-nums; }
 .cap-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; font: 400 21px/1.25 var(--f-display); color: var(--ink); }
+.cap-stats { flex: none; display: flex; align-items: center; gap: 12px; margin-left: 4px; padding-left: 14px; border-left: 1px solid var(--rule); font-size: 13.5px; color: var(--ink-2); }
+.cap-stats .cs { white-space: nowrap; }
+.cap-stats .cs b.n { font: 400 18px/1 var(--f-serif); color: var(--ink); font-variant-numeric: lining-nums tabular-nums; margin-right: 3px; }
 
 /* ---------- overlays ---------- */
 .sheet-overlay { position: fixed; inset: 0; z-index: 40; background: rgb(10 16 26 / .45); display: grid; place-items: center; padding: 16px; }
@@ -425,28 +428,22 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .timeline { position: sticky; order: 1; padding-block: calc(8px + env(safe-area-inset-top, 0px)) 2px; }
   .stage { position: static; order: 2; }
   .mapwrap { height: auto; }
-  .top { position: static; order: 3; box-shadow: none; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
-  .legend { bottom: auto; }
+  .map-foot { order: 3; position: static; max-width: none; display: block; }
+  .tools { padding: 10px 16px 12px; background: var(--sheet); border-bottom: 1px solid var(--rule); }
+  .btn-quiet { backdrop-filter: none; box-shadow: none; background: var(--paper); }
+  .titlebar { gap: 10px; padding-bottom: 4px; }
+  .titlebar h1 { font-size: 18px; }
+  .flag { width: 40px; }
   .mapwrap { overflow: visible; display: flex; flex-direction: column; }
   .mapcanvas { order: 1; position: relative; inset: auto; aspect-ratio: 17 / 10; max-width: 100%; overflow: hidden; }
-  .legend { order: 2; position: static; transform: none; width: auto; max-width: none; border-radius: 0; border-width: 0 0 1px; backdrop-filter: none; background: var(--sheet); justify-content: flex-start; padding: 8px 16px; font-size: 11.5px; }
+  .legend { position: static; transform: none; width: auto; max-width: none; border-radius: 0; border-width: 0 0 1px; backdrop-filter: none; background: var(--sheet); justify-content: flex-start; padding: 8px 16px; font-size: 11.5px; }
   .callouts.static { position: static; order: 2; display: grid; gap: 8px; padding: 12px 16px; background: var(--paper); border-bottom: 1px solid var(--rule); pointer-events: auto; }
   .callouts.static:empty { display: none; }
   .callouts.static .co { position: relative; left: auto; top: auto; width: auto; backdrop-filter: none; box-shadow: none; background: var(--sheet); }
   .callouts.static .co-line { white-space: normal; }
-  .legend { order: 3; }
   .story { order: 4; position: static; width: auto; overflow: visible; border-radius: 0; border-width: 0 0 1px; box-shadow: none; backdrop-filter: none; background: var(--sheet); padding: 16px 16px 24px; }
   .story-hide, .story-show { display: none !important; }
   .legend { max-width: none; }
-  .stats { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-  .stats dd { font-size: 18px; }
-  .stats dd small { display: block; margin: 0; }
-  .delta { display: table; margin: 3px 0 0; vertical-align: 0; font-size: 12px; }
-  .tools { width: 100%; justify-content: flex-start; }
-  .top { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-  .brand { flex-basis: 100%; align-items: flex-start; }
-  .brand h1 { font-size: 21px; }
-  .flag { width: 60px; margin-top: 3px; }
 }
 @media (max-width: 560px) {
   .era-band { font-size: 0; }
@@ -455,10 +452,15 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .ylabel:not(.edge) { display: none; }
   .tick { width: 6px; height: 6px; margin-left: -3px; top: 4px; border-width: 1.5px; }
   .tick:not(.state) { width: 5px; height: 5px; margin-left: -2.5px; top: 4.5px; }
-  .track { --thumb: 22px; height: 122px; }
+  .track { --thumb: 22px; height: 150px; }
   .cap-yr { font-size: 20px; }
-  .tl-cap { white-space: normal; border-radius: 16px; align-items: flex-start; padding: 4px 12px 5px 4px; }
-  .cap-t { font-size: 16.5px; padding-top: 3px; }
+  .tl-cap { white-space: normal; border-radius: 16px; align-items: flex-start; flex-wrap: wrap; padding: 4px 12px 6px 4px; }
+  .cap-stats { flex-basis: 100%; margin: 2px 0 0 4px; padding-left: 0; border-left: 0; gap: 10px; flex-wrap: wrap; font-size: 12.5px; }
+  .cap-stats .cs b.n { font-size: 16px; }
+  .track { height: auto; }
+  .tl-cap { position: relative; top: auto; left: 0 !important; margin: 72px 0 6px; max-width: 100%; }
+  .cap-t { font-size: 16.5px; padding-top: 3px; flex: 1 1 0; }
+  .cap-stats { gap: 4px 12px; }
   #slider::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: 2px; }
   .person .head { grid-template-columns: 72px minmax(0, 1fr); }
   .person .portrait { width: 72px; height: 88px; }
@@ -473,7 +475,15 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 <body>
 <div class="app">
 
-  <nav class="timeline" aria-label="Timeline">
+  <header class="timeline">
+    <div class="titlebar">
+      <div class="flag-wrap">
+        <div class="flag" id="flag" role="img" tabindex="0" aria-describedby="flag-cap" aria-label="The U.S. flag at this milestone"></div>
+        <p class="flag-cap" id="flag-cap" role="tooltip"></p>
+      </div>
+      <h1>How the United States evolved through 1776–2026</h1>
+    </div>
+    <nav class="tl-row" aria-label="Timeline">
     <div class="tl-btns">
       <button class="round" id="btn-prev" type="button" aria-label="Previous milestone"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
       <span class="play-wrap"><button class="round play" id="btn-play" type="button" aria-label="Play the story"><svg viewBox="0 0 24 24" id="play-ico"><path d="M8 5v14l11-7z"/></svg></button></span>
@@ -484,12 +494,13 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       <div class="ticks" id="ticks"></div>
       <div class="ylabels" id="ylabels"></div>
       <input type="range" id="slider" min="0" max="1" step="1" value="0" aria-label="Choose a milestone">
-      <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span></div>
+      <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span><span class="cap-stats" id="cap-stats"></span></div>
     </div>
     <div class="tl-btns">
       <button class="round" id="btn-next" type="button" aria-label="Next milestone"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
-  </nav>
+    </nav>
+  </header>
 
   <main class="stage">
     <section class="mapwrap" aria-label="Map of the United States">
@@ -675,29 +686,17 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
         <div id="story-body"></div>
       </article>
       <button type="button" class="story-show" id="story-show" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>Read the story</button>
-      <div class="legend" id="legend" aria-label="Map key"></div>
+      <div class="map-foot" id="map-foot">
+        <div class="legend" id="legend" aria-label="Map key"></div>
+        <div class="tools">
+          <button class="btn-quiet" id="btn-words" type="button">Word list</button>
+          <button class="btn-quiet" id="btn-about" type="button">About</button>
+          <button class="btn-quiet theme-btn" id="btn-theme" type="button" aria-label="Switch color mode"></button>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer class="top" aria-label="Status">
-    <div class="brand">
-      <div class="flag" id="flag" role="img" aria-label="The U.S. flag at this milestone"></div>
-      <div class="brand-text">
-        <h1>How the United States evolves through 1776–2026</h1>
-        <p id="flag-cap" aria-live="polite"></p>
-      </div>
-    </div>
-    <dl class="stats" aria-live="polite">
-      <div><dt>States</dt><dd id="st-states">13</dd></div>
-      <div><dt>Land area</dt><dd id="st-area">–</dd></div>
-      <div><dt>People</dt><dd id="st-pop">–</dd></div>
-    </dl>
-    <div class="tools">
-      <button class="btn-quiet" id="btn-words" type="button">Word list</button>
-      <button class="btn-quiet" id="btn-about" type="button">About</button>
-      <button class="btn-quiet theme-btn" id="btn-theme" type="button" aria-label="Switch color mode"></button>
-    </div>
-  </footer>
 
 </div>
 
@@ -849,16 +848,15 @@ function stats(s) {
   const t = totals(s), prevStop = stops[cur - 1], p = prevStop ? totals(prevStop) : null;
   const since = prevStop ? `since the previous milestone (${prevStop.label})` : '';
   const dn = p ? t.n - p.n : 0;
-  $('#st-states').innerHTML = t.n + (dn > 0 ? delta(dn, `${dn} more state${dn > 1 ? 's' : ''} ${since}`) : '');
+  const out = [];
+  out.push(`<span class="cs" title="States in the Union"><b class="n">${t.n}</b>states${dn > 0 ? delta(dn, `${dn} more state${dn > 1 ? 's' : ''} ${since}`) : ''}</span>`);
   // 2026 shows today's official total, a newer measurement of the same land (no new land is added)
   const sq = s.id === '2026' ? 3796742 : t.sq, dsq = p ? t.sq - p.sq : 0;
   const dsqTxt = (Math.round(dsq / 1000) * 1000).toLocaleString('en-US');
-  $('#st-area').innerHTML = t.any
-    ? `${(sq / 1e6).toFixed(sq < 1e6 ? 2 : 1)}M sq mi${dsq > 0 ? delta(dsqTxt, `About ${dsqTxt} square miles of land added ${since}`) : ''}`
-    : `<small style="margin:0">not yet set by treaty</small>`;
+  if (t.any) out.push(`<span class="cs" title="Land area of the United States"><b class="n">${(sq / 1e6).toFixed(sq < 1e6 ? 2 : 1)}M</b>sq mi${dsq > 0 ? delta(dsqTxt, `About ${dsqTxt} square miles of land added ${since}`) : ''}</span>`);
   const dp = p ? +(t.row[1] - p.row[1]).toFixed(1) : 0;
-  $('#st-pop').innerHTML = `${t.row[1].toFixed(1)}M${dp > 0 ? delta(dp.toFixed(1) + 'M', `About ${dp.toFixed(1)} million more people ${since}: ${p.row[0]} ${p.row[2] ? 'estimate' : 'census'} to ${t.row[0]} ${t.row[2] ? 'estimate' : 'census'}`) : ''}`;
-  $('#st-pop').title = t.row[2] ? `${t.row[0]} estimate` : `${t.row[0]} census`;
+  out.push(`<span class="cs" title="People (${t.row[2] ? t.row[0] + ' estimate' : t.row[0] + ' census'})"><b class="n">${t.row[1].toFixed(1)}M</b>people${dp > 0 ? delta(dp.toFixed(1) + 'M', `About ${dp.toFixed(1)} million more people ${since}: ${p.row[0]} ${p.row[2] ? 'estimate' : 'census'} to ${t.row[0]} ${t.row[2] ? 'estimate' : 'census'}`) : ''}</span>`);
+  $('#cap-stats').innerHTML = out.join('');
 }
 
 // ---------- map ----------
@@ -932,9 +930,9 @@ function targetBox() {
 }
 // Space taken at the top and bottom by the glass bars (desktop, where they float over the map)
 function barInsets() {
-  const tl = $('.timeline'), sb = $('.top'), lg = $('#legend');
+  const tl = $('.timeline'), ft = $('#map-foot');
   if (getComputedStyle(tl).position !== 'absolute') return [0, 0];
-  return [tl.offsetHeight + 4, sb.offsetHeight + lg.offsetHeight + 20];
+  return [tl.offsetHeight + 4, ft.offsetHeight + 26];
 }
 // Fit the frame, centered, into the map area between the bars
 function storyInset() {
@@ -956,7 +954,7 @@ function fitAspect(b) {
 function syncBars() {
   const app = $('.app');
   app.style.setProperty('--top-h', $('.timeline').offsetHeight + 'px');
-  app.style.setProperty('--bot-h', $('.top').offsetHeight + 'px');
+  app.style.setProperty('--bot-h', '0px');
 }
 // show a state's abbreviation only where it fits at the current zoom
 function fitLabels(v) {
@@ -1224,7 +1222,8 @@ function placeCaption() {
   const tw = track.clientWidth, thumb = parseFloat(getComputedStyle(track).getPropertyValue('--thumb')) || 22;
   const x = thumb / 2 + (tw - thumb) * cur / (N - 1);
   const w = cap.offsetWidth;
-  const left = Math.max(0, Math.min(tw - w, x - w / 2));
+  const inFlow = getComputedStyle(cap).position === 'relative';
+  const left = inFlow ? 0 : Math.max(0, Math.min(tw - w, x - w / 2));
   cap.style.left = left + 'px';
   cap.style.setProperty('--caret', Math.max(14, Math.min(w - 14, x - left)) + 'px');
 }
@@ -1421,7 +1420,7 @@ $('#btn-play').addEventListener('click', () => {
 new ResizeObserver(() => { if (cur >= 0) zoomTo(stops[cur], true); }).observe(svg);
 new ResizeObserver(() => { if (cur >= 0) placeCaption(); }).observe($('#track'));
 const barsRO = new ResizeObserver(() => { syncBars(); if (cur >= 0) zoomTo(stops[cur], true); });
-barsRO.observe($('.timeline')); barsRO.observe($('.top'));
+barsRO.observe($('.timeline')); barsRO.observe($('#map-foot'));
 
 // ---------- overlays ----------
 function openSheet(id) { const o = $(id); o.hidden = false; o.querySelector('[data-close]').focus(); }
