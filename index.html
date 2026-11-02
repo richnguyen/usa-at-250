@@ -129,13 +129,15 @@ a { color: inherit; }
 .tools { display: flex; gap: 6px; justify-self: end; }
 .tools .btn-quiet { display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-shadow: none; }
 .tools .btn-quiet svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-/* compact round icon buttons, so the milestone heading keeps its room; labels return on very wide screens */
-.tools .btn-quiet { width: 38px; height: 38px; padding: 0; }
-.tools .bl { display: none; }
-@media (min-width: 1680px) {
-  .tools .btn-quiet { width: auto; height: auto; padding: 7px 13px; }
-  .tools .bl { display: inline; }
+/* round icon buttons; each one's label appears in a small tooltip on hover or keyboard focus */
+.tools .btn-quiet { position: relative; width: 38px; height: 38px; padding: 0; }
+.tools .bl {
+  position: absolute; top: calc(100% + 9px); right: 0; z-index: 30; white-space: nowrap; pointer-events: none;
+  padding: 6px 10px; border-radius: 7px; background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 600;
+  box-shadow: var(--shadow); opacity: 0; transform: translateY(-3px); transition: opacity .15s, transform .15s;
 }
+.tools .bl::before { content: ""; position: absolute; top: -4px; right: 14px; width: 9px; height: 9px; background: var(--ink); transform: rotate(45deg); }
+.tools .btn-quiet:hover .bl, .tools .btn-quiet:focus-visible .bl { opacity: 1; transform: none; }
 /* a little smaller heading on mid-size screens */
 /* narrower desktops: the heading takes its own centered row under the brand and buttons */
 @media (max-width: 1240px) and (min-width: 961px) {
@@ -520,8 +522,8 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       </div>
       <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span><span class="cap-stats" id="cap-stats"></span></div>
       <div class="tools">
-        <button class="btn-quiet" id="btn-words" type="button" aria-label="Word list" title="Word list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M8 8h7M8 12h5"/></svg><span class="bl">Word list</span></button>
-        <button class="btn-quiet" id="btn-about" type="button" aria-label="About" title="About this map"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg><span class="bl">About</span></button>
+        <button class="btn-quiet" id="btn-words" type="button" aria-label="Word list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M8 8h7M8 12h5"/></svg><span class="bl">Word list</span></button>
+        <button class="btn-quiet" id="btn-about" type="button" aria-label="About"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg><span class="bl">About</span></button>
         <button class="btn-quiet theme-btn" id="btn-theme" type="button" aria-label="Switch color mode"></button>
       </div>
     </div>
@@ -1459,9 +1461,8 @@ const isDark = () => {
 };
 function paintThemeBtn() {
   const dark = isDark();
-  themeBtn.innerHTML = (dark ? ICON_SUN : ICON_MOON) + `<span class="bl">${dark ? 'Light' : 'Dark'}</span>`;
+  themeBtn.innerHTML = (dark ? ICON_SUN : ICON_MOON) + `<span class="bl">${dark ? 'Light mode' : 'Dark mode'}</span>`;
   themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-  themeBtn.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
 }
 themeBtn.addEventListener('click', () => {
   const next = isDark() ? 'light' : 'dark';
