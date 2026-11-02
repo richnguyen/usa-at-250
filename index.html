@@ -854,10 +854,11 @@ function stats(s) {
   const sq = s.id === '2026' ? 3796742 : t.sq, dsq = p ? t.sq - p.sq : 0;
   const dsqTxt = (Math.round(dsq / 1000) * 1000).toLocaleString('en-US');
   $('#st-area').innerHTML = t.any
-    ? `${(sq / 1e6).toFixed(sq < 1e6 ? 2 : 1)}M sq mi${dsq > 0 ? delta(dsqTxt, `About ${dsqTxt} square miles of land added ${since}`) : ''}<small>${(sq * 2.58999 / 1e6).toFixed(1)}M km²</small>`
+    ? `${(sq / 1e6).toFixed(sq < 1e6 ? 2 : 1)}M sq mi${dsq > 0 ? delta(dsqTxt, `About ${dsqTxt} square miles of land added ${since}`) : ''}`
     : `<small style="margin:0">not yet set by treaty</small>`;
   const dp = p ? +(t.row[1] - p.row[1]).toFixed(1) : 0;
-  $('#st-pop').innerHTML = `${t.row[1].toFixed(1)}M${dp > 0 ? delta(dp.toFixed(1) + 'M', `About ${dp.toFixed(1)} million more people ${since}: ${p.row[0]} ${p.row[2] ? 'estimate' : 'census'} to ${t.row[0]} ${t.row[2] ? 'estimate' : 'census'}`) : ''}<small>${t.row[2] ? t.row[0] + ' est.' : t.row[0] + ' census'}</small>`;
+  $('#st-pop').innerHTML = `${t.row[1].toFixed(1)}M${dp > 0 ? delta(dp.toFixed(1) + 'M', `About ${dp.toFixed(1)} million more people ${since}: ${p.row[0]} ${p.row[2] ? 'estimate' : 'census'} to ${t.row[0]} ${t.row[2] ? 'estimate' : 'census'}`) : ''}`;
+  $('#st-pop').title = t.row[2] ? `${t.row[0]} estimate` : `${t.row[0]} census`;
 }
 
 // ---------- map ----------
