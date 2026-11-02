@@ -1,4 +1,4 @@
-# From 13 to 50
+# USA at 250
 
 An interactive map and timeline of how the United States grew from 13 states to 50, from the Declaration of Independence (1776) to the nation's 250th anniversary (2026).
 
@@ -16,7 +16,7 @@ It is written for a general audience and for people learning English. Each miles
   - the states that left the Union in 1861–65
   - each territorial acquisition, outlined in the year it happened (Louisiana Purchase, Florida, Texas, Oregon, Mexican Cession, Gadsden Purchase, Alaska, Hawaii and Puerto Rico)
 - **One page to read the story.** A reading column on the left of the map holds the whole milestone in order: the picture, a fun fact, any land added, what happened, why, the key person, and the progress, the promise and the cost. Any section can be hidden or shown with a click (or all at once), and the choice carries over to the next milestone. The whole column can be hidden to see the full map.
-- **The flag of the day.** At the top left, next to the title “USA 250 years”, the official U.S. flag in force at each milestone: the Continental Colors of 1776, the 13-star flag of 1777, the 15-stripe flag of 1795, and every star added under the Flag Act of 1818, up to today's 50-star flag (28 versions in all). Hover over or focus the flag to see its name and the years it was official.
+- **The flag of the day.** At the top left, next to the title “USA at 250”, the official U.S. flag in force at each milestone: the Continental Colors of 1776, the 13-star flag of 1777, the 15-stripe flag of 1795, and every star added under the Flag Act of 1818, up to today's 50-star flag (28 versions in all). Hover over or focus the flag to see its name and the years it was official.
 - **State flags.** When a state joins (or, for the original 13, ratifies the Constitution), its bubble on the map shows its current official flag. The flags come from Wikimedia Commons and include Mississippi's 2021 flag and the 2024 flags of Utah and Minnesota.
 - **A bubble on the map for every new state.** Each one points at its state and gives its current flag, its order (for example, 17th state), the date it joined or ratified the Constitution, its total area today with its size rank, and its capital at the time with today's capital if it changed. A single state, or states far apart, get a bubble beside each state. Several neighboring states get a neat, evenly spaced column of compact bubbles, matched to the states so that no leader lines cross. A bubble can be closed with ×; clicking the state brings it back.
 - **A fun fact for every milestone,** shown just below the picture, to make each moment easy to remember. For example: the Wright brothers tossed a coin to decide who would fly first.

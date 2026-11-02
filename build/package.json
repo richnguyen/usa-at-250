@@ -1,8 +1,8 @@
 {
-  "name": "from-13-to-50-build",
+  "name": "usa-at-250-build",
   "version": "1.0.0",
   "private": true,
-  "description": "Build scripts for From 13 to 50, an interactive map of U.S. history, 1776–2026",
+  "description": "Build scripts for USA at 250, an interactive map of U.S. history, 1776–2026",
   "license": "MIT",
   "scripts": {
     "build": "node build.js",
