@@ -185,6 +185,16 @@
    "page": "https://commons.wikimedia.org/wiki/File:Louisiana_Purchase_New_Orleans_Thure_de_Thulstrup.jpg",
    "w": 602,
    "h": 900
+  },
+  "person": {
+   "file": "img/p1803.jpg",
+   "title": "Robert R. Livingston",
+   "artist": "Charles Willson Peale",
+   "date": "http://www.history.army.mil/bo",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Robert_Livingston_(1746-1813).jpg",
+   "w": 330,
+   "h": 411
   }
  },
  "1805": {
@@ -527,6 +537,16 @@
    "page": "https://commons.wikimedia.org/wiki/File:Albert_Bierstadt_-_Oregon_Trail.jpg",
    "w": 1100,
    "h": 732
+  },
+  "person": {
+   "file": "img/p1859.jpg",
+   "title": "John McLoughlin",
+   "artist": "",
+   "date": "1857",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:John_McLoughlin_full.jpg",
+   "w": 330,
+   "h": 387
   }
  },
  "1861": {
@@ -659,6 +679,18 @@
    "page": "https://commons.wikimedia.org/wiki/File:Alexander_Graham_Bell.jpg",
    "w": 360,
    "h": 468
+  }
+ },
+ "1889": {
+  "ill": {
+   "file": "img/i1889.jpg",
+   "title": "Great Northern Railway switchback in Washington’s Cascade Mountains",
+   "artist": "Anders Beer Wilse",
+   "date": "c. 1892",
+   "license": "Public domain",
+   "page": "https://commons.wikimedia.org/wiki/File:Great_Northern_Railway_switchback,_ca_1892_(MOHAI_6436).jpg",
+   "w": 500,
+   "h": 374
   }
  },
  "1890": {

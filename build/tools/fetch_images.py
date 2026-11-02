@@ -64,6 +64,8 @@ for key, title, disp, artist, date in sel:
     url = (m['thumb'] or '').replace('thumb.wikimedia.org', 'upload.wikimedia.org')
     url = re.sub(r'\?.*$', '', url)
     out = f"{IMG}/{key}.jpg"
+    # NODL=1 rebuilds images.json from the files already downloaded, without fetching anything
+    if not os.path.exists(out) and os.environ.get('NODL'): continue
     if not os.path.exists(out):
         # Wikimedia only serves this client standard thumbnail sizes (https://w.wiki/GHai), never originals,
         # and a thumbnail must be narrower than the original
