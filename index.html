@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-family:system-ui,sans-serif;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>From 13 to 50</title>
+<title>USA 250 years</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -85,7 +85,7 @@ a { color: inherit; }
 
 /* ---------- head row: the brand on the left, the milestone heading centered ---------- */
 .headrow {
-  display: grid; grid-template-columns: minmax(max-content, 1fr) minmax(0, max-content) minmax(0, 1fr);
+  display: grid; grid-template-columns: minmax(max-content, 1fr) minmax(0, max-content) minmax(max-content, 1fr);
   align-items: center; gap: 16px; margin-bottom: 8px;
 }
 .brand { display: flex; align-items: center; gap: 10px; justify-self: start; }
@@ -118,17 +118,41 @@ a { color: inherit; }
 }
 @keyframes deltain { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-/* ---------- bottom right of the map: key and tools ---------- */
+/* ---------- bottom right of the map: the key ---------- */
 .map-foot {
   position: absolute; z-index: 6; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   max-width: calc(100% - min(490px, 37vw) - 42px);
   display: flex; align-items: flex-end; justify-content: flex-end; gap: 10px;
 }
 .map-foot .legend { flex: 0 1 auto; min-width: 0; }
-.tools { display: flex; flex-direction: column; align-items: stretch; gap: 6px; flex: none; }
-.tools .btn-quiet { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+/* top right: word list, about, light/dark */
+.tools { display: flex; gap: 6px; justify-self: end; }
+.tools .btn-quiet { display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-shadow: none; }
+.tools .btn-quiet svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+/* compact round icon buttons, so the milestone heading keeps its room; labels return on very wide screens */
+.tools .btn-quiet { width: 38px; height: 38px; padding: 0; }
+.tools .bl { display: none; }
+@media (min-width: 1680px) {
+  .tools .btn-quiet { width: auto; height: auto; padding: 7px 13px; }
+  .tools .bl { display: inline; }
+}
+/* a little smaller heading on mid-size screens */
+/* narrower desktops: the heading takes its own centered row under the brand and buttons */
+@media (max-width: 1240px) and (min-width: 961px) {
+  .headrow { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand tools" "cap cap"; row-gap: 6px; }
+  .headrow .brand { grid-area: brand; }
+  .headrow .tools { grid-area: tools; }
+  .headrow .tl-cap { grid-area: cap; }
+}
+@media (max-width: 1320px) and (min-width: 961px) {
+  .cap-yr { font-size: 26px; }
+  .cap-t { font-size: 20px; }
+  .cap-stats { gap: 10px; }
+  .cap-stats .cs b.n { font-size: 18px; }
+  .brand h1 { font-size: 19px; }
+}
 .btn-quiet {
-  border: 1px solid var(--rule); border-radius: 999px; padding: 7px 14px; font-size: 14px; cursor: pointer; color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 6px 12px; font-size: 13.5px; cursor: pointer; color: var(--ink);
   background: color-mix(in srgb, var(--sheet) 82%, transparent); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
   box-shadow: 0 1px 2px rgb(22 33 51 / .06), 0 4px 14px rgb(22 33 51 / .08);
 }
@@ -398,13 +422,16 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
 .tl-cap {
   position: relative; z-index: 1; max-width: 100%;
   display: inline-flex; align-items: center; gap: 14px; padding: 5px 22px 5px 5px; justify-self: center; min-width: 0;
-  background: var(--sheet); border: 2px solid color-mix(in srgb, var(--new) 60%, var(--rule)); border-radius: 999px;
+  background: var(--sheet); border: 2px solid color-mix(in srgb, var(--new) 60%, var(--rule)); border-radius: 32px;
   box-shadow: 0 2px 4px rgb(22 33 51 / .08), 0 12px 32px rgb(22 33 51 / .18);
   white-space: nowrap;
 }
 
 .cap-yr { flex: none; padding: 4px 16px 5px; border-radius: 999px; background: var(--new); color: #fff; font: 700 30px/1.05 var(--f-serif); letter-spacing: .01em; font-variant-numeric: lining-nums tabular-nums; }
-.cap-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; font: 400 25px/1.2 var(--f-display); color: var(--ink); }
+.cap-t {
+  min-width: 0; font: 400 25px/1.15 var(--f-display); color: var(--ink); white-space: normal; text-wrap: balance;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+}
 .cap-stats { flex: none; display: flex; align-items: center; gap: 12px; margin-left: 4px; padding-left: 14px; border-left: 1px solid var(--rule); font-size: 13.5px; color: var(--ink-2); }
 .cap-stats .cs { white-space: nowrap; }
 .cap-stats .cs b.n { font: 400 20px/1 var(--f-serif); color: var(--ink); font-variant-numeric: lining-nums tabular-nums; margin-right: 3px; }
@@ -433,10 +460,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   .stage { position: static; order: 2; }
   .mapwrap { height: auto; }
   .map-foot { order: 3; position: static; max-width: none; display: block; }
-  .tools { flex-direction: row; padding: 10px 16px 12px; background: var(--sheet); border-bottom: 1px solid var(--rule); }
-  .btn-quiet { backdrop-filter: none; box-shadow: none; background: var(--paper); }
-  .headrow { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .headrow > .spacer { display: none; }
+  .headrow { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand tools" "cap cap"; gap: 8px; }
+  .headrow .brand { grid-area: brand; }
+  .headrow .tools { grid-area: tools; }
+  .headrow .tl-cap { grid-area: cap; }
+  .tools .btn-quiet { box-shadow: none; }
   .brand h1 { font-size: 17px; }
   .flag { width: 40px; }
   .mapwrap { overflow: visible; display: flex; flex-direction: column; }
@@ -469,6 +497,7 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
   #slider::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: 2px; }
   .person .head { grid-template-columns: 72px minmax(0, 1fr); }
   .person .portrait { width: 72px; height: 88px; }
+  .tools .btn-quiet { width: 34px; height: 34px; }
   .sheet-panel dl { grid-template-columns: 1fr; gap: 2px 0; }
   .sheet-panel dd { margin-bottom: 10px; }
 }
@@ -490,7 +519,11 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
         <h1>USA 250 years</h1>
       </div>
       <div class="tl-cap" id="tl-cap" aria-live="polite"><b class="cap-yr" id="yr">1776</b><span class="cap-t" id="cap-t"></span><span class="cap-stats" id="cap-stats"></span></div>
-      <span class="spacer" aria-hidden="true"></span>
+      <div class="tools">
+        <button class="btn-quiet" id="btn-words" type="button" aria-label="Word list" title="Word list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M8 8h7M8 12h5"/></svg><span class="bl">Word list</span></button>
+        <button class="btn-quiet" id="btn-about" type="button" aria-label="About" title="About this map"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg><span class="bl">About</span></button>
+        <button class="btn-quiet theme-btn" id="btn-theme" type="button" aria-label="Switch color mode"></button>
+      </div>
     </div>
     <nav class="tl-row" aria-label="Timeline">
     <div class="tl-btns">
@@ -695,11 +728,6 @@ ul.why li::before { content: ""; position: absolute; left: 4px; top: .62em; widt
       <button type="button" class="story-show" id="story-show" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>Read the story</button>
       <div class="map-foot" id="map-foot">
         <div class="legend" id="legend" aria-label="Map key"></div>
-        <div class="tools">
-          <button class="btn-quiet" id="btn-words" type="button">Word list</button>
-          <button class="btn-quiet" id="btn-about" type="button">About</button>
-          <button class="btn-quiet theme-btn" id="btn-theme" type="button" aria-label="Switch color mode"></button>
-        </div>
       </div>
     </section>
   </main>
@@ -1147,7 +1175,6 @@ function placeEach(A, F) {
   const placed = [], dots = A.map(a => [a.ax, a.ay]);
   const pinBox = !pin.hasAttribute('hidden') ? pin.getBoundingClientRect() : null, base = svg.getBoundingClientRect();
   const pinR = pinBox ? { x: pinBox.left - base.left, y: pinBox.top - base.top, w: pinBox.width, h: pinBox.height } : null;
-  const tb = $('.tools').getBoundingClientRect(), toolsR = { x: tb.left - base.left - 8, y: tb.top - base.top - 8, w: tb.width + 16, h: tb.height + 16 };
   for (const a of A.slice().sort((p, q) => p.ay - q.ay)) {
     const { w, h, ax, ay } = a, cands = [];
     for (const G of [28, 64]) cands.push(
@@ -1160,7 +1187,6 @@ function placeEach(A, F) {
       placed.forEach(o => cost += overlap(r, o) * 60);
       dots.forEach(d => { if (inside(d, r, 10)) cost += 4000; });
       if (pinR) cost += overlap(r, pinR) * 8;
-      cost += overlap(r, toolsR) * 60;
       if (!best || cost < best.cost) best = { ...r, cost };
     });
     a.x = best.x; a.y = best.y; a.side = null;
@@ -1433,8 +1459,9 @@ const isDark = () => {
 };
 function paintThemeBtn() {
   const dark = isDark();
-  themeBtn.innerHTML = (dark ? ICON_SUN : ICON_MOON) + `<span>${dark ? 'Light' : 'Dark'}</span>`;
+  themeBtn.innerHTML = (dark ? ICON_SUN : ICON_MOON) + `<span class="bl">${dark ? 'Light' : 'Dark'}</span>`;
   themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  themeBtn.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
 }
 themeBtn.addEventListener('click', () => {
   const next = isDark() ? 'light' : 'dark';
